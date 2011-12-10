@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+	<Button android:id="@+id/roll"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:text="Roll" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:visibility="visible"
+        android:text="Roll the die!"
+         />
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p1_wool"
+        android:visibility="visible"
+         />
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p2_wool"
+        android:visibility="visible"
+         />
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p3_wool"
+        android:visibility="visible"
+         />
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p4_wool"
+        android:visibility="visible"
+         />
+    	<Button android:id="@+id/grow"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_alignParentBottom="true"
+    android:text="Grow Wool" />
+    <Button android:id="@+id/shear"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_alignParentBottom="true"
+    android:text="Shear Sheep" />
+    <Button android:id="@+id/wolf"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_alignParentBottom="true"
+    android:text="Send Wolf" />
+        <Button android:id="@+id/swap"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_alignParentBottom="true"
+    android:text="Swap Sheep" />
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p2"
+        android:textColor="#60EF50"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="P2"
+        android:visibility="invisible"
+         />
+                <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p3"
+        android:textStyle="bold"
+        android:text="P3"
+                android:textColor="#60EF50"
+        android:textSize="20sp"
+        android:visibility="invisible"
+         />
+                        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p4"
+        android:textStyle="bold"
+        android:text="P4"
+        android:textColor="#60EF50"
+        android:textSize="20sp"
+        android:visibility="invisible"
+         />
+</LinearLayout>
