@@ -17,6 +17,8 @@ import android.widget.Toast;
 // Windows 7 is in!
 // Windows 7 newer... do you read me?
 // Ubuntu reads with trouble... verify.
+
+// I hope we're go... win7, out.
 public class WildWoolMain extends Activity {
 
 	@Override
