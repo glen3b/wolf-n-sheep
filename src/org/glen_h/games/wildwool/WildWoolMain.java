@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 // Testing - ubuntu commit!
 // Windows 7 is in!
+// Windows 7 newer... do you read me?
 public class WildWoolMain extends Activity {
 
 	@Override
