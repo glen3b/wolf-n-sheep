@@ -148,8 +148,19 @@ public class WildWoolMain extends Activity {
 		if(total_wool >= max_total_wool){
 			// Game over!
 			text.setText("Game over!");
+			text.setTextColor(Color.GREEN);
 			shearWool();
-			roll.setVisibility(View.INVISIBLE);
+			roll.setText("Restart");
+			roll.setOnClickListener(new OnClickListener(){
+
+				public void onClick(View v) {
+				    Intent intent = getIntent();
+				    overridePendingTransition(0, 0);
+				    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				    finish();
+				    overridePendingTransition(0, 0);
+				    startActivity(intent);
+				}});
 			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
 			gameover =  true;
 		}		
