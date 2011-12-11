@@ -154,7 +154,6 @@ public class WildWoolMain extends Activity {
 			makeInvisible();
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
-
 				public void onClick(View v) {
 				    Intent intent = getIntent();
 				    overridePendingTransition(0, 0);
