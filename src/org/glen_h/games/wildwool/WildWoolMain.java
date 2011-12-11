@@ -486,6 +486,7 @@ public class WildWoolMain extends Activity {
 	/**
 	 * Have P1 swap wool with {@code player}.
 	 * @param player The player to swap wool with.
+	 * @author Glen Husman & Matt Husman
 	 */
 	protected void swap(int player){
     	if(player == 2){
