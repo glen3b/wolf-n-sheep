@@ -106,7 +106,7 @@ public class WildWoolMain extends Activity {
         this.roll.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
         	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-        	  random_number = Mathematics.randomNumber(1, 6);
+        	random_number = Mathematics.randomNumber(1, 6);
         	wolf.setVisibility(View.GONE);
     		grow.setVisibility(View.GONE);
     		shear.setVisibility(View.GONE);
@@ -121,27 +121,33 @@ public class WildWoolMain extends Activity {
           }
         });
         }
-    
+    /**
+     * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
+     * @author Glen Husman & Matt Husman
+     * @return gameover - Whether the game is over or not (boolean)
+     */
 	protected boolean checkIfGameOver() {
+		boolean gameover;
+		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 		if(total_wool >= max_total_wool){
 			// Game over!
 			text.setText("Game over!");
 			shearWool();
 			roll.setVisibility(View.INVISIBLE);
 			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
-			return true;
+			gameover =  true;
 		}		
 		else{
 			// Game-in-progress.
-			return false;
+			gameover =  false;
 		}
+		return gameover;
 	}
  
 	/**
 	 * Do the actual roll. Uses the {@code random_number} integer and performs the moves based on that.
 	 * @author Glen Husman & Matt Husman
 	 */
-	
 	protected void roll() {
 		if(random_number == 6){
     		player_wool = player_wool + 2;
