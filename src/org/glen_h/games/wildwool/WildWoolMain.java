@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,6 +102,8 @@ public class WildWoolMain extends Activity {
         this.swap = (Button)this.findViewById(R.id.swap);
         this.roll = (Button)this.findViewById(R.id.roll);
         this.text = (TextView)this.findViewById(R.id.text);
+        text.setTextSize(16);
+        text.setTextColor(Color.GREEN);
 		 p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
 	        p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
 	        p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
@@ -108,6 +111,7 @@ public class WildWoolMain extends Activity {
         text.setText(messages[random_number]);
         this.roll.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
+            text.setTextColor(Color.YELLOW);
         	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
         	random_number = Mathematics.randomNumber(1, 6);
         	makeInvisible();

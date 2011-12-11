@@ -14,11 +14,12 @@
         android:id="@+id/text"
         android:visibility="visible"
         android:text="Roll the die!"
+        android:textStyle="bold"
          />
         <View
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:background="#FF909090"
+        android:background="#C7F7FB"
         />
         <TextView
         android:layout_width="fill_parent"
