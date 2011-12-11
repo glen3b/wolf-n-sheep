@@ -138,8 +138,8 @@ public class WildWoolMain extends Activity {
 	}
 
 	/**
-	 * Do the actual roll.
-	 * @author Glen Husman
+	 * Do the actual roll. Uses the {@code random_number} integer and performs the moves based on that.
+	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
 		if(random_number == 6){
