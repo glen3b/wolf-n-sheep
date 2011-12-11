@@ -254,10 +254,11 @@ public class WildWoolMain extends Activity {
           });
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
-        wolf_alert.setMessage("Player to swap sheep with");
+        wolf_alert.setMessage("Player to send wolf to");
         wolf_alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				p2_wool = 0;
+				otherplayerrolls();
 			}
 		});
 
@@ -265,12 +266,14 @@ public class WildWoolMain extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	p3_wool = 0;
+                    	otherplayerrolls();
 					}
 				});
         wolf_alert.setNegativeButton("P4",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	p4_wool = 0;
+                    	otherplayerrolls();
 					}
 				});
         this.wolf.setOnClickListener(new OnClickListener() {
