@@ -150,6 +150,8 @@ public class WildWoolMain extends Activity {
 			text.setText("Game over!");
 			text.setTextColor(Color.GREEN);
 			shearWool();
+			roll.setVisibility(View.VISIBLE);
+			makeInvisible();
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
 
