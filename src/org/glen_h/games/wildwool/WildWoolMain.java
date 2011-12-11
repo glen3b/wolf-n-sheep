@@ -18,6 +18,7 @@ import android.widget.Toast;
  * This is the main, single-player, wild wool activity.
  * @author Matt Husman & Glen Husman
  */
+// Conflict case A
 public class WildWoolMain extends Activity {
 
 	@Override
