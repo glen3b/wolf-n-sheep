@@ -19,6 +19,7 @@ import android.widget.Toast;
 // Ubuntu reads with trouble... verify.
 
 // I hope we're go... win7, out.
+// Ubuntu out, communications delete.
 public class WildWoolMain extends Activity {
 
 	@Override
