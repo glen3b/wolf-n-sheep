@@ -80,8 +80,8 @@ public class WildWoolMain extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // FIXME CPU Rolls
-        // FIXME Dice incorrect
+        // FIXME Computer Rolls
+        // FIXME Dice entries incorrect (see messages variable declaration)
         player_wool = 0;
         p2_wool = 0;
         p3_wool = 0;
