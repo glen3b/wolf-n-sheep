@@ -145,6 +145,7 @@ public class WildWoolMain extends Activity {
  
 	
 	private void makeInvisible() {
+		// Clear all visible buttons
 		wolf.setVisibility(View.GONE);
 		grow.setVisibility(View.GONE);
 		shear.setVisibility(View.GONE);
