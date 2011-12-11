@@ -513,5 +513,10 @@ public class WildWoolMain extends Activity {
     		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
     		p4_wool_text.setText("P4 wool: "+Integer.toString(p2_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
     	}
+    	else{
+    		// Invalid player number!
+    		// TODO Catch this somehow.
+    	}
     }
+
 }
