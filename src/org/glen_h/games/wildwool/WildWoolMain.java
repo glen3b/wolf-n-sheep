@@ -111,7 +111,7 @@ public class WildWoolMain extends Activity {
     		grow.setVisibility(View.GONE);
     		shear.setVisibility(View.GONE);
     		swap.setVisibility(View.GONE);
-    		theStuff();
+    		roll();
             text.setText(messages[random_number]);
         	}
         	else{
@@ -137,7 +137,7 @@ public class WildWoolMain extends Activity {
 		}
 	}
 
-	protected void theStuff() {
+	protected void roll() {
 		if(random_number == 6){
     		player_wool = player_wool + 2;
     	}
