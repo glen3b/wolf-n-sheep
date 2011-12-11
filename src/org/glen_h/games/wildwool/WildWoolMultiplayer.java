@@ -20,6 +20,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * This is the other, multi-player, wild wool activity.
+ * @author Glen Husman & Matt Husman
+ */
 public class WildWoolMultiplayer extends Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
