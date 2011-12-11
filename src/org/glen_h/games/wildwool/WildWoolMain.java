@@ -109,10 +109,7 @@ public class WildWoolMain extends Activity {
           public void onClick(View v) {
         	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
         	random_number = Mathematics.randomNumber(1, 6);
-        	wolf.setVisibility(View.GONE);
-    		grow.setVisibility(View.GONE);
-    		shear.setVisibility(View.GONE);
-    		swap.setVisibility(View.GONE);
+        	makeInvisible();
     		roll();
             text.setText(messages[random_number]);
         	}
@@ -146,6 +143,14 @@ public class WildWoolMain extends Activity {
 		return gameover;
 	}
  
+	
+	private void makeInvisible() {
+		wolf.setVisibility(View.GONE);
+		grow.setVisibility(View.GONE);
+		shear.setVisibility(View.GONE);
+		swap.setVisibility(View.GONE);
+	}
+	
 	/**
 	 * Do the actual roll. Uses the {@code random_number} integer and performs moves based on that.
 	 * @author Glen Husman & Matt Husman
@@ -176,15 +181,12 @@ public class WildWoolMain extends Activity {
     	}
 		if(player_wool > max_wool){
         	player_wool = 5;
-        	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep!", Toast.LENGTH_LONG).show();
         }
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	shearWool();
-            	wolf.setVisibility(View.GONE);
-        		grow.setVisibility(View.GONE);
-        		shear.setVisibility(View.GONE);
-        		swap.setVisibility(View.GONE);
+            	makeInvisible();
         		otherplayerrolls();
             }
           });
@@ -228,10 +230,7 @@ public class WildWoolMain extends Activity {
 				
 		this.swap.setOnClickListener(new OnClickListener() {	
 			public void onClick(View v) {
-            	wolf.setVisibility(View.GONE);
-        		grow.setVisibility(View.GONE);
-        		shear.setVisibility(View.GONE);
-        		swap.setVisibility(View.GONE);
+				makeInvisible();
         		alert.show();
             }
         }
@@ -244,10 +243,7 @@ public class WildWoolMain extends Activity {
                 	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
                 }
             	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-            	wolf.setVisibility(View.GONE);
-        		grow.setVisibility(View.GONE);
-        		shear.setVisibility(View.GONE);
-        		swap.setVisibility(View.GONE);
+            	makeInvisible();
         		otherplayerrolls();
 
             }
@@ -278,10 +274,7 @@ public class WildWoolMain extends Activity {
 				});
         this.wolf.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-            	wolf.setVisibility(View.GONE);
-        		grow.setVisibility(View.GONE);
-        		shear.setVisibility(View.GONE);
-        		swap.setVisibility(View.GONE);
+            	makeInvisible();
         		wolf_alert.show();
         		
         	}
