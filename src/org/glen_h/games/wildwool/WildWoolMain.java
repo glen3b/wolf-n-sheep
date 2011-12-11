@@ -320,6 +320,60 @@ public class WildWoolMain extends Activity {
 		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 	}
 
+	private void p_action(int roll, int num_player) {
+		// TODO Attempt to make a generic other "player action"
+		
+		// If sheep is full at beginning of turn, "auto-shear"
+		if (wool[num_player] == max_wool) {
+			sheared_wool[num_player]+=wool[num_player];
+			wool[num_player] = 0;
+		}
+		
+		switch (roll) {
+		case 6:
+			// Grow 2 wool
+			wool[num_player] = wool[num_player]+2;
+			break;
+		case 5:
+			// Send wolf or grow wool
+			// Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
+			wool[num_player]++;
+			break;
+		case 4:
+			// Shear sheep or grow wool
+			// If 0-1 wool, grow; else, shear
+			if (wool[num_player] < 2) {
+				wool[num_player]++;
+			} else {
+				sheared_wool[num_player]+=wool[num_player];
+				wool[num_player]=0;
+			}
+			break;
+		case 3:
+			// Swap or shear
+			// Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
+			// for now, just shear
+			sheared_wool[num_player]+=wool[num_player];
+			wool[num_player]=0;
+			break;
+		case 2:
+			// Swap or grow
+			// Eventually: if opponent has 2+ more than me, swap; for now, just grow
+			wool[num_player]++;
+			break;
+		case 1:
+			// Wolf or grow
+			// Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
+			wool[num_player]++;
+			break;
+		default:
+		}
+		if (wool[num_player] > max_wool) {
+			wool[num_player] = max_wool;
+		}
+	}
+	
+	
 	private void p4_action(int p4_roll) {
 		// TODO P4 Roll
 		if(p4_roll == 6){
