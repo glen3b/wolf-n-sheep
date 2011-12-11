@@ -55,6 +55,7 @@ public class WildWoolMain extends Activity {
       private Button wolf;
       private Button grow;
       private Button swap;
+      // TODO Fix dice (Also fix onClick functions for the dice)
 	  private String[] messages = 
 	        { "Roll the die!",
       		"Send wolf or grow wool.",
@@ -79,6 +80,8 @@ public class WildWoolMain extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // FIXME CPU Rolls
+        // FIXME Dice incorrect
         player_wool = 0;
         p2_wool = 0;
         p3_wool = 0;
