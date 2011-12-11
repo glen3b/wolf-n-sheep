@@ -42,6 +42,12 @@ public class WildWoolMain extends Activity {
 	
 	  private int random_number = 0;
 	  private Button roll;
+
+	  private int wool[] = new int[5];
+	  private int sheared_wool[] = new int[5];
+	  private int player_num;
+	  private int num_players = 4;
+	  
 	  private int player_wool;
 	  private int p2_wool;
 	  private int p3_wool;
@@ -89,6 +95,12 @@ public class WildWoolMain extends Activity {
         p2_wool = 0;
         p3_wool = 0;
         p4_wool = 0;
+        
+        for (player_num=1; player_num <= num_players; player_num++) {
+        	wool[player_num] = 0;
+        	sheared_wool[player_num] = 0;
+        }
+        
         total_wool = player_wool + p2_wool + p3_wool + p4_wool;
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
@@ -182,8 +194,8 @@ public class WildWoolMain extends Activity {
     		grow.setVisibility(View.VISIBLE);
     	}
 		if(player_wool > max_wool){
-        	player_wool = 5;
-        	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep!", Toast.LENGTH_LONG).show();
+        	player_wool = max_wool;
+        	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
         }
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -241,8 +253,8 @@ public class WildWoolMain extends Activity {
             public void onClick(View v) {
             	player_wool = player_wool + 1;
             	if(player_wool > max_wool){
-                	player_wool = 5;
-                	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
+                	player_wool = max_wool;
+                	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+"wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
                 }
             	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
             	makeInvisible();
