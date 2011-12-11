@@ -123,7 +123,7 @@ public class WildWoolMain extends Activity {
         }
 
 	protected boolean checkIfGameOver() {
-		if(total_wool > max_total_wool){
+		if(total_wool >= max_total_wool){
 			// Game over!
 			text.setText("Game over!");
 			shearWool();
@@ -131,17 +131,9 @@ public class WildWoolMain extends Activity {
 			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
 			return true;
 		}		
-		else if(total_wool == max_total_wool){
-			// Game over!
-			text.setText("Game over!");
-			shearWool();
-			roll.setVisibility(View.INVISIBLE);
-			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
-			return true;
-			}
 		else{
-		// Game-in-progress.
-		return false;
+			// Game-in-progress.
+			return false;
 		}
 	}
 
