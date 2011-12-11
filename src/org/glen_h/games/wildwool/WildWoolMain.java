@@ -75,6 +75,7 @@ public class WildWoolMain extends Activity {
 	private TextView p2;
 	private TextView p3;
 	private TextView p4;
+	private Toast tooMuchWool = Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG);
 	
 	/** Called when the activity is first created. */
     @Override
@@ -145,7 +146,7 @@ public class WildWoolMain extends Activity {
 	}
  
 	/**
-	 * Do the actual roll. Uses the {@code random_number} integer and performs the moves based on that.
+	 * Do the actual roll. Uses the {@code random_number} integer and performs moves based on that.
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
@@ -174,6 +175,7 @@ public class WildWoolMain extends Activity {
     	}
 		if(player_wool > max_wool){
         	player_wool = 5;
+        	tooMuchWool.show();
         }
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -257,7 +259,7 @@ public class WildWoolMain extends Activity {
             	player_wool = player_wool + 1;
             	if(player_wool > max_wool){
                 	player_wool = 5;
-                	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
+                	tooMuchWool.show();
                 }
             	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
             	wolf.setVisibility(View.GONE);
@@ -505,4 +507,3 @@ public class WildWoolMain extends Activity {
     	}
     }
 }
-// End of source file
