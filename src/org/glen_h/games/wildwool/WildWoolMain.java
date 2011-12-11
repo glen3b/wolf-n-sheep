@@ -13,13 +13,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-// Testing - ubuntu commit!
-// Windows 7 is in!
-// Windows 7 newer... do you read me?
-// Ubuntu reads with trouble... verify.
 
-// I hope we're go... win7, out.
-// Ubuntu out, communications delete.
+/**
+ * This is the main, single-player, wild wool activity.
+ * @author Matt Husman & Glen Husman
+ */
 public class WildWoolMain extends Activity {
 
 	@Override
