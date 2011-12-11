@@ -468,18 +468,25 @@ public class WildWoolMain extends Activity {
 			p2_wool = 5;
         }
 	}
-
+	/**
+	 * Shears P1's wool.
+	 * @author Glen Husman & Matt Husman
+	 */
 	protected void shearWool(){
-		int player_wool_old = player_wool;
-		if(player_wool != 0){
-		player_wool_sheared = player_wool_sheared + player_wool_old;
-    	player_wool = 0;
+		final int player_wool_old = player_wool;
+		if(player_wool <= 0){
 		}
 		else{
+			player_wool_sheared = player_wool_sheared + player_wool_old;
+	    	player_wool = 0;
 		}
     	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
 	}
 	
+	/**
+	 * Have P1 swap wool with {@code player}.
+	 * @param player The player to swap wool with.
+	 */
 	protected void swap(int player){
     	if(player == 2){
     		final int old_player_wool = player_wool;
