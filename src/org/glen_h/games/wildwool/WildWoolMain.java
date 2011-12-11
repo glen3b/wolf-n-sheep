@@ -3,6 +3,8 @@ package org.glen_h.games.wildwool;
 import org.glen_h.libraries.Mathematics;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -75,7 +77,6 @@ public class WildWoolMain extends Activity {
 	private TextView p2;
 	private TextView p3;
 	private TextView p4;
-	private Toast tooMuchWool = Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG);
 	
 	/** Called when the activity is first created. */
     @Override
@@ -175,7 +176,7 @@ public class WildWoolMain extends Activity {
     	}
 		if(player_wool > max_wool){
         	player_wool = 5;
-        	tooMuchWool.show();
+        	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
         }
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -188,69 +189,50 @@ public class WildWoolMain extends Activity {
             }
           });
         
-        /*
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		final EditText input = new EditText(this);
-		alert.setView(input);
-		input.setInputType(InputType.TYPE_CLASS_NUMBER);
-		alert.setTitle("Player to swap sheep with");
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				value = input.getText().toString();
-			}
-		});
-
-		alert.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						dialog.cancel();
-					}
-				});
-				*/
         this.p2 = (TextView)this.findViewById(R.id.p2);
         this.p3 = (TextView)this.findViewById(R.id.p3);
         this.p4 = (TextView)this.findViewById(R.id.p4);
-		this.swap.setOnClickListener(new OnClickListener() {	
-			public void onClick(View v) {
-            	p2.setVisibility(View.VISIBLE);
-            	p3.setVisibility(View.VISIBLE);
-            	p4.setVisibility(View.VISIBLE);
-            	wolf.setVisibility(View.GONE);
-        		grow.setVisibility(View.GONE);
-        		shear.setVisibility(View.GONE);
-        		swap.setVisibility(View.GONE);
-        		p2.setOnClickListener(new OnClickListener() {	
-        			public void onClick(View v) {
-                    	swap(2);
-                    	p2.setVisibility(View.INVISIBLE);
-                    	p3.setVisibility(View.INVISIBLE);
-                    	p4.setVisibility(View.INVISIBLE);
-                		otherplayerrolls();
-                    }
-                }
-                  );
-        		p3.setOnClickListener(new OnClickListener() {	
-        			public void onClick(View v) {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Player selection");
+		alert.setMessage("Player to swap sheep with");
+		alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+            	swap(2);
+            	p2.setVisibility(View.INVISIBLE);
+            	p3.setVisibility(View.INVISIBLE);
+            	p4.setVisibility(View.INVISIBLE);
+        		otherplayerrolls();
+			}
+		});
+
+		alert.setNeutralButton("P3",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(3);
                     	p2.setVisibility(View.INVISIBLE);
                     	p3.setVisibility(View.INVISIBLE);
                     	p4.setVisibility(View.INVISIBLE);
                 		otherplayerrolls();
-
-                    }
-                }
-                  );
-        		p4.setOnClickListener(new OnClickListener() {	
-        			public void onClick(View v) {
+					}
+				});
+		alert.setNegativeButton("P4",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(4);
                     	p2.setVisibility(View.INVISIBLE);
                     	p3.setVisibility(View.INVISIBLE);
                     	p4.setVisibility(View.INVISIBLE);
                 		otherplayerrolls();
-
-                    }
-                }
-                  );
+					}
+				});
+				
+		this.swap.setOnClickListener(new OnClickListener() {	
+			public void onClick(View v) {
+            	wolf.setVisibility(View.GONE);
+        		grow.setVisibility(View.GONE);
+        		shear.setVisibility(View.GONE);
+        		swap.setVisibility(View.GONE);
+        		alert.show();
             }
         }
           );
@@ -259,7 +241,7 @@ public class WildWoolMain extends Activity {
             	player_wool = player_wool + 1;
             	if(player_wool > max_wool){
                 	player_wool = 5;
-                	tooMuchWool.show();
+                	Toast.makeText(getBaseContext(), "Cannot have more than 5 wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
                 }
             	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
             	wolf.setVisibility(View.GONE);
@@ -270,59 +252,36 @@ public class WildWoolMain extends Activity {
 
             }
           });
-        
+        final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
+        wolf_alert.setTitle("Player selection");
+        wolf_alert.setMessage("Player to swap sheep with");
+        wolf_alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				p2_wool = 0;
+			}
+		});
+
+        wolf_alert.setNeutralButton("P3",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+                    	p3_wool = 0;
+					}
+				});
+        wolf_alert.setNegativeButton("P4",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+                    	p4_wool = 0;
+					}
+				});
         this.wolf.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
-            	p2.setVisibility(View.VISIBLE);
-            	p3.setVisibility(View.VISIBLE);
-            	p4.setVisibility(View.VISIBLE);
             	wolf.setVisibility(View.GONE);
         		grow.setVisibility(View.GONE);
         		shear.setVisibility(View.GONE);
         		swap.setVisibility(View.GONE);
-        		p2.setOnClickListener(new OnClickListener() {	
-        			public void onClick(View v) {
-        				p2_wool = 0;
-                    	p2.setVisibility(View.INVISIBLE);
-                    	p3.setVisibility(View.INVISIBLE);
-                    	p4.setVisibility(View.INVISIBLE);
-                		otherplayerrolls();
-                    	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-            	        p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-            	        p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-            	        p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-                    }
-                }
-                  );
-        		p3.setOnClickListener(new OnClickListener() {	
-        			public void onClick(View v) {
-        				p3_wool = 0;
-                    	p2.setVisibility(View.INVISIBLE);
-                    	p3.setVisibility(View.INVISIBLE);
-                    	p4.setVisibility(View.INVISIBLE);
-                		otherplayerrolls();
-                    	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-            	        p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-            	        p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-            	        p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-                    }
-                }
-                  );
-        		p4.setOnClickListener(new OnClickListener() {	
-        			public void onClick(View v) {
-        				p4_wool = 0;
-                    	p2.setVisibility(View.INVISIBLE);
-                    	p3.setVisibility(View.INVISIBLE);
-                    	p4.setVisibility(View.INVISIBLE);
-                		otherplayerrolls();
-                    	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-            	        p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-            	        p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-            	        p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-                    }
-                }
-                  );
-            }
+        		wolf_alert.show();
+        		
+        	}
           });
         
 		 p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
