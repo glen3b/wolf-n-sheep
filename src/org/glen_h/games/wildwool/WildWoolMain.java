@@ -121,7 +121,7 @@ public class WildWoolMain extends Activity {
           }
         });
         }
-
+    
 	protected boolean checkIfGameOver() {
 		if(total_wool >= max_total_wool){
 			// Game over!
@@ -136,11 +136,12 @@ public class WildWoolMain extends Activity {
 			return false;
 		}
 	}
-
+ 
 	/**
 	 * Do the actual roll. Uses the {@code random_number} integer and performs the moves based on that.
 	 * @author Glen Husman & Matt Husman
 	 */
+	
 	protected void roll() {
 		if(random_number == 6){
     		player_wool = player_wool + 2;
