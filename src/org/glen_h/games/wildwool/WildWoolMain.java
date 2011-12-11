@@ -137,6 +137,10 @@ public class WildWoolMain extends Activity {
 		}
 	}
 
+	/**
+	 * Do the actual roll.
+	 * @author Glen Husman
+	 */
 	protected void roll() {
 		if(random_number == 6){
     		player_wool = player_wool + 2;
