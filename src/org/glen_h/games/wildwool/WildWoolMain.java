@@ -330,7 +330,8 @@ public class WildWoolMain extends Activity {
 	    p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
 		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 	}
-
+	
+	// Implementing this later
 	private void p_action(int roll, int num_player) {
 		// TODO Attempt to make a generic other "player action"
 		
