@@ -415,7 +415,11 @@ public class WildWoolMain extends Activity {
 		}
 	}
 	
-	
+	/**
+	 * P4 computer's roll.
+	 * @deprecated Use {@link p_action p_action} instead.
+	 * @param p4_roll What P4 rolled
+	 */
 	private void p4_action(int p4_roll) {
 		// TODO P4 Roll
 		if(p4_roll == 6){
@@ -486,6 +490,11 @@ public class WildWoolMain extends Activity {
 		
 	}
 
+	/**
+	 * P3 computer's roll.
+	 * @deprecated Use {@link p_action p_action} instead.
+	 * @param p3_roll What P3 rolled
+	 */
 	private void p3_action(int p3_roll) {
 		// TODO P3 Roll
 		if(p3_roll == 6){
@@ -513,6 +522,11 @@ public class WildWoolMain extends Activity {
 		
 	}
 
+	/**
+	 * P2 computer's roll.
+	 * @deprecated Use {@link p_action p_action} instead.
+	 * @param p2_roll What P2 rolled
+	 */
 	private void p2_action(int p2_roll) {
 		// TODO P2 Roll
 		if(p2_roll == 6){
