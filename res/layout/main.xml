@@ -16,6 +16,7 @@
         android:visibility="visible"
         android:text="Roll the die!"
         android:textStyle="bold"
+        android:gravity="center"
          />
         <View
         android:layout_width="fill_parent"
