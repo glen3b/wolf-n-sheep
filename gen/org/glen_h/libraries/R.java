@@ -16,7 +16,8 @@ public final class R {
     }
     public static final class id {
         public static final int button_scan=0x7f060004;
-        public static final int discoverable=0x7f060014;
+        public static final int discoverable=0x7f060015;
+        public static final int exit=0x7f060013;
         public static final int grow=0x7f06000b;
         public static final int multiplayer=0x7f060012;
         public static final int new_devices=0x7f060003;
@@ -29,8 +30,9 @@ public final class R {
         public static final int p4_wool=0x7f06000a;
         public static final int paired_devices=0x7f060001;
         public static final int roll=0x7f060005;
-        public static final int scan=0x7f060013;
+        public static final int scan=0x7f060014;
         public static final int shear=0x7f06000c;
+        public static final int singleplayer=0x7f060016;
         public static final int swap=0x7f06000e;
         public static final int text=0x7f060006;
         public static final int title_new_devices=0x7f060002;
