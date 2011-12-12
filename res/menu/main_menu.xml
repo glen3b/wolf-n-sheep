@@ -3,4 +3,7 @@
     <item android:id="@+id/multiplayer"
           android:icon="@android:drawable/ic_menu_share"
           android:title="Multiplayer" />
+    <item android:id="@+id/exit"
+          android:icon="@android:drawable/ic_menu_close_clear_cancel"
+          android:title="Exit" />
 </menu>

@@ -36,7 +36,10 @@ public class WildWoolMain extends Activity {
         case R.id.multiplayer:
      	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
            startActivity(mp);
-            return true;
+           return true;
+        case R.id.exit:
+        	finish();
+        	return true;
         }
         return false;
     }

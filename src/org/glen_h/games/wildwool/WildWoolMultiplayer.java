@@ -43,18 +43,30 @@ public class WildWoolMultiplayer extends Activity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        boolean returnvalue = false;
+    	switch (item.getItemId()) {
         case R.id.scan:
             // Launch the DeviceListActivity to see devices and do scan
             Intent serverIntent = new Intent(this, DeviceListActivity.class);
             startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-            return true;
-        case R.id.discoverable:
+            returnvalue =  true;
+            break;
+		case R.id.discoverable:
             // Ensure this device is discoverable by others
             ensureDiscoverable();
-            return true;
+            returnvalue =  true;
+            break;
+        case R.id.singleplayer:
+            Intent main = new Intent(this, WildWoolMain.class);
+            overridePendingTransition(0, 0);
+		    main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		    finish();
+		    overridePendingTransition(0, 0);
+		    startActivity(main);
+		    returnvalue =  true;
+		    break;
         }
-        return false;
+        return returnvalue;
     }
     
     public void ensureDiscoverable() {
@@ -142,6 +154,7 @@ public class WildWoolMultiplayer extends Activity {
     
     
 	   public final Handler mHandler = new Handler() {
+		   // FIXME Exception is thrown here, crashes on menu option select or attempted exit
 	        @Override
 	        public void handleMessage(Message msg) {
 	            switch (msg.what) {
@@ -158,7 +171,7 @@ public class WildWoolMultiplayer extends Activity {
 	                    break;
 	                case BluetoothChatService.STATE_LISTEN:
 	                case BluetoothChatService.STATE_NONE:
-	                    mTitle.setText(R.string.title_not_connected);
+	                	mTitle.setText(R.string.title_not_connected);
 	                    break;
 	                }
 	                break;
