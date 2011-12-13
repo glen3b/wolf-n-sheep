@@ -366,10 +366,17 @@ public class WildWoolMain extends Activity {
 		// TODO Attempt to make a generic other "player action"
 		
 		// If sheep is full at beginning of turn, "auto-shear"
+		// TODO Have an option to enable "special" features not in standard ruleset, like this
+		
+		
+		// Commented because it is not standard rules, can easily make a preference for this.
+		
+		/*
 		if (wool[num_player] == max_wool) {
 			sheared_wool[num_player]+=wool[num_player];
 			wool[num_player] = 0;
 		}
+		*/
 		
 		switch (roll) {
 		case 6:
