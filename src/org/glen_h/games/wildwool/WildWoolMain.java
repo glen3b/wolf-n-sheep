@@ -56,14 +56,6 @@ public class WildWoolMain extends Activity {
 	  private int player_num;
 	  private int num_players = 4;
 	  
-	  private int player_wool;
-	  private int p2_wool;
-	  private int p3_wool;
-	  private int p4_wool;
-	  private int player_wool_sheared = 0;
-	  private int p2_wool_sheared = 0;
-	  private int p3_wool_sheared = 0;
-	  private int p4_wool_sheared = 0;
 	  private int total_wool;
       private final int max_wool = 5;
       private final int max_total_wool = 25;
@@ -99,10 +91,6 @@ public class WildWoolMain extends Activity {
         // FIXME Computer Rolls
         // FIXME Dice entries incorrect (see messages variable declaration)
         // Note to self: Icon in public domain, see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg
-        player_wool = 0;
-        p2_wool = 0;
-        p3_wool = 0;
-        p4_wool = 0;
         
         for (player_num=1; player_num <= num_players; player_num++) {
         	wool[player_num] = 0;
@@ -446,144 +434,6 @@ public class WildWoolMain extends Activity {
 		if (wool[num_player] > max_wool) {
 			wool[num_player] = max_wool;
 		}
-	}
-	
-	/**
-	 * P4 computer's roll.
-	 * @deprecated Use {@link p_action p_action} instead.
-	 * @param p4_roll What P4 rolled
-	 */
-	private void p4_action(int p4_roll) {
-		// TODO P4 Roll
-		if(p4_roll == 6){
-			// Grow 2 wool
-			p4_wool = p4_wool + 2;
-    	}
-    	else if(p4_roll == 5){
-    		// Send wolf or grow wool
-    		player_wool = 0;
-    	}
-    	else if(p4_roll == 4){
-    		// Shear sheep or grow wool
-    		final int p4_wool_old = p4_wool;
-    		if(p4_wool >= 3){
-    		sheared_wool[4] = sheared_wool[4] + p4_wool_old;
-        	p4_wool = 0;
-    		}
-    		else{
-    			p4_wool++;
-    		}
-        	p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-    	}
-    	else if(p4_roll == 3){
-    		// Swap or shear
-    		if(p4_wool < player_wool){
-    			final int old_player_wool = player_wool;
-        		final int new_player_wool = p4_wool;
-        		p4_wool = old_player_wool;
-        		player_wool = new_player_wool;
-        		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
-                p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-    		}else{
-    			final int p4_wool_old = p4_wool;
-        		if(p4_wool != 0){
-        		p4_wool_sheared = p4_wool_sheared + p4_wool_old;
-            	p4_wool = 0;
-        		}
-        		else{
-        		}
-            	p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-    		}
-    	}
-    	else if(p4_roll == 2){
-    		// Swap or grow
-    		if(p2_wool > p4_wool){
-    			
-    		}
-    		else if(p3_wool > p4_wool){
-    			
-    		}
-    		else if(player_wool > p4_wool){
-    			swap(4);
-    		}
-    		else{
-    			p4_wool = p4_wool + 1;
-    		}
-    		if(p4_wool > max_wool){
-    			p4_wool = 5;
-            }
-        	p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-    	}
-    	else if(p4_roll == 1){
-    		// Wolf or grow
-    	}
-		if(p4_wool > max_wool){
-			p4_wool = 5;
-        }
-		
-	}
-
-	/**
-	 * P3 computer's roll.
-	 * @deprecated Use {@link p_action p_action} instead.
-	 * @param p3_roll What P3 rolled
-	 */
-	private void p3_action(int p3_roll) {
-		// TODO P3 Roll
-		if(p3_roll == 6){
-			// Grow 2 wool
-			p3_wool = p3_wool + 2;
-    	}
-    	else if(p3_roll == 5){
-    		
-    	}
-    	else if(p3_roll == 4){
-    		
-    	}
-    	else if(p3_roll == 3){
-    		
-    	}
-    	else if(p3_roll == 2){
-    		
-    	}
-    	else if(p3_roll == 1){
-    		
-    	}
-		if(p3_wool > max_wool){
-			p3_wool = 5;
-        }
-		
-	}
-
-	/**
-	 * P2 computer's roll.
-	 * @deprecated Use {@link p_action p_action} instead.
-	 * @param p2_roll What P2 rolled
-	 */
-	private void p2_action(int p2_roll) {
-		// TODO P2 Roll
-		if(p2_roll == 6){
-			// Grow 2 wool
-			p2_wool = p2_wool + 2;
-    	}
-    	else if(p2_roll == 5){
-    		// 
-    	}
-    	else if(p2_roll == 4){
-    		// 
-    	}
-    	else if(p2_roll == 3){
-    		// 
-    	}
-    	else if(p2_roll == 2){
-    		// 
-    	}
-    	else if(p2_roll == 1){
-    		// 
-    	}
-		if(p2_wool > max_wool){
-			p2_wool = 5;
-        }
 	}
 
 	/**

@@ -7,14 +7,13 @@
 	<Button android:id="@+id/roll"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:text="Roll" />
+    android:text="@string/roll" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/text"
         android:visibility="visible"
-        android:text="Roll the die!"
+        android:text="@string/roll_die"
         android:textStyle="bold"
         android:gravity="center"
          />
@@ -64,26 +63,22 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
-    android:layout_alignParentBottom="true"
-    android:text="Grow Wool" />
+    android:text="@string/grow" />
     <Button android:id="@+id/shear"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
-    android:layout_alignParentBottom="true"
-    android:text="Shear Sheep" />
+    android:text="@string/shear" />
     <Button android:id="@+id/wolf"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
-    android:layout_alignParentBottom="true"
-    android:text="Send Wolf" />
+    android:text="@string/wolf" />
         <Button android:id="@+id/swap"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:visibility="gone"
-    android:layout_alignParentBottom="true"
-    android:text="Swap Sheep" />
+    android:text="@string/swap" />
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -91,7 +86,7 @@
         android:textColor="#60EF50"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="P2"
+        android:text="@string/p2"
         android:visibility="invisible"
          />
                 <TextView
@@ -99,8 +94,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/p3"
         android:textStyle="bold"
-        android:text="P3"
-                android:textColor="#60EF50"
+        android:text="@string/p3"
+        android:textColor="#60EF50"
         android:textSize="20sp"
         android:visibility="invisible"
          />
@@ -109,7 +104,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/p4"
         android:textStyle="bold"
-        android:text="P4"
+        android:text="@string/p4"
         android:textColor="#60EF50"
         android:textSize="20sp"
         android:visibility="invisible"
@@ -119,7 +114,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/winner"
         android:visibility="gone"
-        android:text="Unknown winner."
+        android:text="@string/winner_unknown"
         android:textColor="#01FF27"
         android:textSize="17dp"
         android:textStyle="bold"

@@ -22,5 +22,15 @@
     <!-- Options Menu -->
     <string name="connect">Connect a device</string>
     <string name="discoverable">Make discoverable</string>
+    <string name="roll_die">Roll the die!</string>
+    <string name="roll">Roll</string>
+    <string name="grow">Grow Wool</string>
+    <string name="winner_unknown">Unknown winner.</string>
+    <string name="shear">Shear Sheep</string>
+    <string name="wolf">Send Wolf</string>
+    <string name="swap">Swap Sheep</string>
+    <string name="p2">P2</string>
+    <string name="p3">P3</string>
+    <string name="p4">P4</string>
 
 </resources>
