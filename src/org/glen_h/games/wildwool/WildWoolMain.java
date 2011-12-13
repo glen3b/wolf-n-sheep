@@ -109,7 +109,12 @@ public class WildWoolMain extends Activity {
         	sheared_wool[player_num] = 0;
         }
         
-        total_wool = player_wool + p2_wool + p3_wool + p4_wool;
+        // total_wool = player_wool + p2_wool + p3_wool + p4_wool;
+        total_wool = 0;
+        for (player_num=1; player_num <= num_players; player_num++) {
+        	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
+        }
+
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -123,10 +128,10 @@ public class WildWoolMain extends Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
-		 p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-	     p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-	     p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-	     p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+		 p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+	     p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+	     p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+	     p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
         text.setText(messages[random_number]);
         this.roll.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
@@ -151,21 +156,18 @@ public class WildWoolMain extends Activity {
      */
 	protected boolean checkIfGameOver() {
 		boolean gameover;
-		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
+		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 		if(total_wool >= max_total_wool){
 			// Game over!
 			text.setText("Game over!");
 			text.setTextColor(Color.GREEN);
 			shearWool();
-			final int p4_wool_old = p4_wool;
-    		p4_wool_sheared = p4_wool_sheared + p4_wool_old;
-        	p4_wool = 0;
-        	final int p3_wool_old = p3_wool;
-    		p3_wool_sheared = p3_wool_sheared + p3_wool_old;
-        	p3_wool = 0;
-        	final int p2_wool_old = p2_wool;
-    		p2_wool_sheared = p2_wool_sheared + p2_wool_old;
-        	p2_wool = 0;
+    		p4_wool_sheared = p4_wool_sheared + wool[4];
+        	wool[4] = 0;
+    		p3_wool_sheared = p3_wool_sheared + wool[3];
+        	wool[3] = 0;
+    		p2_wool_sheared = p2_wool_sheared + wool[2];
+        	wool[2] = 0;
 			roll.setVisibility(View.VISIBLE);
 			makeInvisible();
 			roll.setText("Restart");
@@ -192,10 +194,10 @@ public class WildWoolMain extends Activity {
 				}
 			}
 			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
-			p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-	        p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-	        p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-	        p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+			p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+	        p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+	        p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+	        p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
 			gameover =  true;
 		}		
 		else{
@@ -219,8 +221,9 @@ public class WildWoolMain extends Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
-		if(player_wool > max_wool){
-        	player_wool = max_wool;
+		if(wool[1] >= max_wool){
+        	player_wool_sheared += wool[1];
+			wool[1] = 0;
         	/** TODO Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 */
@@ -230,10 +233,14 @@ public class WildWoolMain extends Activity {
     			wool[num_player] = 0;
     		}
     		*/
-        	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_LONG).show();
+			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
         }
 		if(random_number == 6){
-    		player_wool = player_wool + 2;
+    		wool[1] = wool[1] + 2;
+    		if (wool[1] > max_wool) {
+    			wool[1] = max_wool;
+    		}
     	}
     	else if(random_number == 5){
     		wolf.setVisibility(View.VISIBLE);
@@ -309,12 +316,12 @@ public class WildWoolMain extends Activity {
           );
         this.grow.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	player_wool = player_wool + 1;
-            	if(player_wool > max_wool){
-                	player_wool = max_wool;
+            	wool[1] = wool[1] + 1;
+            	if(wool[1] > max_wool){
+                	wool[1] = max_wool;
                 	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
                 }
-            	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+            	p1_wool_text.setText("Your wool: "+Integer.toString(wool[2])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
             	makeInvisible();
         		otherplayerrolls();
 
@@ -325,7 +332,7 @@ public class WildWoolMain extends Activity {
         wolf_alert.setMessage("Player to send wolf to");
         wolf_alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				p2_wool = 0;
+				wool[2] = 0;
 				otherplayerrolls();
 			}
 		});
@@ -333,14 +340,14 @@ public class WildWoolMain extends Activity {
         wolf_alert.setNeutralButton("P3",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-                    	p3_wool = 0;
+                    	wool[3] = 0;
                     	otherplayerrolls();
 					}
 				});
         wolf_alert.setNegativeButton("P4",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-                    	p4_wool = 0;
+                    	wool[4] = 0;
                     	otherplayerrolls();
 					}
 				});
@@ -352,11 +359,11 @@ public class WildWoolMain extends Activity {
         	}
           });
         
-		 p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-	        p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-	        p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-	        p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
+		 p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+	        p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+	        p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+	        p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 		checkIfGameOver();
 	}
 
@@ -364,14 +371,17 @@ public class WildWoolMain extends Activity {
 		int random_number_p2 = Mathematics.randomNumber(1, 6);
 		int random_number_p3 = Mathematics.randomNumber(1, 6);
 		int random_number_p4 = Mathematics.randomNumber(1, 6);
-		p2_action(random_number_p2);
-		p3_action(random_number_p3);
-		p4_action(random_number_p4);
-		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-	    p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-	    p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-	    p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
+		//p2_action(random_number_p2);
+		p_action(random_number_p2, 2);
+		p_action(random_number_p3, 3);
+		//p3_action(random_number_p3);
+		//p4_action(random_number_p4);
+		p_action(random_number_p4, 4);
+		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+	    p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+	    p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+	    p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 	}
 	
 	// Implementing this later
@@ -578,14 +588,9 @@ public class WildWoolMain extends Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void shearWool(){
-		final int player_wool_old = player_wool;
-		if(player_wool != 0){
-			player_wool_sheared = player_wool_sheared + player_wool_old;
-	    	player_wool = 0;
-		}
-		else{
-		}
-    	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+        player_wool_sheared = player_wool_sheared + wool[1];
+        wool[1] = 0;
+    	p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
 	}
 	
 	/**
@@ -610,11 +615,11 @@ public class WildWoolMain extends Activity {
 	 */
 	private void updateText(){
 	// TODO When arrays implemented, fix this so it works with them.
-	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-    p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-    p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-    p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-	total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
+	p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+    p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+    p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+    p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+	total_wool = wool[1] + wool[2] + wool[3] + wool[4] + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
 	checkIfGameOver();
 	}
 	
@@ -624,29 +629,48 @@ public class WildWoolMain extends Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void swap(int player){
+		// If we now have arrays working, think we can do instead:
+		final int temp_wool = wool[1];
+		wool[1] = wool[player];
+		wool[player] = temp_wool;
+		
+		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+		// We might be able to make the "wool_text" into arrays eventually
+		switch (player) {
+		case 2:
+			p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+			break;
+		case 3:
+			p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P2 sheared wool: "+Integer.toString(p3_wool_sheared));
+			break;
+		case 4:
+			p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P2 sheared wool: "+Integer.toString(p4_wool_sheared));
+			break;
+		default:
+				
+		}
+		
+		/*
     	if(player == 2){
-    		final int old_player_wool = player_wool;
-    		final int new_player_wool = p2_wool;
-    		player_wool = new_player_wool;
-    		p2_wool = old_player_wool;
-    		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-            p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+    		final int temp_wool = wool[1];
+    		wool[1] = wool[2];
+    		wool[2] = temp_wool;
+    		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+            p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
     	}
     	else if(player == 3){
-    		final int old_player_wool = player_wool;
-    		final int new_player_wool = p3_wool;
-    		player_wool = new_player_wool;
-    		p3_wool = old_player_wool;
-    		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-    		p3_wool_text.setText("P3 wool: "+Integer.toString(p2_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+       		final int temp_wool = wool[1];
+    		wool[1] = wool[3];
+    		wool[3] = temp_wool;
+    		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+    		p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
     	}
     	else if(player == 4){
-    		final int old_player_wool = player_wool;
-    		final int new_player_wool = p4_wool;
-    		player_wool = new_player_wool;
-    		p4_wool = old_player_wool;
-    		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-    		p4_wool_text.setText("P4 wool: "+Integer.toString(p2_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+       		final int temp_wool = wool[1];
+    		wool[1] = wool[4];
+    		wool[4] = temp_wool;
+     		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+    		p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
     	}
     	else{
     		/* Invalid player number!
@@ -655,8 +679,8 @@ public class WildWoolMain extends Activity {
     		 1. The code is incorrect somewhere (a bug).
     		 2. A runtime error somehow executed this.
     		 3. A bug executed this.
-    		 */
-    	}
+    		 /
+    	} */
     }
 
 }
