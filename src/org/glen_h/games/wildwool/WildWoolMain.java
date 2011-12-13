@@ -215,6 +215,19 @@ public class WildWoolMain extends Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
+		if(player_wool > max_wool){
+        	player_wool = max_wool;
+        	/** TODO Have an option to enable "special" features not in standard ruleset, like this
+        	 * Commented because it is not standard rules, can easily make a preference for this.
+        	 */
+    		/*
+    		if (wool[num_player] == max_wool) {
+    			sheared_wool[num_player]+=wool[num_player];
+    			wool[num_player] = 0;
+    		}
+    		*/
+        	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
+        }
 		if(random_number == 6){
     		player_wool = player_wool + 2;
     	}
@@ -238,10 +251,6 @@ public class WildWoolMain extends Activity {
     		wolf.setVisibility(View.VISIBLE);
     		grow.setVisibility(View.VISIBLE);
     	}
-		if(player_wool > max_wool){
-        	player_wool = max_wool;
-        	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
-        }
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	shearWool();
