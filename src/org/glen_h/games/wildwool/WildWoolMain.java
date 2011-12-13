@@ -222,7 +222,7 @@ public class WildWoolMain extends Activity {
 		if(player_wool > max_wool){
         	player_wool = max_wool;
         	/** TODO Have an option to enable "special" features not in standard ruleset, like this
-        	 * Commented because it is not standard rules, can easily make a preference for this.
+        	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 */
     		/*
     		if (wool[num_player] == max_wool) {
