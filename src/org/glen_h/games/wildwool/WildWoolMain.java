@@ -36,6 +36,10 @@ public class WildWoolMain extends Activity {
         case R.id.multiplayer:
      	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
            startActivity(mp);
+           
+           // Delete this block when multiplayer finished
+           Toast.makeText(getBaseContext(), "This is highly unstable and not ready for use!!", Toast.LENGTH_LONG).show();
+           
            return true;
         case R.id.exit:
         	finish();
