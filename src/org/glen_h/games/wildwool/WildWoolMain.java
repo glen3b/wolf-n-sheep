@@ -559,6 +559,7 @@ public class WildWoolMain extends Activity {
 			p2_wool = 5;
         }
 	}
+
 	/**
 	 * Shears P1's wool.
 	 * @author Glen Husman & Matt Husman
@@ -572,6 +573,23 @@ public class WildWoolMain extends Activity {
 		else{
 		}
     	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+	}
+	
+	/**
+	 * Shears the wool of a player.
+	 * @author Glen Husman & Matt Husman
+	 * @param num_player The player whose wool to shear
+	 */
+	protected void shearWool(int num_player){
+		// TODO Verify function works
+		final int wool_old = wool[num_player];
+		if(wool_old != 0){
+			sheared_wool[num_player] = sheared_wool[num_player] + wool_old;
+	    	player_wool = 0;
+		}
+		else{
+		}
+		// TODO Update TextView here
 	}
 	
 	/**
