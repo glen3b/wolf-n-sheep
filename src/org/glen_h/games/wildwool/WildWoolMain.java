@@ -183,7 +183,7 @@ public class WildWoolMain extends Activity {
 			
 			int winning_score = -1;
 			String winner = "Nobody";
-			
+			TextView winner_text = (TextView)this.findViewById(R.id.winner);
 			// TODO Use arrays everywhere, so this will work!!!
 			for (player_num=1; player_num <= num_players; player_num++) {
 				if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
@@ -193,6 +193,11 @@ public class WildWoolMain extends Activity {
 					winning_score = wool[player_num]+sheared_wool[player_num];
 				}
 			}
+			p2.setVisibility(View.GONE);
+			p3.setVisibility(View.GONE);
+			p4.setVisibility(View.GONE);
+			winner_text.setVisibility(View.VISIBLE);
+			winner_text.setText(winner+" wins!!");
 			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
 			p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
 	        p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
@@ -600,25 +605,39 @@ public class WildWoolMain extends Activity {
 		// TODO Verify function works
 		final int wool_old = wool[num_player];
 		if(wool_old != 0){
-			sheared_wool[num_player] = sheared_wool[num_player] + wool_old;
+			sheared_wool[num_player] += wool_old;
 			wool[num_player] = 0;
 		}
 		else{
 		}
-		// TODO Update TextView here
+		updateText();
 	}
 	
 	/**
 	 * Update the TextView's text for all players wool.
 	 */
 	private void updateText(){
-	// TODO When arrays implemented, fix this so it works with them.
 	p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
     p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
     p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
     p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
 	total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
 	checkIfGameOver();
+	// Maybe use this code sometime
+	
+	/*
+	switch (player) {
+	case 2:
+		p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
+		break;
+	case 3:
+		p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P2 sheared wool: "+Integer.toString(sheared_wool[3]));
+		break;
+	case 4:
+		p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P2 sheared wool: "+Integer.toString(sheared_wool[4]));
+		break;
+	default:
+	*/
 	}
 	
 	/**
@@ -627,58 +646,13 @@ public class WildWoolMain extends Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void swap(int player){
-		// If we now have arrays working, think we can do instead:
+		// If we now have arrays working, we can do instead:
 		final int temp_wool = wool[1];
 		wool[1] = wool[player];
 		wool[player] = temp_wool;
-		
 		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
 		// We might be able to make the "wool_text" into arrays eventually
-		switch (player) {
-		case 2:
-			p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
-			break;
-		case 3:
-			p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P2 sheared wool: "+Integer.toString(sheared_wool[3]));
-			break;
-		case 4:
-			p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P2 sheared wool: "+Integer.toString(sheared_wool[4]));
-			break;
-		default:
-				
+		updateText();		
 		}
-		
-		/*
-    	if(player == 2){
-    		final int temp_wool = wool[1];
-    		wool[1] = wool[2];
-    		wool[2] = temp_wool;
-    		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-            p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
-    	}
-    	else if(player == 3){
-       		final int temp_wool = wool[1];
-    		wool[1] = wool[3];
-    		wool[3] = temp_wool;
-    		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-    		p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
-    	}
-    	else if(player == 4){
-       		final int temp_wool = wool[1];
-    		wool[1] = wool[4];
-    		wool[4] = temp_wool;
-     		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(player_wool_sheared));
-    		p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
-    	}
-    	else{
-    		/* Invalid player number!
-    		 TODO Catch this somehow.
-    		 If something somehow ends up executing this, something went wrong:
-    		 1. The code is incorrect somewhere (a bug).
-    		 2. A runtime error somehow executed this.
-    		 3. A bug executed this.
-    		 /
-    	} */
     }
 
-}

@@ -114,4 +114,15 @@
         android:textSize="20sp"
         android:visibility="invisible"
          />
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/winner"
+        android:visibility="gone"
+        android:text="Unknown winner."
+        android:textColor="#01FF27"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:gravity="center"
+         />
 </LinearLayout>
