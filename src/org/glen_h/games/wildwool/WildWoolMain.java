@@ -152,7 +152,7 @@ public class WildWoolMain extends Activity {
     /**
      * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
      * @author Glen Husman & Matt Husman
-     * @return gameover - Whether the game is over or not (boolean)
+     * @return Whether the game is over or not
      */
 	protected boolean checkIfGameOver() {
 		boolean gameover;
