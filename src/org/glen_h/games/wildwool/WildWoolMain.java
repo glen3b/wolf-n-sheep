@@ -593,6 +593,19 @@ public class WildWoolMain extends Activity {
 	}
 	
 	/**
+	 * Update the TextView's text for all players wool.
+	 */
+	private void updateText(){
+	// TODO When arrays implemented, fix this so it works with them.
+	p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
+    p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
+    p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
+    p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
+	total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
+	checkIfGameOver();
+	}
+	
+	/**
 	 * Have P1 swap wool with {@code player}.
 	 * @param player The player to swap wool with.
 	 * @author Glen Husman & Matt Husman
