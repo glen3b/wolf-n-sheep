@@ -585,7 +585,7 @@ public class WildWoolMain extends Activity {
 		final int wool_old = wool[num_player];
 		if(wool_old != 0){
 			sheared_wool[num_player] = sheared_wool[num_player] + wool_old;
-	    	player_wool = 0;
+			wool[num_player] = 0;
 		}
 		else{
 		}
