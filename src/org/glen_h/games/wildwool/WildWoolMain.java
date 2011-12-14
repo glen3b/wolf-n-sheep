@@ -35,7 +35,7 @@ public class WildWoolMain extends Activity {
         switch (item.getItemId()) {
         case R.id.multiplayer:
      	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
-           startActivity(mp);
+     	   startActivity(mp);
            
            // Delete this block when multiplayer finished
            Toast.makeText(getBaseContext(), "This is highly unstable and not ready for use!!", Toast.LENGTH_LONG).show();
@@ -377,9 +377,8 @@ public class WildWoolMain extends Activity {
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
 	}
 	
-	// Implementing this later
-	private void p_action(int roll, int num_player) {
-		// TODO Attempt to make a generic other "player action"
+	protected void p_action(int roll, int num_player) {
+		// TODO Finish attempt to make a generic other "player action"
 		
 		// If sheep is full at beginning of turn, "auto-shear"
 		// TODO Have an option to enable "special" features not in standard ruleset, like this
