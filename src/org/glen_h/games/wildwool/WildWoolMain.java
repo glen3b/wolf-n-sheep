@@ -382,10 +382,11 @@ public class WildWoolMain extends Activity {
 	 */
 	protected void p_action(Integer roll, Integer num_player) {
 		// TODO Finish attempt to make a generic other "player action"
+
+		
 		
 		// If sheep is full at beginning of turn, "auto-shear"
 		// TODO Have an option to enable "special" features not in standard ruleset, like this
-		
 		
 		// Commented because it is not standard rules, can easily make a preference for this.
 		/*
