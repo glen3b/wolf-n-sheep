@@ -385,11 +385,12 @@ public class WildWoolMain extends Activity {
 		
 		
 		// Commented because it is not standard rules, can easily make a preference for this.
-		
+		/*
 		if (wool[num_player] == max_wool) {
 			sheared_wool[num_player]+=wool[num_player];
 			wool[num_player] = 0;
 		}
+		*/
 		
 		switch (roll) {
 		case 6:
@@ -398,7 +399,7 @@ public class WildWoolMain extends Activity {
 			break;
 		case 5:
 			// Send wolf or grow wool
-			// Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
+			// TODO Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
 			wool[num_player]++;
 			break;
 		case 4:
@@ -413,19 +414,19 @@ public class WildWoolMain extends Activity {
 			break;
 		case 3:
 			// Swap or shear
-			// Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
+			// TODO Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
 			sheared_wool[num_player]+=wool[num_player];
 			wool[num_player]=0;
 			break;
 		case 2:
 			// Swap or grow
-			// Eventually: if opponent has 2+ more than me, swap; for now, just grow
+			// TODO Eventually: if opponent has 2+ more than me, swap; for now, just grow
 			wool[num_player]++;
 			break;
 		case 1:
 			// Wolf or grow
-			// Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
+			// TODO Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
 			wool[num_player]++;
 			break;
 		default:
