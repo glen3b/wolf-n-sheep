@@ -172,7 +172,7 @@ public class WildWoolMain extends Activity {
 			int winning_score = -1;
 			String winner = "Nobody";
 			TextView winner_text = (TextView)this.findViewById(R.id.winner);
-			// TODO Use arrays everywhere, so this will work!!!
+			// TODONE Use arrays everywhere, so this will work!!!
 			for (player_num=1; player_num <= num_players; player_num++) {
 				if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
 					winner = "Tie";
