@@ -509,47 +509,15 @@ public class WildWoolMultiplayer extends Activity {
 				+Integer.toString(p4_wool)+","
 				+Integer.toString(p4_wool_sheared);
 		sendMessage(stats);
-		int random_number_p3 = Mathematics.randomNumber(1, 6);
-		int random_number_p4 = Mathematics.randomNumber(1, 6);
-		p3_action(random_number_p3);
-		p4_action(random_number_p4);
+		// int random_number_p3 = Mathematics.randomNumber(1, 6);
+		// int random_number_p4 = Mathematics.randomNumber(1, 6);
+		// TODO CPU Rolls (Copy over from 1P)
+		// TODO Find out how many players there are, and only  do CPU rolls for others
 		p1_wool_text.setText("Your wool: "+Integer.toString(player_wool)+" Your sheared wool: "+Integer.toString(player_wool_sheared));
 	    p2_wool_text.setText("P2 wool: "+Integer.toString(p2_wool)+" P2 sheared wool: "+Integer.toString(p2_wool_sheared));
 	    p3_wool_text.setText("P3 wool: "+Integer.toString(p3_wool)+" P3 sheared wool: "+Integer.toString(p3_wool_sheared));
 	    p4_wool_text.setText("P4 wool: "+Integer.toString(p4_wool)+" P4 sheared wool: "+Integer.toString(p4_wool_sheared));
 		total_wool = player_wool + p2_wool + p3_wool + p4_wool + player_wool_sheared + p2_wool_sheared + p3_wool_sheared + p4_wool_sheared;
-	}
-
-	private void p4_action(int p4_roll) {
-		// TODO P4 Roll
-		
-	}
-
-	private void p3_action(int p3_roll) {
-		// TODO P3 Roll
-		if(p3_roll == 6){
-			// Grow 2 wool
-			p3_wool = p3_wool + 2;
-    	}
-    	else if(p3_roll == 5){
-    		
-    	}
-    	else if(p3_roll == 4){
-    		
-    	}
-    	else if(p3_roll == 3){
-    		
-    	}
-    	else if(p3_roll == 2){
-    		
-    	}
-    	else if(p3_roll == 1){
-    		
-    	}
-		if(p3_wool > max_wool){
-			p3_wool = 5;
-        }
-		
 	}
 
 	protected void shearWool(){
