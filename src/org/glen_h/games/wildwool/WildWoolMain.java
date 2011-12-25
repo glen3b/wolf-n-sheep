@@ -351,12 +351,7 @@ public class WildWoolMain extends Activity {
         		
         	}
           });
-        
-		 p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
-	        p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
-	        p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
-	        p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
-		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
+        updateText();
 		checkIfGameOver();
 	}
 
@@ -364,23 +359,27 @@ public class WildWoolMain extends Activity {
 		int random_number_p2 = Mathematics.randomNumber(1, 6);
 		int random_number_p3 = Mathematics.randomNumber(1, 6);
 		int random_number_p4 = Mathematics.randomNumber(1, 6);
-		p_action(random_number_p2, 2);
-		p_action(random_number_p3, 3);
-		p_action(random_number_p4, 4);
+		p_action(2, random_number_p2);
+		p_action(3, random_number_p3);
+		p_action(4, random_number_p4);
+		updateTextOnly();
+	}
+	
+	private void updateTextOnly() {
 		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
 	    p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
 	    p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
 	    p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
 	}
-	
+
 	/**
 	 * Perform a CPU roll
 	 * @author Matt Husman & Glen Husman
 	 * @param roll The players roll
 	 * @param num_player The player to play for
 	 */
-	protected void p_action(Integer roll, Integer num_player) {
+	protected void p_action(Integer num_player, Integer roll) {
 		// TODO Finish attempt to make a generic other "player action"
 
 		
