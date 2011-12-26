@@ -30,5 +30,7 @@
     <string name="p2">P2</string>
     <string name="p3">P3</string>
     <string name="p4">P4</string>
+    
+    <string name="message">Roll the die!</string>
 
 </resources>

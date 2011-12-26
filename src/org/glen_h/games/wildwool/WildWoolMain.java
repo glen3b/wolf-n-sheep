@@ -120,7 +120,7 @@ public class WildWoolMain extends Activity {
 	     p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
 	     p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
 	     p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
-        text.setText(messages[random_number]);
+        text.setText(getResources().getString(R.string.message));
         this.roll.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
             text.setTextColor(Color.YELLOW);
