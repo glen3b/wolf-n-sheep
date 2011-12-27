@@ -467,10 +467,6 @@ public class WildWoolMain extends Activity {
 	 */
 	private void updateText(){
 	updateTextOnly();
-    p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
-    p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
-    p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
-	total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
 	checkIfGameOver();
 	// Maybe use this code sometime
 	
