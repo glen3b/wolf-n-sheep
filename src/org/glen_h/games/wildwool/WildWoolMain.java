@@ -84,7 +84,9 @@ public class WildWoolMain extends Activity {
 	private TextView p3;
 	private TextView p4;
 	
-	/** Called when the activity is first created. */
+	/** Called when the activity is first created.
+	 * Initializes the TextViews from XML, the roll button, and the player buttons.
+	 * @author Glen Husman & Matt Husmam */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,10 +118,7 @@ public class WildWoolMain extends Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
-		 p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
-	     p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
-	     p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
-	     p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
+		updateTextOnly();
         text.setText(getResources().getString(R.string.message));
         this.roll.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
@@ -187,10 +186,7 @@ public class WildWoolMain extends Activity {
 			winner_text.setVisibility(View.VISIBLE);
 			winner_text.setText(winner+" wins!!");
 			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
-			p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
-	        p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
-	        p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
-	        p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
+			updateTextOnly();
 			gameover =  true;
 		}		
 		else{
@@ -446,7 +442,7 @@ public class WildWoolMain extends Activity {
 	protected void shearWool(){
         sheared_wool[1] = sheared_wool[1] + wool[1];
         wool[1] = 0;
-    	p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
+    	updateTextOnly();
 	}
 	
 	/**
@@ -470,7 +466,7 @@ public class WildWoolMain extends Activity {
 	 * Update the TextView's text for all players wool.
 	 */
 	private void updateText(){
-	p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
+	updateTextOnly();
     p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
     p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
     p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
@@ -503,7 +499,6 @@ public class WildWoolMain extends Activity {
 		final int temp_wool = wool[1];
 		wool[1] = wool[player];
 		wool[player] = temp_wool;
-		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
 		// We might be able to make the "wool_text" into arrays eventually
 		updateText();		
 		}
