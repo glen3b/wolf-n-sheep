@@ -30,7 +30,7 @@ public class WildWoolMain extends android.app.Activity {
     }
     
 	/**
-	Delete this method when multiplayer finished.
+	Delete/deprecate this method when multiplayer finished.
 	Warns the user that multiplayer is unstable.
 	@author Glen Husman
 	*/
