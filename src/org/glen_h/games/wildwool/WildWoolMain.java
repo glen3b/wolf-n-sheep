@@ -2,7 +2,6 @@ package org.glen_h.games.wildwool;
 
 import org.glen_h.libraries.Mathematics;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,7 +20,7 @@ import android.widget.Toast;
  * This is the main, single-player, wild wool activity.
  * @author Glen Husman & Matt Husman
  */
-public class WildWoolMain extends Activity {
+public class WildWoolMain extends android.app.Activity {
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {

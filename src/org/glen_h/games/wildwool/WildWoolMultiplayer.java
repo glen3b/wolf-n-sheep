@@ -2,7 +2,6 @@ package org.glen_h.games.wildwool;
 
 import org.glen_h.libraries.Mathematics;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ import android.widget.Toast;
  * This is the other, multi-player, wild wool activity.
  * @author Glen Husman & Matt Husman
  */
-public class WildWoolMultiplayer extends Activity {
+public class WildWoolMultiplayer extends android.app.Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
