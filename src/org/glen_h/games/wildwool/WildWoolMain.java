@@ -30,16 +30,22 @@ public class WildWoolMain extends Activity {
         return true;
     }
     
+	/**
+	Delete this method when multiplayer finished.
+	Warns the user that multiplayer is unstable.
+	@author Glen Husman
+	*/
+	private void multiplayerUnstableToast(){
+		Toast.makeText(getBaseContext(), "This is highly unstable and not ready for use!!", Toast.LENGTH_LONG).show();
+	}
+	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.multiplayer:
      	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
      	   startActivity(mp);
-           
-           // Delete this block when multiplayer finished
-           Toast.makeText(getBaseContext(), "This is highly unstable and not ready for use!!", Toast.LENGTH_LONG).show();
-           
+           multiplayerUnstableToast();
            return true;
         case R.id.exit:
         	finish();
