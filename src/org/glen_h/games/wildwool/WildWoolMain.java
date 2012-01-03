@@ -41,7 +41,8 @@ public class WildWoolMain extends android.app.Activity {
 	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        Integer item_id = item.getItemId();
+    	switch (item_id) {
         case R.id.multiplayer:
      	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
      	   startActivity(mp);
@@ -413,8 +414,7 @@ public class WildWoolMain extends android.app.Activity {
 			if (wool[num_player] < 2) {
 				wool[num_player]++;
 			} else {
-				sheared_wool[num_player]+=wool[num_player];
-				wool[num_player]=0;
+				shearWool(num_player);
 			}
 			break;
 		case 3:
@@ -443,6 +443,7 @@ public class WildWoolMain extends android.app.Activity {
 
 	/**
 	 * Shears P1's wool.
+	 * @deprecated Use {@link shearWool(int)} instead.
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void shearWool(){
@@ -459,13 +460,9 @@ public class WildWoolMain extends android.app.Activity {
 	protected void shearWool(int num_player){
 		// TODO Verify function works
 		final int wool_old = wool[num_player];
-		if(wool_old != 0){
-			sheared_wool[num_player] += wool_old;
-			wool[num_player] = 0;
-		}
-		else{
-		}
-		updateText();
+		sheared_wool[num_player] += wool_old;
+		wool[num_player] = 0;
+		updateTextOnly();
 	}
 	
 	/**
