@@ -26,6 +26,7 @@ public class WildWoolMain extends android.app.Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        // Catches an inflation error
         try{
         inflater.inflate(R.menu.main_menu, menu);
         }catch(android.view.InflateException error){
