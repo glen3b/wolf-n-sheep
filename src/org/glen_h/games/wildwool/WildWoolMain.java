@@ -28,7 +28,7 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	
 	/**
-	 * 
+	 * Gets gameplay data.
 	 * @param data_get The data to get (SHEARED_WOOL or WOOL)
 	 * @param num_player_data The player to get the data for
 	 * @return The data
@@ -42,6 +42,23 @@ public class WildWoolMain extends android.app.Activity {
             	return sheared_wool[num_player_data];
             default:
             	return -1;
+        	}
+        }
+	
+	/**
+	 * Sets gameplay data as specified by {@code data} and {@code data_set}.
+	 * @param data_set The data to set to
+	 * @param num_player_data The player's data to change
+	 * @param data What data to set
+	 */
+	protected void setData(Data data_set, Integer num_player_data, Integer data) {
+        switch (data_set) {
+            case WOOL:
+                    
+            case SHEARED_WOOL:
+            
+            default:
+
         	}
         }
 	
