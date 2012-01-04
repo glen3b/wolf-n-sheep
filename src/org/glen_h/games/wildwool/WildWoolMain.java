@@ -65,7 +65,7 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param data What data to set
 	 */
 	protected void setData(Data data_set, Integer num_player_data, Integer data) {
-        // TODO Finish method!
+        // TODO: Finish method!
 		switch (data_set) {
             case WOOL:
                     
