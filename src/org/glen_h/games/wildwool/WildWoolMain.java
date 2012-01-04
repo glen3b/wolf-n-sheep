@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class WildWoolMain extends android.app.Activity {
 
 	protected enum Data {
-	    WOOL, SHEARED_WOOL
+	    WOOL, SHEARED_WOOL, MAX_WOOL, MAX_TOTAL_WOOL, PLAYERS
 	}
 	
 	/**
@@ -40,6 +40,12 @@ public class WildWoolMain extends android.app.Activity {
                     
             case SHEARED_WOOL:
             	return sheared_wool[num_player_data];
+            case MAX_WOOL:
+            	return max_wool;
+            case MAX_TOTAL_WOOL:
+            	return max_total_wool;
+            case PLAYERS:
+            	return num_players;
             default:
             	return -1;
         	}
@@ -52,7 +58,8 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param data What data to set
 	 */
 	protected void setData(Data data_set, Integer num_player_data, Integer data) {
-        switch (data_set) {
+        // TODO Finish method!
+		switch (data_set) {
             case WOOL:
                     
             case SHEARED_WOOL:
