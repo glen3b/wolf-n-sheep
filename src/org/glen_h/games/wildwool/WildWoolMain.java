@@ -23,6 +23,13 @@ import android.widget.Toast;
  */
 public class WildWoolMain extends android.app.Activity {
 
+	/**
+	 * Possible data types in the game.
+	 * @author Glen Husman
+	 * @see getData(Data, Integer)
+	 * @see setData(Data, Integer, Integer)
+	 *
+	 */
 	protected enum Data {
 	    WOOL, SHEARED_WOOL, MAX_WOOL, MAX_TOTAL_WOOL, PLAYERS
 	}
