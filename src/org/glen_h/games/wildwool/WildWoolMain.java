@@ -23,6 +23,28 @@ import android.widget.Toast;
  */
 public class WildWoolMain extends android.app.Activity {
 
+	protected enum Data {
+	    WOOL, SHEARED_WOOL
+	}
+	
+	/**
+	 * 
+	 * @param data_get The data to get (SHEARED_WOOL or WOOL)
+	 * @param num_player_data The player to get the data for
+	 * @return The data
+	 */
+	protected int getData(Data data_get, Integer num_player_data) {
+        switch (data_get) {
+            case WOOL:
+            	return wool[num_player_data];
+                    
+            case SHEARED_WOOL:
+            	return sheared_wool[num_player_data];
+            default:
+            	return -1;
+        	}
+        }
+	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
