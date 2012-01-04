@@ -185,21 +185,22 @@ public class WildWoolMain extends android.app.Activity {
         text.setTextColor(Color.GREEN);
 		updateTextOnly();
         text.setText(getResources().getString(R.string.message));
-        this.roll.setOnClickListener(new OnClickListener() {
-          public void onClick(View v) {
-            text.setTextColor(Color.YELLOW);
-        	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-        	random_number = Mathematics.randomNumber(1, 6);
-        	makeInvisible();
-    		roll();
-            text.setText(messages[random_number]);
-        	}
-        	else{
-        	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
-        	}
-        	checkIfGameOver();
-          }
-        });
+        OnClickListener roll_action = new OnClickListener() {
+            public void onClick(View v) {
+                text.setTextColor(Color.YELLOW);
+            	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
+            	random_number = Mathematics.randomNumber(1, 6);
+            	makeInvisible();
+        		roll();
+                text.setText(messages[random_number]);
+            	}
+            	else{
+            	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
+            	}
+            	checkIfGameOver();
+              }
+            };
+        this.roll.setOnClickListener(roll_action);
         }
     /**
      * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
@@ -318,7 +319,7 @@ public class WildWoolMain extends android.app.Activity {
     	}
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	shearWool();
+            	shearWool(1);
             	makeInvisible();
         		otherplayerrolls();
             }
@@ -517,6 +518,7 @@ public class WildWoolMain extends android.app.Activity {
 	 */
 	protected void shearWool(int num_player){
 		// TODO Verify function works
+		// FIXME Throws ArrayIndexOutOfBoundsException (or something does when using this)
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
