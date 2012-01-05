@@ -20,7 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This is the other, multi-player, wild wool activity.
+ * This is the multi-player wild wool activity.
+ * For the moment, it is unfinished.
  * @author Glen Husman & Matt Husman
  */
 public class WildWoolMultiplayer extends android.app.Activity {
