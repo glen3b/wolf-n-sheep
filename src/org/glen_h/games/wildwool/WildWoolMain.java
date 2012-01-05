@@ -40,7 +40,7 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param num_player_data The player to get the data for
 	 * @return The data
 	 */
-	protected int getData(Data data_get, Integer num_player_data) {
+	int getData(Data data_get, Integer num_player_data) {
         switch (data_get) {
             case WOOL:
             	return wool[num_player_data];
@@ -64,15 +64,17 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param num_player_data The player's data to change
 	 * @param data What data to set
 	 */
-	protected void setData(Data data_set, Integer num_player_data, Integer data) {
+	void setData(Data data_set, Integer num_player_data, Integer data) {
         // TODO: Finish method!
 		switch (data_set) {
             case WOOL:
-                    
+            	wool[num_player_data] = data;
+            	break;
             case SHEARED_WOOL:
-            
+            	sheared_wool[num_player_data] = data;
+            	break;
             default:
-
+            	break;
         	}
         }
 	
