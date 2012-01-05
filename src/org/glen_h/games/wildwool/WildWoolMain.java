@@ -214,13 +214,10 @@ public class WildWoolMain extends android.app.Activity {
 			// Game over!
 			text.setText("Game over!");
 			text.setTextColor(Color.GREEN);
-			shearWool();
-    		sheared_wool[4] = sheared_wool[4] + wool[4];
-        	wool[4] = 0;
-    		sheared_wool[3] = sheared_wool[3] + wool[3];
-        	wool[3] = 0;
-    		sheared_wool[2] = sheared_wool[2] + wool[2];
-        	wool[2] = 0;
+			shearWool(1);
+        	shearWool(2);
+        	shearWool(3);
+			shearWool(4);
 			roll.setVisibility(View.VISIBLE);
 			makeInvisible();
 			roll.setText("Restart");
