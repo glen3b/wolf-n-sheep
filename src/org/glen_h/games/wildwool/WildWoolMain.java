@@ -248,7 +248,7 @@ public class WildWoolMain extends android.app.Activity {
 			p4.setVisibility(View.GONE);
 			winner_text.setVisibility(View.VISIBLE);
 			winner_text.setText(winner+" wins!!");
-			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
+			Toast.makeText(getBaseContext(), "Game over! Congratulations, "+winner+"!", Toast.LENGTH_LONG).show();
 			updateTextOnly();
 			gameover =  true;
 		}		
