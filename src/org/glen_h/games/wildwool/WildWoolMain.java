@@ -259,7 +259,10 @@ public class WildWoolMain extends android.app.Activity {
 		return gameover;
 	}
  
-	
+	/**
+	 * Clear all visible buttons (wolf, grow, shear, and swap).
+	 * Changes the visibility states of the action buttons to View.GONE.
+	 */
 	private void makeInvisible() {
 		// Clear all visible buttons
 		wolf.setVisibility(View.GONE);
@@ -273,9 +276,8 @@ public class WildWoolMain extends android.app.Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
-		if(wool[1] >= max_wool){
-        	sheared_wool[1] += wool[1];
-			wool[1] = 0;
+		if(getData(Data.WOOL, 1) >= max_wool){
+        	shearWool(1);
         	/** TODO Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 */
@@ -285,7 +287,7 @@ public class WildWoolMain extends android.app.Activity {
     			wool[num_player] = 0;
     		}
     		*/
-        	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_SHORT).show();
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
         }
 		if(random_number == 6){
@@ -515,7 +517,7 @@ public class WildWoolMain extends android.app.Activity {
 	 */
 	protected void shearWool(int num_player){
 		// TODO Verify function works
-		// FIXME Throws ArrayIndexOutOfBoundsException (or something does when using this)
+		// XXX Verify that this throws ArrayIndexOutOfBoundsException (or something does when using this). I think it has to do with player_num.
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
