@@ -60,7 +60,6 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param data What data to set
 	 */
 	void setData(Data data_set, Integer num_player_data, Integer data) {
-        // TODO: Finish method!
 		switch (data_set) {
             case WOOL:
             	wool[num_player_data] = data;
@@ -68,10 +67,28 @@ public class WildWoolMain extends android.app.Activity {
             case SHEARED_WOOL:
             	sheared_wool[num_player_data] = data;
             	break;
+            case PLAYERS:
+            	setData(Data.PLAYERS, data);
+            	break;
             default:
             	break;
         	}
         }
+        
+	/**
+	 * Sets non-player-specific gameplay data as specified by {@code data} and {@code data_set}.
+	 * @param data_set The data to set to
+	 * @param data What data to set
+	 */
+	void setData(Data data_set, Integer data){
+		switch (data_set) {
+        case PLAYERS:
+        	num_players = data;
+        	break;
+        default:
+        	break;
+    	}
+	}
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
