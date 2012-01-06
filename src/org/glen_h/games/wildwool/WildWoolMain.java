@@ -38,7 +38,7 @@ public class WildWoolMain extends android.app.Activity {
 	 * Gets gameplay data.
 	 * @param data_get The data to get (SHEARED_WOOL or WOOL)
 	 * @param num_player_data The player to get the data for
-	 * @return The data
+	 * @return The data. -1 if invalid (default in switch).
 	 */
 	int getData(Data data_get, Integer num_player_data) {
         switch (data_get) {
