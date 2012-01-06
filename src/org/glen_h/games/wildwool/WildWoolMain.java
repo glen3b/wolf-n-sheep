@@ -31,7 +31,7 @@ public class WildWoolMain extends android.app.Activity {
 	 *
 	 */
 	protected enum Data {
-	    WOOL, SHEARED_WOOL, MAX_WOOL, MAX_TOTAL_WOOL, PLAYERS
+	    WOOL, SHEARED_WOOL, PLAYERS
 	}
 	
 	/**
@@ -44,13 +44,8 @@ public class WildWoolMain extends android.app.Activity {
         switch (data_get) {
             case WOOL:
             	return wool[num_player_data];
-                    
             case SHEARED_WOOL:
             	return sheared_wool[num_player_data];
-            case MAX_WOOL:
-            	return max_wool;
-            case MAX_TOTAL_WOOL:
-            	return max_total_wool;
             case PLAYERS:
             	return num_players;
             default:
