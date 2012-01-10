@@ -160,7 +160,7 @@ public class WildWoolMain extends android.app.Activity {
         // FIXME Computer Rolls
         // FIXME Dice entries incorrect (see messages variable declaration)
         // Note to self: Icon in public domain, see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg
-        
+
         for (player_num=1; player_num <= num_players; player_num++) {
         	wool[player_num] = 0;
         	sheared_wool[player_num] = 0;
