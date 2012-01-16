@@ -6,10 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -79,8 +75,8 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+		android.view.MenuInflater inflater = getMenuInflater();
         // Catches an inflation error
         try{
         inflater.inflate(R.menu.main_menu, menu);
@@ -100,7 +96,7 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         Integer item_id = item.getItemId();
     	switch (item_id) {
         case R.id.multiplayer:
@@ -150,12 +146,12 @@ public class WildWoolMain extends android.app.Activity {
 	private TextView p2;
 	private TextView p3;
 	private TextView p4;
-	
+		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
 	 * @author Glen Husman & Matt Husmam */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // FIXME Computer Rolls
         // FIXME Dice entries incorrect (see messages variable declaration)
@@ -171,7 +167,7 @@ public class WildWoolMain extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-
+        
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
