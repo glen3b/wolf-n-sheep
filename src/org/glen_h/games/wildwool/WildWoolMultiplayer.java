@@ -20,7 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This is the other, multi-player, wild wool activity.
+ * This is the multi-player wild wool activity.
+ * For the moment, it is unfinished.
  * @author Glen Husman & Matt Husman
  */
 public class WildWoolMultiplayer extends android.app.Activity {
@@ -160,15 +161,18 @@ public class WildWoolMultiplayer extends android.app.Activity {
 	                if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 	                switch (msg.arg1) {
 	                case BluetoothChatService.STATE_CONNECTED:
-	                    mTitle.setText(R.string.title_connected_to);
+	                	Log.w(TAG, mtitle_error_log);
+	                	mTitle.setText(R.string.title_connected_to);
 	                    mTitle.append(mConnectedDeviceName);
 	                    mConversationArrayAdapter.clear();
 	                    break;
 	                case BluetoothChatService.STATE_CONNECTING:
-	                    mTitle.setText(R.string.title_connecting);
+	                	Log.w(TAG, mtitle_error_log);
+	                	mTitle.setText(R.string.title_connecting);
 	                    break;
 	                case BluetoothChatService.STATE_LISTEN:
 	                case BluetoothChatService.STATE_NONE:
+	                	Log.w(TAG, mtitle_error_log);
 	                	mTitle.setText(R.string.title_not_connected);
 	                    break;
 	                }
@@ -199,6 +203,8 @@ public class WildWoolMultiplayer extends android.app.Activity {
 	        }
 	    };
 	
+	String mtitle_error_log;
+	    
 	public void initialize(){
         // Initialize the array adapter for the conversation thread
         mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
@@ -215,6 +221,7 @@ public class WildWoolMultiplayer extends android.app.Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        mtitle_error_log = "mTitle is (probably) null, about to throw exception";
         player_wool = 0;
         p2_wool = 0;
         p3_wool = 0;

@@ -1,16 +1,11 @@
 package org.glen_h.games.wildwool;
 
 import org.glen_h.libraries.Mathematics;
-import org.glen_h.games.wildwool.R;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,35 +17,19 @@ import android.widget.Toast;
  * @author Glen Husman & Matt Husman
  */
 public class WildWoolMain extends android.app.Activity {
-
-	/**
-	 * Possible data types in the game.
-	 * @author Glen Husman
-	 * @see getData(Data, Integer)
-	 * @see setData(Data, Integer, Integer)
-	 *
-	 */
-	protected enum Data {
-	    WOOL, SHEARED_WOOL, MAX_WOOL, MAX_TOTAL_WOOL, PLAYERS
-	}
 	
 	/**
 	 * Gets gameplay data.
 	 * @param data_get The data to get (SHEARED_WOOL or WOOL)
 	 * @param num_player_data The player to get the data for
-	 * @return The data
+	 * @return The data. -1 if invalid (default in switch).
 	 */
-	protected int getData(Data data_get, Integer num_player_data) {
+	int getData(Data data_get, Integer num_player_data) {
         switch (data_get) {
             case WOOL:
             	return wool[num_player_data];
-                    
             case SHEARED_WOOL:
             	return sheared_wool[num_player_data];
-            case MAX_WOOL:
-            	return max_wool;
-            case MAX_TOTAL_WOOL:
-            	return max_total_wool;
             case PLAYERS:
             	return num_players;
             default:
@@ -64,21 +43,40 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param num_player_data The player's data to change
 	 * @param data What data to set
 	 */
-	protected void setData(Data data_set, Integer num_player_data, Integer data) {
-        // TODO: Finish method!
+	void setData(Data data_set, Integer num_player_data, Integer data) {
 		switch (data_set) {
             case WOOL:
-                    
+            	wool[num_player_data] = data;
+            	break;
             case SHEARED_WOOL:
-            
+            	sheared_wool[num_player_data] = data;
+            	break;
+            case PLAYERS:
+            	setData(Data.PLAYERS, data);
+            	break;
             default:
-
+            	break;
         	}
         }
+        
+	/**
+	 * Sets non-player-specific gameplay data as specified by {@code data} and {@code data_set}.
+	 * @param data_set The data to set to
+	 * @param data What data to set
+	 */
+	void setData(Data data_set, Integer data){
+		switch (data_set) {
+        case PLAYERS:
+        	num_players = data;
+        	break;
+        default:
+        	break;
+    	}
+	}
 	
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+		android.view.MenuInflater inflater = getMenuInflater();
         // Catches an inflation error
         try{
         inflater.inflate(R.menu.main_menu, menu);
@@ -98,7 +96,7 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
         Integer item_id = item.getItemId();
     	switch (item_id) {
         case R.id.multiplayer:
@@ -148,17 +146,17 @@ public class WildWoolMain extends android.app.Activity {
 	private TextView p2;
 	private TextView p3;
 	private TextView p4;
-	
+		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
 	 * @author Glen Husman & Matt Husmam */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // FIXME Computer Rolls
         // FIXME Dice entries incorrect (see messages variable declaration)
-        // Note to self: Icon in public domain, see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg
-        
+        // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
+
         for (player_num=1; player_num <= num_players; player_num++) {
         	wool[player_num] = 0;
         	sheared_wool[player_num] = 0;
@@ -169,7 +167,7 @@ public class WildWoolMain extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-
+        
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -185,21 +183,22 @@ public class WildWoolMain extends android.app.Activity {
         text.setTextColor(Color.GREEN);
 		updateTextOnly();
         text.setText(getResources().getString(R.string.message));
-        this.roll.setOnClickListener(new OnClickListener() {
-          public void onClick(View v) {
-            text.setTextColor(Color.YELLOW);
-        	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-        	random_number = Mathematics.randomNumber(1, 6);
-        	makeInvisible();
-    		roll();
-            text.setText(messages[random_number]);
-        	}
-        	else{
-        	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
-        	}
-        	checkIfGameOver();
-          }
-        });
+        OnClickListener roll_action = new OnClickListener() {
+            public void onClick(View v) {
+                text.setTextColor(Color.YELLOW);
+            	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
+            	random_number = Mathematics.randomNumber(1, 6);
+            	makeInvisible();
+        		roll();
+                text.setText(messages[random_number]);
+            	}
+            	else{
+            	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
+            	}
+            	checkIfGameOver();
+              }
+            };
+        this.roll.setOnClickListener(roll_action);
         }
     /**
      * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
@@ -213,13 +212,10 @@ public class WildWoolMain extends android.app.Activity {
 			// Game over!
 			text.setText("Game over!");
 			text.setTextColor(Color.GREEN);
-			shearWool();
-    		sheared_wool[4] = sheared_wool[4] + wool[4];
-        	wool[4] = 0;
-    		sheared_wool[3] = sheared_wool[3] + wool[3];
-        	wool[3] = 0;
-    		sheared_wool[2] = sheared_wool[2] + wool[2];
-        	wool[2] = 0;
+			shearWool(1);
+        	shearWool(2);
+        	shearWool(3);
+			shearWool(4);
 			roll.setVisibility(View.VISIBLE);
 			makeInvisible();
 			roll.setText("Restart");
@@ -250,7 +246,7 @@ public class WildWoolMain extends android.app.Activity {
 			p4.setVisibility(View.GONE);
 			winner_text.setVisibility(View.VISIBLE);
 			winner_text.setText(winner+" wins!!");
-			Toast.makeText(getBaseContext(), "Game over!", Toast.LENGTH_LONG).show();
+			Toast.makeText(getBaseContext(), "Game over! Congratulations, "+winner+"!", Toast.LENGTH_LONG).show();
 			updateTextOnly();
 			gameover =  true;
 		}		
@@ -261,7 +257,10 @@ public class WildWoolMain extends android.app.Activity {
 		return gameover;
 	}
  
-	
+	/**
+	 * Clear all visible buttons (wolf, grow, shear, and swap).
+	 * Changes the visibility states of the action buttons to View.GONE.
+	 */
 	private void makeInvisible() {
 		// Clear all visible buttons
 		wolf.setVisibility(View.GONE);
@@ -275,9 +274,8 @@ public class WildWoolMain extends android.app.Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
-		if(wool[1] >= max_wool){
-        	sheared_wool[1] += wool[1];
-			wool[1] = 0;
+		if(getData(Data.WOOL, 1) >= max_wool){
+        	shearWool(1);
         	/** TODO Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 */
@@ -287,7 +285,7 @@ public class WildWoolMain extends android.app.Activity {
     			wool[num_player] = 0;
     		}
     		*/
-        	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_SHORT).show();
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
         }
 		if(random_number == 6){
@@ -318,7 +316,7 @@ public class WildWoolMain extends android.app.Activity {
     	}
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	shearWool();
+            	shearWool(1);
             	makeInvisible();
         		otherplayerrolls();
             }
@@ -427,11 +425,11 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	
 	private void updateTextOnly() {
-		p1_wool_text.setText("Your wool: "+Integer.toString(wool[1])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
-	    p2_wool_text.setText("P2 wool: "+Integer.toString(wool[2])+" P2 sheared wool: "+Integer.toString(sheared_wool[2]));
-	    p3_wool_text.setText("P3 wool: "+Integer.toString(wool[3])+" P3 sheared wool: "+Integer.toString(sheared_wool[3]));
-	    p4_wool_text.setText("P4 wool: "+Integer.toString(wool[4])+" P4 sheared wool: "+Integer.toString(sheared_wool[4]));
-		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
+		p1_wool_text.setText("Your wool: "+Integer.toString(getData(Data.WOOL, 1))+" Your sheared wool: "+Integer.toString(getData(Data.SHEARED_WOOL, 1)));
+	    p2_wool_text.setText("P2 wool: "+Integer.toString(getData(Data.WOOL, 2))+" P2 sheared wool: "+Integer.toString(getData(Data.SHEARED_WOOL, 2)));
+	    p3_wool_text.setText("P3 wool: "+Integer.toString(getData(Data.WOOL, 3))+" P3 sheared wool: "+Integer.toString(getData(Data.SHEARED_WOOL, 3)));
+	    p4_wool_text.setText("P4 wool: "+Integer.toString(getData(Data.WOOL, 4))+" P4 sheared wool: "+Integer.toString(getData(Data.SHEARED_WOOL, 4)));
+		total_wool = getData(Data.WOOL, 1) + getData(Data.WOOL, 2) + getData(Data.WOOL, 3) + getData(Data.WOOL, 4) + getData(Data.SHEARED_WOOL, 1) + getData(Data.SHEARED_WOOL, 2) + getData(Data.SHEARED_WOOL, 3) + getData(Data.SHEARED_WOOL, 4);
 	}
 
 	/**
@@ -517,6 +515,7 @@ public class WildWoolMain extends android.app.Activity {
 	 */
 	protected void shearWool(int num_player){
 		// TODO Verify function works
+		// XXX Verify that this throws ArrayIndexOutOfBoundsException (or something does when using this). I think it has to do with player_num.
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
