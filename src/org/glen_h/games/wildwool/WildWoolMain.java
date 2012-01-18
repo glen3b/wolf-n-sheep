@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -111,14 +112,14 @@ public class WildWoolMain extends android.app.Activity {
         return false;
     }
 	
-	  private int random_number = 0;
+	  private Integer random_number = 0;
 	  private Button roll;
 
 	  private int wool[] = new int[5];
 	  private int sheared_wool[] = new int[5];
 	  private int player_num;
 	  private int num_players = 4;
-	  
+	  private String TAG;
 	  private int total_wool;
       private final int max_wool = 5;
       private final int max_total_wool = 25;
@@ -167,7 +168,7 @@ public class WildWoolMain extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-        
+        TAG = "WildWoolMain";
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -188,6 +189,7 @@ public class WildWoolMain extends android.app.Activity {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = Mathematics.randomNumber(1, 6);
+				Log.i(TAG, "Player (P1) rolled "+random_number.toString());
             	makeInvisible();
         		roll();
                 text.setText(messages[random_number]);
