@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -189,7 +188,7 @@ public class WildWoolMain extends android.app.Activity {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = Mathematics.randomNumber(1, 6);
-				Log.i(TAG, "Player (P1) rolled "+random_number.toString());
+            	android.util.Log.i(TAG, "Player (P1) rolled "+random_number.toString());
             	makeInvisible();
         		roll();
                 text.setText(messages[random_number]);
