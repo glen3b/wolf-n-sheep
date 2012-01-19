@@ -188,7 +188,7 @@ public class WildWoolMain extends android.app.Activity {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = Mathematics.randomNumber(1, 6);
-            	android.util.Log.i(TAG, "Player (P1) rolled "+random_number.toString());
+            	android.util.Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
         		roll();
                 text.setText(messages[random_number]);
@@ -229,14 +229,14 @@ public class WildWoolMain extends android.app.Activity {
 				    overridePendingTransition(0, 0);
 				    startActivity(intent);
 				}});
-			
+			String tie_text = "Tie";
 			int winning_score = -1;
 			String winner = "Nobody";
 			TextView winner_text = (TextView)this.findViewById(R.id.winner);
 			// TODONE Use arrays everywhere, so this will work!!!
 			for (player_num=1; player_num <= num_players; player_num++) {
 				if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
-					winner = "Tie";
+					winner = tie_text;
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
 					winning_score = wool[player_num]+sheared_wool[player_num];
@@ -246,8 +246,14 @@ public class WildWoolMain extends android.app.Activity {
 			p3.setVisibility(View.GONE);
 			p4.setVisibility(View.GONE);
 			winner_text.setVisibility(View.VISIBLE);
+			if(winner == tie_text){
+				winner_text.setText("Tie!!");
+				Toast.makeText(getBaseContext(), "Game over! Tie!!", Toast.LENGTH_LONG).show();
+			}
+			else{
 			winner_text.setText(winner+" wins!!");
 			Toast.makeText(getBaseContext(), "Game over! Congratulations, "+winner+"!", Toast.LENGTH_LONG).show();
+			}
 			updateTextOnly();
 			gameover =  true;
 		}		
