@@ -22,39 +22,77 @@
         android:layout_height="2dip"
         android:background="#2C33EC"
         />
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="100dip"
+    >
+
+    <TableRow android:gravity="left" android:layout_gravity="left">
+         <TextView
+            android:text="@string/player"
+            android:textStyle="bold"
+            android:gravity="left"
+            android:layout_gravity="left"
+            />
+        <!-- 
+        <TextView
+            android:text="@string/wool"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+             -->
+        <TextView
+            android:text="@string/wool_sheared"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:layout_gravity="right"
+            />
+    </TableRow>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="#2C33EC"
+        />
+
+    <TableRow>
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/p1_wool"
-        android:background="#FFFFFF"
-        android:textColor="#000000"
         android:textStyle="bold"
         android:visibility="visible"
          />
+    </TableRow>
+
+    <TableRow>
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/p2_wool"
-        android:background="#FFFFFF"
-        android:textColor="#000000"
         android:visibility="visible"
          />
+    </TableRow>
+
+    <TableRow>
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/p3_wool"
-        android:background="#FFFFFF"
-        android:textColor="#000000"
         android:visibility="visible"
          />
+    </TableRow>
+    
+    <TableRow>
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/p4_wool"
-        android:background="#FFFFFF"
-        android:textColor="#000000"
         android:visibility="visible"
          />
+    </TableRow>
+</TableLayout>
         <View
         android:layout_width="fill_parent"
         android:layout_height="3dip"

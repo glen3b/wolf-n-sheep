@@ -9,5 +9,7 @@
     <string name="swap">canje de las ovejas</string>
     <string name="roll_die">Tira el dado!</string>
     <string name="roll">rollo</string>
+    <string name="player">jugador</string>
+    <string name="wool">lana</string>
     
 </resources>

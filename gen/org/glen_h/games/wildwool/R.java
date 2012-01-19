@@ -66,6 +66,7 @@ public final class R {
         public static final int p2=0x7f040015;
         public static final int p3=0x7f040016;
         public static final int p4=0x7f040017;
+        public static final int player=0x7f040019;
         public static final int roll=0x7f04000f;
         public static final int roll_die=0x7f04000e;
         /**   DeviceListActivity 
@@ -81,5 +82,7 @@ public final class R {
         public static final int title_paired_devices=0x7f040009;
         public static final int winner_unknown=0x7f040011;
         public static final int wolf=0x7f040013;
+        public static final int wool=0x7f04001a;
+        public static final int wool_sheared=0x7f04001b;
     }
 }
