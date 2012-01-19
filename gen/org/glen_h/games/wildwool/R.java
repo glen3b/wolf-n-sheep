@@ -82,7 +82,8 @@ public final class R {
         public static final int title_paired_devices=0x7f040009;
         public static final int winner_unknown=0x7f040011;
         public static final int wolf=0x7f040013;
-        public static final int wool=0x7f04001a;
-        public static final int wool_sheared=0x7f04001b;
+        /**  <string name="wool">Wool</string> 
+         */
+        public static final int wool_sheared=0x7f04001a;
     }
 }
