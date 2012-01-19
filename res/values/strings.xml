@@ -33,7 +33,6 @@
     
     <string name="message">Roll the die!</string>
     <string name="player">Player</string>
-    <!-- <string name="wool">Wool</string> -->
-    <string name="wool_sheared">Sheared Wool</string>
+    <string name="wool_sheared">Wool/Sheared Wool</string>
 
 </resources>

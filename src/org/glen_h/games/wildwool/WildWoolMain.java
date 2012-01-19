@@ -378,7 +378,7 @@ public class WildWoolMain extends android.app.Activity {
                 	wool[1] = max_wool;
                 	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
                 }
-            	p1_wool_text.setText("Your wool: "+Integer.toString(wool[2])+" Your sheared wool: "+Integer.toString(sheared_wool[1]));
+            	updateTextOnly();
             	makeInvisible();
         		otherplayerrolls();
 
