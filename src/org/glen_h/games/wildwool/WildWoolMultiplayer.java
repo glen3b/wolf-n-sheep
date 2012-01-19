@@ -1,7 +1,5 @@
 package org.glen_h.games.wildwool;
 
-import org.glen_h.libraries.Mathematics;
-
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -216,7 +214,20 @@ public class WildWoolMultiplayer extends android.app.Activity {
         mOutStringBuffer = new StringBuffer("");
 	}
 	    
-	 /** Called when the activity is first created. */
+	/**
+	 * Generate a random {@code int} between {@code Min} and {@code Max}.
+	 * @param Min
+	 * 	The minimum integer.
+	 * @param Max
+	 * 	The maximum integer.
+	 * @author Glen Husman
+	 */
+	protected int randomNumber(int Min, int Max){
+		  int randomNum = Min + (int)(Math.random() * ((Max - Min) + 1));
+		  return randomNum;
+	} 
+	
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -246,7 +257,7 @@ public class WildWoolMultiplayer extends android.app.Activity {
         this.roll.setOnClickListener(new OnClickListener() {
           public void onClick(View v) {
         	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-        	  random_number = Mathematics.randomNumber(1, 6);
+        	  random_number = randomNumber(1, 6);
         	wolf.setVisibility(View.GONE);
     		grow.setVisibility(View.GONE);
     		shear.setVisibility(View.GONE);

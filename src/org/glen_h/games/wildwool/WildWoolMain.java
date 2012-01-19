@@ -1,7 +1,5 @@
 package org.glen_h.games.wildwool;
 
-import org.glen_h.libraries.Mathematics;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -187,7 +185,7 @@ public class WildWoolMain extends android.app.Activity {
             public void onClick(View v) {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-            	random_number = Mathematics.randomNumber(1, 6);
+            	random_number = randomNumber(1, 6);
             	android.util.Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
         		roll();
@@ -422,13 +420,26 @@ public class WildWoolMain extends android.app.Activity {
 	}
 
 	protected void otherplayerrolls() {
-		int random_number_p2 = Mathematics.randomNumber(1, 6);
-		int random_number_p3 = Mathematics.randomNumber(1, 6);
-		int random_number_p4 = Mathematics.randomNumber(1, 6);
+		int random_number_p2 = randomNumber(1, 6);
+		int random_number_p3 = randomNumber(1, 6);
+		int random_number_p4 = randomNumber(1, 6);
 		p_action(2, random_number_p2);
 		p_action(3, random_number_p3);
 		p_action(4, random_number_p4);
 		updateTextOnly();
+	}
+	
+	/**
+	 * Generate a random {@code int} between {@code Min} and {@code Max}.
+	 * @param Min
+	 * 	The minimum integer.
+	 * @param Max
+	 * 	The maximum integer.
+	 * @author Glen Husman
+	 */
+	protected int randomNumber(int Min, int Max){
+		  int randomNum = Min + (int)(Math.random() * ((Max - Min) + 1));
+		  return randomNum;
 	}
 	
 	private void updateTextOnly() {
