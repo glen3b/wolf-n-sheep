@@ -165,6 +165,7 @@ public class WildWoolMain extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
+
         TAG = "WildWoolMain";
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
@@ -180,6 +181,58 @@ public class WildWoolMain extends android.app.Activity {
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
 		updateTextOnly();
+		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alert4 = new AlertDialog.Builder(this);
+		p1_wool_text.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	alert.setTitle("Player info");
+        		alert.setMessage("Your wool: "+getData(Data.WOOL, 1)+"\n"+"Your sheared wool: "+getData(Data.SHEARED_WOOL, 1));
+        		alert.setNeutralButton("OK",
+        				new DialogInterface.OnClickListener() {
+        					public void onClick(DialogInterface dialog, int whichButton) {
+        					}
+        				});
+        		alert.show();
+              }
+            });
+		p2_wool_text.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	alert2.setTitle("Player info");
+            	alert2.setMessage("P2's wool: "+getData(Data.WOOL, 2)+"\n"+"P2's sheared wool: "+getData(Data.SHEARED_WOOL, 2));
+            	alert2.setNeutralButton("OK",
+        				new DialogInterface.OnClickListener() {
+        					public void onClick(DialogInterface dialog, int whichButton) {
+        					}
+        				});
+            	alert2.show();
+              }
+            });
+		p3_wool_text.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	alert3.setTitle("Player info");
+            	alert3.setMessage("P3's wool: "+getData(Data.WOOL, 3)+"\n"+"P3's sheared wool: "+getData(Data.SHEARED_WOOL, 3));
+            	alert3.setNeutralButton("OK",
+        				new DialogInterface.OnClickListener() {
+        					public void onClick(DialogInterface dialog, int whichButton) {
+        					}
+        				});
+            	alert3.show();
+              }
+            });
+		p4_wool_text.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	alert4.setTitle("Player info");
+            	alert4.setMessage("P4's wool: "+getData(Data.WOOL, 4)+"\n"+"P4's sheared wool: "+getData(Data.SHEARED_WOOL, 4));
+            	alert4.setNeutralButton("OK",
+        				new DialogInterface.OnClickListener() {
+        					public void onClick(DialogInterface dialog, int whichButton) {
+        					}
+        				});
+            	alert4.show();
+              }
+            });
         text.setText(getResources().getString(R.string.message));
         OnClickListener roll_action = new OnClickListener() {
             public void onClick(View v) {
