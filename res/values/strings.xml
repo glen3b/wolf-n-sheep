@@ -34,5 +34,9 @@
     <string name="message">Roll the die!</string>
     <string name="player">Player</string>
     <string name="wool_sheared">Wool/Sheared Wool</string>
+    <string name="player_one">P1 (You)</string>
+    <string name="player_two">P2</string>
+    <string name="player_three">P3</string>
+    <string name="player_four">P4</string>
 
 </resources>

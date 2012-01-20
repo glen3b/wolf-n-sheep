@@ -52,17 +52,36 @@
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/p1_label"
+        android:text="@string/player_one"
+        android:visibility="visible"
+        android:textStyle="bold"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/p1_wool"
         android:textStyle="bold"
+        android:layout_gravity="right"
         android:visibility="visible"
          />
     </TableRow>
 
     <TableRow>
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p2_label"
+        android:text="@string/player_two"
+        android:visibility="visible"
+         />
+        
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/p2_wool"
+        android:layout_gravity="right"
         android:visibility="visible"
          />
     </TableRow>
@@ -71,7 +90,16 @@
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/p3_label"
+        android:text="@string/player_three"
+        android:visibility="visible"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/p3_wool"
+        android:layout_gravity="right"
         android:visibility="visible"
          />
     </TableRow>
@@ -80,7 +108,16 @@
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/p4_label"
+        android:text="@string/player_four"
+        android:visibility="visible"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/p4_wool"
+        android:layout_gravity="right"
         android:visibility="visible"
          />
     </TableRow>
