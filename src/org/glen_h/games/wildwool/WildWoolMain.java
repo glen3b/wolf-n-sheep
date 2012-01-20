@@ -525,12 +525,13 @@ public class WildWoolMain extends android.app.Activity {
 		// TODO Have an option to enable "special" features not in standard ruleset, like this
 		
 		// Commented because it is not standard rules, can easily make a preference for this.
-		/*
+		// Uncommented because P1 does it
+		
 		if (wool[num_player] == max_wool) {
 			sheared_wool[num_player]+=wool[num_player];
 			wool[num_player] = 0;
 		}
-		*/
+		
 		
 		switch (roll) {
 		case 6:
@@ -539,7 +540,7 @@ public class WildWoolMain extends android.app.Activity {
 			break;
 		case 5:
 			// Send wolf or grow wool
-			// TODO Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
+			// TODO Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
 			wool[num_player]++;
 			break;
 		case 4:
@@ -555,8 +556,7 @@ public class WildWoolMain extends android.app.Activity {
 			// Swap or shear
 			// TODO Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
-			sheared_wool[num_player]+=wool[num_player];
-			wool[num_player]=0;
+			shearWool(num_player);
 			break;
 		case 2:
 			// Swap or grow
