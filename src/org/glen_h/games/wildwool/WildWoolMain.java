@@ -539,7 +539,7 @@ public class WildWoolMain extends android.app.Activity {
 		switch (roll) {
 		case 6:
 			// Grow 2 wool
-			wool[num_player] = wool[num_player]+2;
+			wool[num_player] += 2;
 			break;
 		case 5:
 			// Send wolf or grow wool
@@ -586,7 +586,6 @@ public class WildWoolMain extends android.app.Activity {
 			if(player_wolf_alt > 0 && player_wolf_alt < 5) wool[player_wolf_alt] = 0;
 			else wool[num_player]++;
 			updateTextOnly();
-		default:
 		}
 		if (wool[num_player] > max_wool) {
 			wool[num_player] = max_wool;
