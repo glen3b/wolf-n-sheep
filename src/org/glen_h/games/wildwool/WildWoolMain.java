@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -239,7 +240,7 @@ public class WildWoolMain extends android.app.Activity {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = randomNumber(1, 6);
-            	android.util.Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
+            	Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
         		roll();
                 text.setText(messages[random_number]);
@@ -474,8 +475,11 @@ public class WildWoolMain extends android.app.Activity {
 
 	protected void otherplayerrolls() {
 		int random_number_p2 = randomNumber(1, 6);
+		Log.i(TAG, "Computer 2 (P2) rolled "+Integer.toString(random_number_p2));
 		int random_number_p3 = randomNumber(1, 6);
+		Log.i(TAG, "Computer 3 (P3) rolled "+Integer.toString(random_number_p3));
 		int random_number_p4 = randomNumber(1, 6);
+		Log.i(TAG, "Computer 4 (P4) rolled "+Integer.toString(random_number_p4));
 		p_action(2, random_number_p2);
 		p_action(3, random_number_p3);
 		p_action(4, random_number_p4);
@@ -532,7 +536,6 @@ public class WildWoolMain extends android.app.Activity {
 			wool[num_player] = 0;
 		}
 		
-		
 		switch (roll) {
 		case 6:
 			// Grow 2 wool
@@ -540,8 +543,16 @@ public class WildWoolMain extends android.app.Activity {
 			break;
 		case 5:
 			// Send wolf or grow wool
-			// TODO Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
-			wool[num_player]++;
+			int player_wolf = 0;
+			for(int players_checked = 1;players_checked > 4;players_checked++){
+					if(wool[players_checked] >= 4){
+						player_wolf = players_checked;
+					}
+				  }
+			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
+			if(player_wolf > 0 && player_wolf < 5) wool[player_wolf] = 0;
+			else wool[num_player]++;
+			updateTextOnly();
 			break;
 		case 4:
 			// Shear sheep or grow wool
@@ -564,10 +575,17 @@ public class WildWoolMain extends android.app.Activity {
 			wool[num_player]++;
 			break;
 		case 1:
-			// Wolf or grow
-			// TODO Eventually: if opponent has 4-5 wool, wolf him; for now, just grow
-			wool[num_player]++;
-			break;
+			// Send wolf or grow wool
+			int player_wolf_alt = 0;
+			for(int players_checked = 1;players_checked > 4;players_checked++){
+				if(wool[players_checked] >= 4){
+					player_wolf_alt = players_checked;
+				}
+			}
+			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
+			if(player_wolf_alt > 0 && player_wolf_alt < 5) wool[player_wolf_alt] = 0;
+			else wool[num_player]++;
+			updateTextOnly();
 		default:
 		}
 		if (wool[num_player] > max_wool) {
