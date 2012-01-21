@@ -520,8 +520,7 @@ public class WildWoolMain extends android.app.Activity {
 		// Uncommented because P1 does it
 		
 		if (wool[num_player] == max_wool) {
-			sheared_wool[num_player]+=wool[num_player];
-			wool[num_player] = 0;
+			shearWool(num_player);
 		}
 		
 		switch (roll) {
@@ -551,8 +550,8 @@ public class WildWoolMain extends android.app.Activity {
 			break;
 		case 4:
 			// Shear sheep or grow wool
-			// If 0-1 wool, grow; else, shear
-			if (wool[num_player] < 2) {
+			// If 0-2 wool, grow; else, shear
+			if (wool[num_player] <= 2) {
 				wool[num_player]++;
 				returnvalue = "P"+Integer.toString(num_player)+" grew.";
 			} else {
@@ -562,10 +561,24 @@ public class WildWoolMain extends android.app.Activity {
 			break;
 		case 3:
 			// Swap or shear
-			// TODO Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
+			// TODONE Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
-			shearWool(num_player);
-			returnvalue = "P"+Integer.toString(num_player)+" sheared.";
+			int player_swap = 0;
+			for(int players_checked = 1;players_checked <= 4;players_checked++){
+				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
+					player_swap = players_checked;
+				}
+			}
+			if(getData(Data.WOOL, num_player) > 3 || player_swap == 0){
+				shearWool(num_player);
+				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
+			}else{
+				final int player_swap_old_wool = wool[player_swap];
+				final int num_player_old_wool = wool[num_player];
+				wool[player_swap] = num_player_old_wool;
+				wool[num_player] = player_swap_old_wool;
+				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap)+".";
+			}
 			break;
 		case 2:
 			// Swap or grow
@@ -615,8 +628,8 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param num_player The player whose wool to shear
 	 */
 	protected void shearWool(int num_player){
-		// TODO Verify function works
-		// XXX Verify that this throws ArrayIndexOutOfBoundsException (or something does when using this). I think it has to do with player_num.
+		// TODONE Verify function works
+		// XXXX Verify that this throws ArrayIndexOutOfBoundsException (or something does when using this). I think it has to do with player_num.
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
