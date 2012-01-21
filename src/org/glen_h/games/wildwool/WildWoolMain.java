@@ -352,6 +352,7 @@ public class WildWoolMain extends android.app.Activity {
     		if (wool[1] > max_wool) {
     			wool[1] = max_wool;
     		}
+    		otherplayerrolls();
     	}
     	else if(random_number == 5){
     		wolf.setVisibility(View.VISIBLE);
@@ -475,11 +476,11 @@ public class WildWoolMain extends android.app.Activity {
 
 	protected void otherplayerrolls() {
 		int random_number_p2 = randomNumber(1, 6);
-		Log.i(TAG, "Computer 2 (P2) rolled "+Integer.toString(random_number_p2));
+		Log.i(TAG, "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'");
 		int random_number_p3 = randomNumber(1, 6);
-		Log.i(TAG, "Computer 3 (P3) rolled "+Integer.toString(random_number_p3));
+		Log.i(TAG, "Computer 3 (P3) rolled number "+Integer.toString(random_number_p3)+" on the die, also known as a '"+messages[random_number_p3]+"'");
 		int random_number_p4 = randomNumber(1, 6);
-		Log.i(TAG, "Computer 4 (P4) rolled "+Integer.toString(random_number_p4));
+		Log.i(TAG, "Computer 4 (P4) rolled number "+Integer.toString(random_number_p4)+" on the die, also known as a '"+messages[random_number_p4]+"'");
 		p_action(2, random_number_p2);
 		p_action(3, random_number_p3);
 		p_action(4, random_number_p4);
