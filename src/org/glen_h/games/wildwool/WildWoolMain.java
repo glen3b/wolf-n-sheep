@@ -85,24 +85,29 @@ public class WildWoolMain extends android.app.Activity {
         return true;
     }
     
+
 	/**
 	Warns the user that multiplayer is unstable.
 	XXX Delete/deprecate this method when multiplayer finished.
 	@author Glen Husman
 	*/
+	/*
 	private void multiplayerUnstableToast(){
 		Toast.makeText(getBaseContext(), "This is highly unstable and not ready for use!!", Toast.LENGTH_LONG).show();
 	}
+	*/
 	
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         Integer item_id = item.getItemId();
     	switch (item_id) {
-        case R.id.multiplayer:
+        /*
+    	case R.id.multiplayer:
      	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
      	   startActivity(mp);
            multiplayerUnstableToast();
            return true;
+           */
         case R.id.exit:
         	finish();
         	return true;
@@ -142,9 +147,6 @@ public class WildWoolMain extends android.app.Activity {
 	private TextView p2_wool_text;
 	private TextView p3_wool_text;
 	private TextView p4_wool_text;
-	private TextView p2;
-	private TextView p3;
-	private TextView p4;
 		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -294,9 +296,6 @@ public class WildWoolMain extends android.app.Activity {
 					winning_score = wool[player_num]+sheared_wool[player_num];
 				}
 			}
-			p2.setVisibility(View.GONE);
-			p3.setVisibility(View.GONE);
-			p4.setVisibility(View.GONE);
 			winner_text.setVisibility(View.VISIBLE);
 			if(winner == tie_text){
 				winner_text.setText("Tie!!");
@@ -382,18 +381,12 @@ public class WildWoolMain extends android.app.Activity {
             }
           });
         
-        this.p2 = (TextView)this.findViewById(R.id.p2);
-        this.p3 = (TextView)this.findViewById(R.id.p3);
-        this.p4 = (TextView)this.findViewById(R.id.p4);
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Player selection");
 		alert.setMessage("Player to swap sheep with");
 		alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
             	swap(2);
-            	p2.setVisibility(View.INVISIBLE);
-            	p3.setVisibility(View.INVISIBLE);
-            	p4.setVisibility(View.INVISIBLE);
         		otherplayerrolls();
 			}
 		});
@@ -402,9 +395,6 @@ public class WildWoolMain extends android.app.Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(3);
-                    	p2.setVisibility(View.INVISIBLE);
-                    	p3.setVisibility(View.INVISIBLE);
-                    	p4.setVisibility(View.INVISIBLE);
                 		otherplayerrolls();
 					}
 				});
@@ -412,9 +402,6 @@ public class WildWoolMain extends android.app.Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(4);
-                    	p2.setVisibility(View.INVISIBLE);
-                    	p3.setVisibility(View.INVISIBLE);
-                    	p4.setVisibility(View.INVISIBLE);
                 		otherplayerrolls();
 					}
 				});
@@ -476,14 +463,19 @@ public class WildWoolMain extends android.app.Activity {
 
 	protected void otherplayerrolls() {
 		int random_number_p2 = randomNumber(1, 6);
-		Log.i(TAG, "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'");
+		String p2logtext = "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'";
+		Log.i(TAG, p2logtext);
 		int random_number_p3 = randomNumber(1, 6);
-		Log.i(TAG, "Computer 3 (P3) rolled number "+Integer.toString(random_number_p3)+" on the die, also known as a '"+messages[random_number_p3]+"'");
+		String p3logtext = "Computer 3 (P3) rolled number "+Integer.toString(random_number_p3)+" on the die, also known as a '"+messages[random_number_p3]+"'";
+		Log.i(TAG, p3logtext);
 		int random_number_p4 = randomNumber(1, 6);
-		Log.i(TAG, "Computer 4 (P4) rolled number "+Integer.toString(random_number_p4)+" on the die, also known as a '"+messages[random_number_p4]+"'");
-		p_action(2, random_number_p2);
-		p_action(3, random_number_p3);
-		p_action(4, random_number_p4);
+		String p4logtext = "Computer 4 (P4) rolled number "+Integer.toString(random_number_p4)+" on the die, also known as a '"+messages[random_number_p4]+"'";
+		Log.i(TAG, p4logtext);
+		String p2did = p_action(2, random_number_p2);
+		String p3did = p_action(3, random_number_p3);
+		String p4did = p_action(4, random_number_p4);
+		TextView logtext = (TextView) findViewById(R.id.computer_action_log);
+		logtext.setText(p2did+"\n"+p3did+"\n"+p4did);
 		updateTextOnly();
 	}
 	
@@ -521,11 +513,10 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param roll The players roll
 	 * @param num_player The player to play for
 	 */
-	protected void p_action(Integer num_player, Integer roll) {
+	protected String p_action(Integer num_player, Integer roll) {
 		// TODO Finish attempt to make a generic other "player action"
 
-		
-		
+		String returnvalue = null;
 		// If sheep is full at beginning of turn, "auto-shear"
 		// TODO Have an option to enable "special" features not in standard ruleset, like this
 		
@@ -541,6 +532,7 @@ public class WildWoolMain extends android.app.Activity {
 		case 6:
 			// Grow 2 wool
 			wool[num_player] += 2;
+			returnvalue = "P"+Integer.toString(num_player)+" grew 2.";
 			break;
 		case 5:
 			// Send wolf or grow wool
@@ -551,8 +543,14 @@ public class WildWoolMain extends android.app.Activity {
 					}
 				  }
 			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
-			if(player_wolf > 0 && player_wolf < 5) wool[player_wolf] = 0;
-			else wool[num_player]++;
+			if(player_wolf > 0 && player_wolf < 5){
+				wool[player_wolf] = 0;
+				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf)+".";
+				}
+			else{
+				wool[num_player]++;
+				returnvalue = "P"+Integer.toString(num_player)+" grew.";
+			}
 			updateTextOnly();
 			break;
 		case 4:
@@ -560,8 +558,10 @@ public class WildWoolMain extends android.app.Activity {
 			// If 0-1 wool, grow; else, shear
 			if (wool[num_player] < 2) {
 				wool[num_player]++;
+				returnvalue = "P"+Integer.toString(num_player)+" grew.";
 			} else {
 				shearWool(num_player);
+				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
 			}
 			break;
 		case 3:
@@ -569,11 +569,13 @@ public class WildWoolMain extends android.app.Activity {
 			// TODO Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
 			shearWool(num_player);
+			returnvalue = "P"+Integer.toString(num_player)+" sheared.";
 			break;
 		case 2:
 			// Swap or grow
 			// TODO Eventually: if opponent has 2+ more than me, swap; for now, just grow
 			wool[num_player]++;
+			returnvalue = "P"+Integer.toString(num_player)+" grew.";
 			break;
 		case 1:
 			// Send wolf or grow wool
@@ -584,13 +586,20 @@ public class WildWoolMain extends android.app.Activity {
 				}
 			}
 			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
-			if(player_wolf_alt > 0 && player_wolf_alt < 5) wool[player_wolf_alt] = 0;
-			else wool[num_player]++;
+			if(player_wolf_alt > 0 && player_wolf_alt < 5){
+				wool[player_wolf_alt] = 0;
+				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf_alt)+".";
+				}
+			else{
+				wool[num_player]++;
+				returnvalue = "P"+Integer.toString(num_player)+" grew.";
+			}
 		}
 		if (wool[num_player] > max_wool) {
 			wool[num_player] = max_wool;
 		}
 		updateTextOnly();
+		return returnvalue;
 	}
 
 	/**

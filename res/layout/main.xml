@@ -149,36 +149,6 @@
         <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/p2"
-        android:textColor="#60EF50"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="@string/p2"
-        android:visibility="invisible"
-         />
-                <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/p3"
-        android:textStyle="bold"
-        android:text="@string/p3"
-        android:textColor="#60EF50"
-        android:textSize="20sp"
-        android:visibility="invisible"
-         />
-                        <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/p4"
-        android:textStyle="bold"
-        android:text="@string/p4"
-        android:textColor="#60EF50"
-        android:textSize="20sp"
-        android:visibility="invisible"
-         />
-        <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/winner"
         android:visibility="gone"
         android:text="@string/winner_unknown"
@@ -187,4 +157,13 @@
         android:textStyle="bold"
         android:gravity="center"
          />
+        <View
+        android:layout_width="fill_parent"
+        android:layout_height="5dip"
+        />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/computer_action_log"
+            />
 </LinearLayout>
