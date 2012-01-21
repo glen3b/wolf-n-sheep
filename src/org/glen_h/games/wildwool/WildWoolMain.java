@@ -510,7 +510,7 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param num_player The player to play for
 	 */
 	protected String p_action(Integer num_player, Integer roll) {
-		// TODO Finish attempt to make a generic other "player action"
+		// TODO Finish attempt to make a generic other "player action" (add logic loops)
 
 		String returnvalue = null;
 		// If sheep is full at beginning of turn, "auto-shear"
