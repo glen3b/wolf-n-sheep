@@ -585,11 +585,11 @@ public class WildWoolMain extends android.app.Activity {
 			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
 			if(player_wolf_alt > 0 && player_wolf_alt < 5) wool[player_wolf_alt] = 0;
 			else wool[num_player]++;
-			updateTextOnly();
 		}
 		if (wool[num_player] > max_wool) {
 			wool[num_player] = max_wool;
 		}
+		updateTextOnly();
 	}
 
 	/**
