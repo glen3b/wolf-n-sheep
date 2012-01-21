@@ -545,7 +545,7 @@ public class WildWoolMain extends android.app.Activity {
 			// Send wolf or grow wool
 			int player_wolf = 0;
 			for(int players_checked = 1;players_checked <= 4;players_checked++){
-					if(wool[players_checked] >= 4){
+					if(wool[players_checked] >= 4 && players_checked != num_player){
 						player_wolf = players_checked;
 					}
 				  }
@@ -578,7 +578,7 @@ public class WildWoolMain extends android.app.Activity {
 			// Send wolf or grow wool
 			int player_wolf_alt = 0;
 			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= 4){
+				if(wool[players_checked] >= 4 && players_checked != num_player){
 					player_wolf_alt = players_checked;
 				}
 			}
