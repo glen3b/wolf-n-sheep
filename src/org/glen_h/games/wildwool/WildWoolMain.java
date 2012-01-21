@@ -88,7 +88,7 @@ public class WildWoolMain extends android.app.Activity {
 
 	/**
 	Warns the user that multiplayer is unstable.
-	XXX Delete/deprecate this method when multiplayer finished.
+	Make sure to delete/deprecate this method when multiplayer is finished.
 	@author Glen Husman
 	*/
 	/*
@@ -336,13 +336,11 @@ public class WildWoolMain extends android.app.Activity {
         	shearWool(1);
         	/** TODO Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
+        	 * Uncommented because CPU does it
         	 */
-    		/*
-    		if (wool[num_player] == max_wool) {
-    			sheared_wool[num_player]+=wool[num_player];
-    			wool[num_player] = 0;
+    		if (wool[1] == max_wool) {
+    			shearWool(1);
     		}
-    		*/
         	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_SHORT).show();
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
         }
