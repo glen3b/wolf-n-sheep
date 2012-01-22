@@ -156,6 +156,11 @@ public class WildWoolMain extends android.app.Activity {
         super.onCreate(savedInstanceState);
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
+        /*
+         * OK, let's find out what to do for 1.1, lets fix the TODOs,
+         * add an about dialog (concerning legal issues such as the icon),
+         * and improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility"
+         */
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
 
         for (player_num=1; player_num <= num_players; player_num++) {
