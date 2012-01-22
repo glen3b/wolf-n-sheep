@@ -642,7 +642,6 @@ public class WildWoolMain extends android.app.Activity {
 	 */
 	protected void shearWool(int num_player){
 		// TODONE Verify function works
-		// XXXX Verify that this throws ArrayIndexOutOfBoundsException (or something does when using this). I think it has to do with player_num.
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
