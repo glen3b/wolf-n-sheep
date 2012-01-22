@@ -222,7 +222,6 @@ public class WolfNSheep_Main extends android.app.Activity {
         	wool[player_num] = 0;
         	sheared_wool[player_num] = 0;
         }
-        
         // total_wool = player_wool + p2_wool + p3_wool + p4_wool;
         total_wool = 0;
         for (player_num=1; player_num <= num_players; player_num++) {
@@ -317,6 +316,7 @@ public class WolfNSheep_Main extends android.app.Activity {
               }
             });
         // text.setText(getResources().getString(R.string.message));
+		init_app();
         OnClickListener roll_action = new OnClickListener() {
             public void onClick(View v) {
                 text.setTextColor(Color.YELLOW);
@@ -335,7 +335,87 @@ public class WolfNSheep_Main extends android.app.Activity {
             };
         this.roll.setOnClickListener(roll_action);
         }
-    /**
+    private void init_app() {
+    	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Player selection");
+		alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to swap sheep with?");
+		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+            	swap(2);
+        		otherplayerrolls();
+			}
+		});
+
+		alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+                    	swap(3);
+                		otherplayerrolls();
+					}
+				});
+		alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+                    	swap(4);
+                		otherplayerrolls();
+					}
+				});
+				
+		this.swap.setOnClickListener(new OnClickListener() {	
+			public void onClick(View v) {
+				makeInvisible();
+        		alert.show();
+            }
+        }
+          );
+        this.grow.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	wool[1] = wool[1] + 1;
+            	if(wool[1] > max_wool){
+                	wool[1] = max_wool;
+                	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
+                }
+            	updateTextOnly();
+            	makeInvisible();
+        		otherplayerrolls();
+
+            }
+          });
+        final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
+        wolf_alert.setTitle("Player selection");
+        wolf_alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to send the wolf to?");
+        wolf_alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				wool[2] = 0;
+				otherplayerrolls();
+			}
+		});
+
+        wolf_alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+                    	wool[3] = 0;
+                    	otherplayerrolls();
+					}
+				});
+        wolf_alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+                    	wool[4] = 0;
+                    	otherplayerrolls();
+					}
+				});
+        this.wolf.setOnClickListener(new OnClickListener() {
+        	public void onClick(View v) {
+            	makeInvisible();
+        		wolf_alert.show();
+        		
+        	}
+          });
+		
+	}
+
+	/**
      * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
      * @author Glen Husman & Matt Husman
      * @return Whether the game is over or not
@@ -364,6 +444,15 @@ public class WolfNSheep_Main extends android.app.Activity {
 				    startActivity(intent);
 				}});
 			String tie_text = "Tie";
+			TextView share = (TextView) findViewById(R.id.share);
+			share.setVisibility(View.VISIBLE);
+			share.setOnClickListener(new OnClickListener(){
+				public void onClick(View v) {
+					Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+				    sharingIntent.setType("text/plain");
+				    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?");
+				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
+				}});
 			int winning_score = -1;
 			String winner = "Nobody";
 			TextView winner_text = (TextView)this.findViewById(R.id.winner);
@@ -458,82 +547,6 @@ public class WolfNSheep_Main extends android.app.Activity {
             }
           });
         
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Player selection");
-		alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to swap sheep with?");
-		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-            	swap(2);
-        		otherplayerrolls();
-			}
-		});
-
-		alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-                    	swap(3);
-                		otherplayerrolls();
-					}
-				});
-		alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-                    	swap(4);
-                		otherplayerrolls();
-					}
-				});
-				
-		this.swap.setOnClickListener(new OnClickListener() {	
-			public void onClick(View v) {
-				makeInvisible();
-        		alert.show();
-            }
-        }
-          );
-        this.grow.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-            	wool[1] = wool[1] + 1;
-            	if(wool[1] > max_wool){
-                	wool[1] = max_wool;
-                	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
-                }
-            	updateTextOnly();
-            	makeInvisible();
-        		otherplayerrolls();
-
-            }
-          });
-        final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
-        wolf_alert.setTitle("Player selection");
-        wolf_alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to send the wolf to?");
-        wolf_alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				wool[2] = 0;
-				otherplayerrolls();
-			}
-		});
-
-        wolf_alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-                    	wool[3] = 0;
-                    	otherplayerrolls();
-					}
-				});
-        wolf_alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-                    	wool[4] = 0;
-                    	otherplayerrolls();
-					}
-				});
-        this.wolf.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-            	makeInvisible();
-        		wolf_alert.show();
-        		
-        	}
-          });
         updateText();
 		checkIfGameOver();
 	}

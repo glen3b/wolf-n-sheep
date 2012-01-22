@@ -172,6 +172,11 @@ limitations under the License.
         android:textStyle="bold"
         android:gravity="center"
          />
+        <Button android:id="@+id/share"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/share" />
         <View
         android:layout_width="fill_parent"
         android:layout_height="5dip"
