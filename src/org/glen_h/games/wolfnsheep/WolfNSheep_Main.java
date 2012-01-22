@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 /**
  * This is the main, single-player, wolf 'n sheep activity.
- * @author Glen Husman & Matt Husman
+ * @author Glen Husman
  */
 public class WolfNSheep_Main extends android.app.Activity {
 	
