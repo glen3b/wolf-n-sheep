@@ -133,11 +133,11 @@ public class WildWoolMain extends android.app.Activity {
       // TODO Fix dice (Also fix onClick functions for the dice)
 	  private String[] messages = 
 	        { "Roll the die!",
-      		"Send wolf or grow wool.",
+      		"Shear sheep or grow wool.",
       		"Swap sheep or grow wool.",
-      		"Swap sheep or shear sheep.",
-      		"Shear sheep or grow wool.", 
-      		"Send wolf or grow wool.",
+      		"Send wolf or shear sheep.",
+      		"Send wolf or swap sheep.", 
+      		"Grow wool.",
       		"Grow 2 wool."
       		}
       ;
@@ -349,15 +349,15 @@ public class WildWoolMain extends android.app.Activity {
     		otherplayerrolls();
     	}
     	else if(random_number == 5){
-    		wolf.setVisibility(View.VISIBLE);
-    		grow.setVisibility(View.VISIBLE);
+    		wool[1]++;
+    		otherplayerrolls();
     	}
     	else if(random_number == 4){
-    		shear.setVisibility(View.VISIBLE);
-    		grow.setVisibility(View.VISIBLE);
+    		wolf.setVisibility(View.VISIBLE);
+    		swap.setVisibility(View.VISIBLE);
     	}
     	else if(random_number == 3){
-    		swap.setVisibility(View.VISIBLE);
+    		wolf.setVisibility(View.VISIBLE);
     		shear.setVisibility(View.VISIBLE);
     	}
     	else if(random_number == 2){
@@ -365,7 +365,7 @@ public class WildWoolMain extends android.app.Activity {
     		grow.setVisibility(View.VISIBLE);
     	}
     	else if(random_number == 1){
-    		wolf.setVisibility(View.VISIBLE);
+    		shear.setVisibility(View.VISIBLE);
     		grow.setVisibility(View.VISIBLE);
     	}
         this.shear.setOnClickListener(new OnClickListener() {
@@ -529,7 +529,8 @@ public class WildWoolMain extends android.app.Activity {
 			returnvalue = "P"+Integer.toString(num_player)+" grew 2.";
 			break;
 		case 5:
-			// Send wolf or grow wool
+			// Grow wool
+			/**
 			int player_wolf = 0;
 			for(int players_checked = 1;players_checked <= 4;players_checked++){
 					if(wool[players_checked] >= 4 && players_checked != num_player){
@@ -545,9 +546,13 @@ public class WildWoolMain extends android.app.Activity {
 				wool[num_player]++;
 				returnvalue = "P"+Integer.toString(num_player)+" grew.";
 			}
+			*/
+			wool[num_player]++;
+			returnvalue = "P"+Integer.toString(num_player)+" grew.";
 			updateTextOnly();
 			break;
 		case 4:
+			// FIXME Needs to send wolf or swap sheep.
 			// Shear sheep or grow wool
 			// If 0-2 wool, grow; else, shear
 			if (wool[num_player] <= 2) {
@@ -559,24 +564,24 @@ public class WildWoolMain extends android.app.Activity {
 			}
 			break;
 		case 3:
-			// Swap or shear
+			// Wolf or shear
+			// XXX DAD: CHECK THIS CODE
 			// TODONE Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
-			int player_swap = 0;
+			int player_wolf = 0;
 			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
-					player_swap = players_checked;
+					if(wool[players_checked] >= 4 && players_checked != num_player){
+						player_wolf = players_checked;
+					}
+				  }
+			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
+			if(player_wolf > 0 && player_wolf < 5){
+				wool[player_wolf] = 0;
+				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf)+".";
 				}
-			}
-			if(getData(Data.WOOL, num_player) > 3 || player_swap == 0){
+			else{
 				shearWool(num_player);
 				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
-			}else{
-				final int player_swap_old_wool = wool[player_swap];
-				final int num_player_old_wool = wool[num_player];
-				wool[player_swap] = num_player_old_wool;
-				wool[num_player] = player_swap_old_wool;
-				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap)+".";
 			}
 			break;
 		case 2:
@@ -600,22 +605,16 @@ public class WildWoolMain extends android.app.Activity {
 			}
 			break;
 		case 1:
-			// Send wolf or grow wool
-			int player_wolf_alt = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= 4 && players_checked != num_player){
-					player_wolf_alt = players_checked;
-				}
-			}
-			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
-			if(player_wolf_alt > 0 && player_wolf_alt < 5){
-				wool[player_wolf_alt] = 0;
-				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf_alt)+".";
+			// Shear sheep or grow wool
+			if(wool[num_player] >= 4){
+				shearWool(num_player);
+				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
 				}
 			else{
 				wool[num_player]++;
 				returnvalue = "P"+Integer.toString(num_player)+" grew.";
 			}
+			break;
 		}
 		if (wool[num_player] > max_wool) {
 			wool[num_player] = max_wool;
