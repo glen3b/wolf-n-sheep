@@ -122,7 +122,7 @@ public class WildWoolMain extends android.app.Activity {
 	  private int sheared_wool[] = new int[5];
 	  private int player_num;
 	  private int num_players = 4;
-	  private String TAG;
+	  private String TAG = "WildWoolMain";
 	  private int total_wool;
       private final int max_wool = 5;
       private final int max_total_wool = 25;
@@ -169,7 +169,6 @@ public class WildWoolMain extends android.app.Activity {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
 
-        TAG = "WildWoolMain";
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
