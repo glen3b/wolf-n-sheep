@@ -155,7 +155,7 @@ public class WildWoolMain extends android.app.Activity {
     public void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // FIXME Computer Rolls
-        // FIXME Dice entries incorrect (see messages variable declaration)
+        // FIXME Die entries incorrect (see messages variable declaration)
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
 
         for (player_num=1; player_num <= num_players; player_num++) {
@@ -379,22 +379,22 @@ public class WildWoolMain extends android.app.Activity {
         
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Player selection");
-		alert.setMessage("Player to swap sheep with");
-		alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
+		alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to swap sheep with?");
+		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
             	swap(2);
         		otherplayerrolls();
 			}
 		});
 
-		alert.setNeutralButton("P3",
+		alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(3);
                 		otherplayerrolls();
 					}
 				});
-		alert.setNegativeButton("P4",
+		alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(4);
@@ -424,22 +424,22 @@ public class WildWoolMain extends android.app.Activity {
           });
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
-        wolf_alert.setMessage("Player to send wolf to");
-        wolf_alert.setPositiveButton("P2", new DialogInterface.OnClickListener() {
+        wolf_alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to send the wolf to?");
+        wolf_alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				wool[2] = 0;
 				otherplayerrolls();
 			}
 		});
 
-        wolf_alert.setNeutralButton("P3",
+        wolf_alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[3] = 0;
                     	otherplayerrolls();
 					}
 				});
-        wolf_alert.setNegativeButton("P4",
+        wolf_alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[4] = 0;
@@ -510,7 +510,7 @@ public class WildWoolMain extends android.app.Activity {
 	 * @param num_player The player to play for
 	 */
 	protected String p_action(Integer num_player, Integer roll) {
-		// TODO Finish attempt to make a generic other "player action" (means finishing logic)
+		// TODONE Finish attempt to make a generic other "player action" (means finishing logic)
 
 		String returnvalue = null;
 		// If sheep is full at beginning of turn, "auto-shear"
@@ -582,9 +582,23 @@ public class WildWoolMain extends android.app.Activity {
 			break;
 		case 2:
 			// Swap or grow
-			// TODO Eventually: if opponent has 2+ more than me, swap; for now, just grow
-			wool[num_player]++;
-			returnvalue = "P"+Integer.toString(num_player)+" grew.";
+			// TODONE Eventually: if opponent has 2+ more than me, swap; for now, just grow
+			int player_swap_alt = 0;
+			for(int players_checked = 1;players_checked <= 4;players_checked++){
+				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
+					player_swap_alt = players_checked;
+				}
+			}
+			if(player_swap_alt != 0){
+				final int player_swap_old_wool = wool[player_swap_alt];
+				final int num_player_old_wool = wool[num_player];
+				wool[player_swap_alt] = num_player_old_wool;
+				wool[num_player] = player_swap_old_wool;
+				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap_alt)+".";
+			}else{
+				wool[num_player]++;
+				returnvalue = "P"+Integer.toString(num_player)+" grew.";
+			}
 			break;
 		case 1:
 			// Send wolf or grow wool
