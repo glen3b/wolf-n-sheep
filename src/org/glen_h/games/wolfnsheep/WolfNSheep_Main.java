@@ -140,8 +140,8 @@ public class WolfNSheep_Main extends android.app.Activity {
 	}
 	*/
 	
-	private String about_dialog_text = "Wolf 'N Sheep 1.1 - http://code.google.com/p/wolf-n-sheep -" +
-			" Wolf 'N Sheep release 1.1. An android game inspired by wild wool. Soon to have multiplayer support. " +
+	private String about_dialog_text = "Wolf 'N Sheep 1.2 - http://code.google.com/p/wolf-n-sheep -" +
+			" Wolf 'N Sheep release 1.2. An android game inspired by wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 			"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
@@ -212,7 +212,7 @@ public class WolfNSheep_Main extends android.app.Activity {
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
-         * OK, let's find out what to do for 1.1, lets fix the TODOs,
+         * OK, let's find out what to do for 1.1 beyond, lets fix the TODOs,
          * add an about dialog (concerning legal issues such as the icon),
          * and improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility"
          */
