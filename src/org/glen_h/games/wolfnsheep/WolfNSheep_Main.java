@@ -13,7 +13,7 @@
    limitations under the License.
  */
 
-package org.glen_h.games.wildwool;
+package org.glen_h.games.wolfnsheep;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -30,10 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This is the main, single-player, wild wool activity.
+ * This is the main, single-player, wolf 'n sheep activity.
  * @author Glen Husman & Matt Husman
  */
-public class WildWoolMain extends android.app.Activity {
+public class WolfNSheep_Main extends android.app.Activity {
 	
 	/**
 	 * Gets gameplay data.
@@ -115,7 +115,7 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	*/
 	
-	private String about_dialog_text = "Wolf 'N Sheep 1.1 - http://code.google.com/p/wild-wool -" +
+	private String about_dialog_text = "Wolf 'N Sheep 1.1 - http://code.google.com/p/wolf-n-sheep -" +
 			" Wolf 'N Sheep release 1.1. An android game inspired by wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
@@ -128,7 +128,7 @@ public class WildWoolMain extends android.app.Activity {
     	switch (item_id) {
         /*
     	case R.id.multiplayer:
-     	   Intent mp = new Intent(this, WildWoolMultiplayer.class);
+     	   Intent mp = new Intent(this, WolfNSheep_Multiplayer.class);
      	   startActivity(mp);
            multiplayerUnstableToast();
            return true;
@@ -151,7 +151,7 @@ public class WildWoolMain extends android.app.Activity {
 	  private int sheared_wool[] = new int[5];
 	  private int player_num;
 	  private int num_players = 4;
-	  private String TAG = "WildWoolMain";
+	  private String TAG = "WolfNSheep_Main";
 	  private int total_wool;
       private final int max_wool = 5;
       private final int max_total_wool = 25;

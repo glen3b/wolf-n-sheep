@@ -13,7 +13,7 @@
    limitations under the License.
  */
 
-package org.glen_h.games.wildwool;
+package org.glen_h.games.wolfnsheep;
 
 /**
  * Possible data types in the game.
