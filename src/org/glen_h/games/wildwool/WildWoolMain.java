@@ -552,20 +552,35 @@ public class WildWoolMain extends android.app.Activity {
 			updateTextOnly();
 			break;
 		case 4:
-			// FIXME Needs to send wolf or swap sheep.
-			// Shear sheep or grow wool
-			// If 0-2 wool, grow; else, shear
-			if (wool[num_player] <= 2) {
-				wool[num_player]++;
-				returnvalue = "P"+Integer.toString(num_player)+" grew.";
-			} else {
-				shearWool(num_player);
-				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
+			// Send wolf or swap sheep
+			int player_swap = 0;
+			for(int players_checked = 1;players_checked <= 4;players_checked++){
+				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
+					player_swap = players_checked;
+				}
+			}
+			int most_wool = -1;
+			int who_most_wool = 0;
+			for (player_num=1; player_num <= num_players; player_num++) {
+				if ((wool[player_num]) > most_wool && player_num != num_player) {
+					who_most_wool = player_num;
+					most_wool = wool[player_num];
+				}
+			}
+			if(player_swap != 0){
+				final int player_swap_old_wool = wool[player_swap];
+				final int num_player_old_wool = wool[num_player];
+				wool[player_swap] = num_player_old_wool;
+				wool[num_player] = player_swap_old_wool;
+				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap)+".";
+			}else{
+				wool[who_most_wool] = 0;
+				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(who_most_wool)+".";
 			}
 			break;
 		case 3:
 			// Wolf or shear
-			// XXX DAD: CHECK THIS CODE
+			// XXXX DAD: CHECK THIS CODE
 			// TODONE Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
 			int player_wolf = 0;
