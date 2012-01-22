@@ -342,7 +342,7 @@ public class WildWoolMain extends android.app.Activity {
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
         }
 		if(random_number == 6){
-    		wool[1] = wool[1] + 2;
+    		wool[1] += 2;
     		if (wool[1] > max_wool) {
     			wool[1] = max_wool;
     		}
