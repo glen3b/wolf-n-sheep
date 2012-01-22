@@ -100,6 +100,12 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	*/
 	
+	private String about_dialog_text = "Wild Wool 1.1 - http://code.google.com/p/wild-wool -" +
+			" Wild Wool release 1.1. An android implementation of wild wool. Soon to have multiplayer support. " +
+			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
+			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission)." +
+			" Please note that this applies ONLY to the application icon, not the code.";
+	
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         Integer item_id = item.getItemId();
@@ -115,7 +121,7 @@ public class WildWoolMain extends android.app.Activity {
         	finish();
         	return true;
         case R.id.about:
-        	AlertDialog about = LinkAlertDialog.create(this,"About","Wild Wool 1.1 - http://code.google.com/p/wild-wool - Wild Wool release 1.1. An android implementation of wild wool. Soon to have multiplayer support. Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain.","OK");
+        	AlertDialog about = LinkAlertDialog.create(this,"About",about_dialog_text,"OK");
         	about.show();
         	return true;
         }
