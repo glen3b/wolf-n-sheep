@@ -712,9 +712,9 @@ public class WildWoolMain extends android.app.Activity {
 		updateText();		
 		}
 	
-	public static class LinkAlertDialog {
+	 public static class LinkAlertDialog {
 
-		 public static AlertDialog create(android.content.Context context, String title, String message_txt, String dismiss_text) {
+		public static AlertDialog create(android.content.Context context, String title, String message_txt, String dismiss_text) {
 		  final TextView message = new TextView(context);
 		  // i.e.: R.string.dialog_message =>
 		            // "Test this dialog following the link to dtmilano.blogspot.com"
