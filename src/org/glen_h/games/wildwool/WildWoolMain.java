@@ -1,3 +1,18 @@
+/* Copyright [2011-2012] [Glen Husman & contributors]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
+
 package org.glen_h.games.wildwool;
 
 import android.app.AlertDialog;
@@ -103,8 +118,9 @@ public class WildWoolMain extends android.app.Activity {
 	private String about_dialog_text = "Wild Wool 1.1 - http://code.google.com/p/wild-wool -" +
 			" Wild Wool release 1.1. An android implementation of wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
-			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission)." +
-			" Please note that this applies ONLY to the application icon, not the code.";
+			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
+			"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
+			"http://www.apache.org/licenses/LICENSE-2.0";
 	
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {

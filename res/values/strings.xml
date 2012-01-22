@@ -17,7 +17,5 @@
     <string name="player_four">P4</string>
     <string name="exit">Exit</string>
     <string name="about">About</string>
-    <string name="ok">OK</string>
-    <string name="about_text">Wild Wool 1.1 - http://code.google.com/p/wild-wool\n Wild Wool version 1.1. An android implementation of wild wool. Soon to have multiplayer support. Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain.</string>
 
 </resources>
