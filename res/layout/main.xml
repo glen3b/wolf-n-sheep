@@ -28,7 +28,7 @@ limitations under the License.
         android:layout_height="wrap_content"
         android:id="@+id/text"
         android:visibility="visible"
-        android:text="@string/roll_die"
+        android:text="@string/message"
         android:textStyle="bold"
         android:gravity="center"
          />

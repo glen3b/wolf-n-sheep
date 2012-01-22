@@ -59,9 +59,23 @@ public class WolfNSheep_Main extends android.app.Activity {
 	public Object onRetainNonConfigurationInstance() {
 	    final int[] wool_saved = wool;
 	    final int[] sheared_wool_saved = sheared_wool;
+	    final int shear_visible = shear.getVisibility();
+	    final int wolf_visible = wolf.getVisibility();
+	    final CharSequence random_num_tosave = text.getText();
+	    final int grow_visible = grow.getVisibility();
+	    final int swap_visible = swap.getVisibility();
+	    final int rolled_color = text.getCurrentTextColor();
+	    final CharSequence log_text_content = logtext.getText();
 	    Bundle data = new Bundle();
 	    data.putIntArray("wool", wool_saved);
+	    data.putCharSequence("lastmoves", log_text_content);
 	    data.putIntArray("sheared_wool", sheared_wool_saved);
+	    data.putCharSequence("randomnum", random_num_tosave);
+	    data.putInt("shear_visible", shear_visible);
+	    data.putInt("wolf_visible", wolf_visible);
+	    data.putInt("grow_visible", grow_visible);
+	    data.putInt("text_color", rolled_color);
+	    data.putInt("swap_visible", swap_visible);
 	    return data;
 	}
 	
@@ -161,6 +175,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 	  private int wool[] = new int[5];
 	  private int sheared_wool[] = new int[5];
 	  private int player_num;
+	  private TextView logtext;
 	  private int num_players = 4;
 	  private String TAG = "WolfNSheep_Main";
 	  private int total_wool;
@@ -213,17 +228,11 @@ public class WolfNSheep_Main extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-        
-        if(data_saved != null){
-            final int[] wool_saved = data_saved.getIntArray("wool");
-            final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
-            wool = wool_saved;
-            sheared_wool = sheared_wool_saved;
-        }
 
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
+        this.logtext = (TextView) findViewById(R.id.computer_action_log);
         this.p3_wool_text = (TextView)this.findViewById(R.id.p3_wool);
         this.p4_wool_text = (TextView)this.findViewById(R.id.p4_wool);
         this.shear = (Button)this.findViewById(R.id.shear);
@@ -234,6 +243,26 @@ public class WolfNSheep_Main extends android.app.Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
+        if(data_saved != null){
+            final int[] wool_saved = data_saved.getIntArray("wool");
+            final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
+            final CharSequence log_saved = data_saved.getCharSequence("lastmoves");
+    	    final int shear_visible = data_saved.getInt("shear_visible");
+    	    final int wolf_visible = data_saved.getInt("wolf_visible");
+    	    final int text_color_saved = data_saved.getInt("text_color");
+    	    final int grow_visible = data_saved.getInt("grow_visible");
+    	    final CharSequence random_num_saved = data_saved.getCharSequence("randomnum");
+    	    final int swap_visible = data_saved.getInt("swap_visible");
+            wool = wool_saved;
+            shear.setVisibility(shear_visible);
+            wolf.setVisibility(wolf_visible);
+            grow.setVisibility(grow_visible);
+            swap.setVisibility(swap_visible);
+            text.setTextColor(text_color_saved);
+            text.setText(random_num_saved);
+            sheared_wool = sheared_wool_saved;
+            logtext.setText(log_saved);
+        }
 		updateTextOnly();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
@@ -287,7 +316,7 @@ public class WolfNSheep_Main extends android.app.Activity {
             	alert4.show();
               }
             });
-        text.setText(getResources().getString(R.string.message));
+        // text.setText(getResources().getString(R.string.message));
         OnClickListener roll_action = new OnClickListener() {
             public void onClick(View v) {
                 text.setTextColor(Color.YELLOW);
@@ -522,7 +551,6 @@ public class WolfNSheep_Main extends android.app.Activity {
 		String p2did = p_action(2, random_number_p2);
 		String p3did = p_action(3, random_number_p3);
 		String p4did = p_action(4, random_number_p4);
-		TextView logtext = (TextView) findViewById(R.id.computer_action_log);
 		logtext.setText(p2did+"\n"+p3did+"\n"+p4did);
 		updateTextOnly();
 	}
