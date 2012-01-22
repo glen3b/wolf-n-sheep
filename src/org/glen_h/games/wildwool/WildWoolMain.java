@@ -115,8 +115,8 @@ public class WildWoolMain extends android.app.Activity {
 	}
 	*/
 	
-	private String about_dialog_text = "Wild Wool 1.1 - http://code.google.com/p/wild-wool -" +
-			" Wild Wool release 1.1. An android implementation of wild wool. Soon to have multiplayer support. " +
+	private String about_dialog_text = "Wolf 'N Sheep 1.1 - http://code.google.com/p/wild-wool -" +
+			" Wolf 'N Sheep release 1.1. An android game inspired by wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 			"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
