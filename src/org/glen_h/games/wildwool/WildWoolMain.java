@@ -130,7 +130,7 @@ public class WildWoolMain extends android.app.Activity {
       private Button wolf;
       private Button grow;
       private Button swap;
-      // TODO Fix dice (Also fix onClick functions for the dice)
+      // TODONE Fix dice (Also fix onClick functions for the dice)
 	  private String[] messages = 
 	        { "Roll the die!",
       		"Shear sheep or grow wool.",
@@ -154,8 +154,8 @@ public class WildWoolMain extends android.app.Activity {
     @Override
     public void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // FIXME Computer Rolls
-        // FIXME Die entries incorrect (see messages variable declaration)
+        // FIXED Computer Rolls
+        // FIXED Die entries incorrect (see messages variable declaration)
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
 
         for (player_num=1; player_num <= num_players; player_num++) {
