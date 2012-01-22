@@ -319,6 +319,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 		init_app();
         OnClickListener roll_action = new OnClickListener() {
             public void onClick(View v) {
+            	init_app();
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = randomNumber(1, 6);
@@ -384,21 +385,21 @@ public class WolfNSheep_Main extends android.app.Activity {
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
         wolf_alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to send the wolf to?");
-        wolf_alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
+        wolf_alert.setPositiveButton("P2 ("+Integer.toString(getData(Data.WOOL, 2))+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				wool[2] = 0;
 				otherplayerrolls();
 			}
 		});
 
-        wolf_alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
+        wolf_alert.setNeutralButton("P3 ("+Integer.toString(getData(Data.WOOL, 3))+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[3] = 0;
                     	otherplayerrolls();
 					}
 				});
-        wolf_alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
+        wolf_alert.setNegativeButton("P4 ("+Integer.toString(getData(Data.WOOL, 4))+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[4] = 0;
@@ -448,9 +449,10 @@ public class WolfNSheep_Main extends android.app.Activity {
 			share.setVisibility(View.VISIBLE);
 			share.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
-					Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-				    sharingIntent.setType("text/plain");
-				    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?");
+					Intent sharingIntent = new Intent();
+					sharingIntent.setAction(Intent.ACTION_SEND);
+					sharingIntent.putExtra(Intent.EXTRA_TEXT, "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?");
+					sharingIntent.setType("text/plain");
 				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
 				}});
 			int winning_score = -1;
