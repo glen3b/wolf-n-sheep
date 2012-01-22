@@ -456,7 +456,6 @@ public class WildWoolMain extends android.app.Activity {
 
             }
           });
-        // Test commit test branch
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
         wolf_alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to send the wolf to?");
