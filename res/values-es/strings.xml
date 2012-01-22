@@ -2,7 +2,7 @@
 <resources>
     <string name="grow">crecer de lana</string>
     <string name="winner_unknown">Ganador desconocido.</string>
-    <string name="app_name">Las ovejas del lobo 'N</string>
+    <string name="app_name">Las ovejas del lobo \'N</string>
     <string name="message">Tira el dado!</string>
     <string name="shear">Shear ovejas</string>
     <string name="wolf">Enviar Lobo</string>
