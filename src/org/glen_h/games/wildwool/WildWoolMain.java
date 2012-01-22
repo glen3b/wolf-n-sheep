@@ -350,6 +350,7 @@ public class WildWoolMain extends android.app.Activity {
     	}
     	else if(random_number == 5){
     		wool[1]++;
+    		updateTextOnly();
     		otherplayerrolls();
     	}
     	else if(random_number == 4){
