@@ -19,6 +19,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -53,6 +54,16 @@ public class WolfNSheep_Main extends android.app.Activity {
             	return -1;
         	}
         }
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+	    final int[] wool_saved = wool;
+	    final int[] sheared_wool_saved = sheared_wool;
+	    Bundle data = new Bundle();
+	    data.putIntArray("wool", wool_saved);
+	    data.putIntArray("sheared_wool", sheared_wool_saved);
+	    return data;
+	}
 	
 	/**
 	 * Sets gameplay data as specified by {@code data} and {@code data_set}.
@@ -181,7 +192,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
 	 * @author Glen Husman & Matt Husmam */
     @Override
-    public void onCreate(android.os.Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
@@ -191,7 +202,7 @@ public class WolfNSheep_Main extends android.app.Activity {
          * and improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility"
          */
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
-
+        final Bundle data_saved = (Bundle) getLastNonConfigurationInstance();
         for (player_num=1; player_num <= num_players; player_num++) {
         	wool[player_num] = 0;
         	sheared_wool[player_num] = 0;
@@ -201,6 +212,13 @@ public class WolfNSheep_Main extends android.app.Activity {
         total_wool = 0;
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
+        }
+        
+        if(data_saved != null){
+            final int[] wool_saved = data_saved.getIntArray("wool");
+            final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
+            wool = wool_saved;
+            sheared_wool = sheared_wool_saved;
         }
 
         this.setContentView(R.layout.main);
