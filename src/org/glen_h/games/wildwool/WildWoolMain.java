@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -110,6 +113,10 @@ public class WildWoolMain extends android.app.Activity {
            */
         case R.id.exit:
         	finish();
+        	return true;
+        case R.id.about:
+        	AlertDialog about = LinkAlertDialog.create(this,"About","Wild Wool 1.1 - http://code.google.com/p/wild-wool - Wild Wool release 1.1. An android implementation of wild wool. Soon to have multiplayer support. Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain.","OK");
+        	about.show();
         	return true;
         }
         return false;
@@ -704,5 +711,28 @@ public class WildWoolMain extends android.app.Activity {
 		// We might be able to make the "wool_text" into arrays eventually
 		updateText();		
 		}
+	
+	public static class LinkAlertDialog {
+
+		 public static AlertDialog create(android.content.Context context, String title, String message_txt, String dismiss_text) {
+		  final TextView message = new TextView(context);
+		  // i.e.: R.string.dialog_message =>
+		            // "Test this dialog following the link to dtmilano.blogspot.com"
+		  final SpannableString s = 
+		               new SpannableString(message_txt);
+		  Linkify.addLinks(s, Linkify.WEB_URLS);
+		  message.setText(s);
+		  message.setMovementMethod(LinkMovementMethod.getInstance());
+
+		  return new AlertDialog.Builder(context)
+		   .setTitle(title)
+		   .setCancelable(true)
+		   .setIcon(android.R.drawable.ic_dialog_info)
+		   .setPositiveButton(dismiss_text, null)
+		   .setView(message)
+		   .create();
+		 }
+		}
+
     }
 
