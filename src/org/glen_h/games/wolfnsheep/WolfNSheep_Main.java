@@ -15,6 +15,10 @@
 
 package org.glen_h.games.wolfnsheep;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -649,18 +653,38 @@ public class WolfNSheep_Main extends android.app.Activity {
 			break;
 		case 4:
 			// Send wolf or swap sheep
+			List<Integer> list = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+			    list.add(addi);
+			}
+			Collections.shuffle(list);
+			Integer[] random = new Integer[]{4};
+			random[0] = list.remove(0);
+			random[1] = list.remove(0);
+			random[2] = list.remove(0);
+			random[3] = list.remove(0);
 			int player_swap = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
-					player_swap = players_checked;
+			for(int checked = 0;checked <= 3;checked++){
+				if(wool[random[checked]] >= (wool[num_player]+2) && random[checked] != num_player){
+					player_swap = random[checked];
 				}
 			}
 			int most_wool = -1;
 			int who_most_wool = 0;
-			for (player_num=1; player_num <= num_players; player_num++) {
-				if ((wool[player_num]) > most_wool && player_num != num_player) {
-					who_most_wool = player_num;
-					most_wool = wool[player_num];
+			List<Integer> list2 = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+			    list2.add(addi);
+			}
+			Collections.shuffle(list2);
+			Integer[] random2 = new Integer[]{4};
+			random2[0] = list2.remove(0);
+			random2[1] = list2.remove(0);
+			random2[2] = list2.remove(0);
+			random2[3] = list2.remove(0);
+			for (int checked = 0; checked <= 3; checked++) {
+				if ((wool[random2[checked]]) > most_wool && random2[checked] != num_player) {
+					who_most_wool = random2[checked];
+					most_wool = wool[who_most_wool];
 				}
 			}
 			if(player_swap != 0){
@@ -680,9 +704,19 @@ public class WolfNSheep_Main extends android.app.Activity {
 			// TODONE Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
 			int player_wolf = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-					if(wool[players_checked] >= 4 && players_checked != num_player){
-						player_wolf = players_checked;
+			List<Integer> list3 = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+			    list3.add(addi);
+			}
+			Collections.shuffle(list3);
+			Integer[] random3 = new Integer[]{4};
+			random3[0] = list3.remove(0);
+			random3[1] = list3.remove(0);
+			random3[2] = list3.remove(0);
+			random3[3] = list3.remove(0);
+			for(int checked = 0;checked <= 3;checked++){
+					if(wool[random3[checked]] >= 4 && random3[checked] != num_player){
+						player_wolf = random3[checked];
 					}
 				  }
 			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
@@ -695,6 +729,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
 			}
 			break;
+			// TODO From hereon down, implement the new random order checking
 		case 2:
 			// Swap or grow
 			// TODONE Eventually: if opponent has 2+ more than me, swap; for now, just grow
