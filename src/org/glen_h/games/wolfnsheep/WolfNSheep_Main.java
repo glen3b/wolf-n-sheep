@@ -40,6 +40,7 @@ import android.widget.Toast;
  */
 public class WolfNSheep_Main extends android.app.Activity {
 	
+	
 	/**
 	 * Gets gameplay data.
 	 * @param data_get The data to get (SHEARED_WOOL or WOOL)
