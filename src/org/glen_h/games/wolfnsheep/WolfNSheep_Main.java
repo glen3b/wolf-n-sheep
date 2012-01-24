@@ -729,14 +729,24 @@ public class WolfNSheep_Main extends android.app.Activity {
 				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
 			}
 			break;
-			// TODO From hereon down, implement the new random order checking
+			// TODONE From hereon down, implement the new random order checking
 		case 2:
 			// Swap or grow
 			// TODONE Eventually: if opponent has 2+ more than me, swap; for now, just grow
 			int player_swap_alt = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
-					player_swap_alt = players_checked;
+			List<Integer> list4 = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+				list4.add(addi);
+			}
+			Collections.shuffle(list4);
+			Integer[] random4 = new Integer[]{4};
+			random4[0] = list4.remove(0);
+			random4[1] = list4.remove(0);
+			random4[2] = list4.remove(0);
+			random4[3] = list4.remove(0);
+			for(int checked = 1;checked <= 3;checked++){
+				if(wool[random4[checked]] >= (wool[random4[checked]]+2) && random4[checked] != num_player){
+					player_swap_alt = random4[checked];
 				}
 			}
 			if(player_swap_alt != 0){
