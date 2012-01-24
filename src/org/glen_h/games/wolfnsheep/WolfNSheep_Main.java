@@ -658,7 +658,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 			    list.add(addi);
 			}
 			Collections.shuffle(list);
-			Integer[] random = new Integer[]{4};
+			Integer[] random = new Integer[]{0,0,0,0};
 			random[0] = list.remove(0);
 			random[1] = list.remove(0);
 			random[2] = list.remove(0);
@@ -676,7 +676,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 			    list2.add(addi);
 			}
 			Collections.shuffle(list2);
-			Integer[] random2 = new Integer[]{4};
+			Integer[] random2 = new Integer[]{0,0,0,0};
 			random2[0] = list2.remove(0);
 			random2[1] = list2.remove(0);
 			random2[2] = list2.remove(0);
@@ -709,7 +709,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 			    list3.add(addi);
 			}
 			Collections.shuffle(list3);
-			Integer[] random3 = new Integer[]{4};
+			Integer[] random3 = new Integer[]{0,0,0,0};
 			random3[0] = list3.remove(0);
 			random3[1] = list3.remove(0);
 			random3[2] = list3.remove(0);
@@ -739,7 +739,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 				list4.add(addi);
 			}
 			Collections.shuffle(list4);
-			Integer[] random4 = new Integer[]{4};
+			Integer[] random4 = new Integer[]{0,0,0,0};
 			random4[0] = list4.remove(0);
 			random4[1] = list4.remove(0);
 			random4[2] = list4.remove(0);
