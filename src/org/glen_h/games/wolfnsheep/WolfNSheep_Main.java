@@ -247,6 +247,19 @@ public class WolfNSheep_Main extends android.app.Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
+        final AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
+        mp_alert.setMessage("Multiplayer or single-player?");
+        mp_alert.setPositiveButton("Single player",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				});
+        mp_alert.setNeutralButton("Multiplayer",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				});
+        AlertDialog mp_alert_showable = mp_alert.create();
         if(data_saved != null){
             final int[] wool_saved = data_saved.getIntArray("wool");
             final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
@@ -266,6 +279,8 @@ public class WolfNSheep_Main extends android.app.Activity {
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
+        }else{
+        	mp_alert_showable.show();
         }
 		updateTextOnly();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
