@@ -449,26 +449,20 @@ public class WolfNSheep_Main extends android.app.Activity {
 				    overridePendingTransition(0, 0);
 				    startActivity(intent);
 				}});
-			String tie_text = "Tie";
-			TextView share = (TextView) findViewById(R.id.share);
-			share.setVisibility(View.VISIBLE);
-			share.setOnClickListener(new OnClickListener(){
-				public void onClick(View v) {
-					Intent sharingIntent = new Intent();
-					sharingIntent.setAction(Intent.ACTION_SEND);
-					sharingIntent.putExtra(Intent.EXTRA_TEXT, "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?");
-					sharingIntent.setType("text/plain");
-				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
-				}});
+			final String tie_text = "Tie";
+			Button share = (Button) findViewById(R.id.share);
 			int winning_score = -1;
 			String winner = "Nobody";
 			TextView winner_text = (TextView)this.findViewById(R.id.winner);
+			int winner_player_num = 0;
 			// TODONE Use arrays everywhere, so this will work!!!
 			for (player_num=1; player_num <= num_players; player_num++) {
 				if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
 					winner = tie_text;
+					winner_player_num = 0;
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
+					winner_player_num = player_num;
 					winning_score = wool[player_num]+sheared_wool[player_num];
 				}
 			}
@@ -481,6 +475,22 @@ public class WolfNSheep_Main extends android.app.Activity {
 			winner_text.setText(winner+" wins!!");
 			Toast.makeText(getBaseContext(), "Game over! Congratulations, "+winner+"!", Toast.LENGTH_LONG).show();
 			}
+			final int winner_final = winner_player_num;
+			share.setVisibility(View.VISIBLE);
+			share.setOnClickListener(new OnClickListener(){
+				public void onClick(View v) {
+					String share_text;
+					if(winner_final == 1){
+						share_text = "I got a winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+					}else{
+						share_text = "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+					}
+					Intent sharingIntent = new Intent();
+					sharingIntent.setAction(Intent.ACTION_SEND);
+					sharingIntent.putExtra(Intent.EXTRA_TEXT, share_text);
+					sharingIntent.setType("text/plain");
+				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
+				}});
 			updateTextOnly();
 			gameover =  true;
 		}		
