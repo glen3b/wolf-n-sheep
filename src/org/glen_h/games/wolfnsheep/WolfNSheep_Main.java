@@ -15,6 +15,10 @@
 
 package org.glen_h.games.wolfnsheep;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This is the main, single-player, wolf 'n sheep activity.
+ * This is the main, single-player, wolf 'n sheep game activity.
  * @author Glen Husman
  */
 public class WolfNSheep_Main extends android.app.Activity {
@@ -140,8 +144,8 @@ public class WolfNSheep_Main extends android.app.Activity {
 	}
 	*/
 	
-	private String about_dialog_text = "Wolf 'N Sheep 1.2 - http://code.google.com/p/wolf-n-sheep -" +
-			" Wolf 'N Sheep release 1.2. An android game inspired by wild wool. Soon to have multiplayer support. " +
+	private String about_dialog_text = "Wolf 'N Sheep 1.3 - http://code.google.com/p/wolf-n-sheep -" +
+			" Wolf 'N Sheep release 1.3. An android game inspired by wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 			"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
@@ -212,9 +216,10 @@ public class WolfNSheep_Main extends android.app.Activity {
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
-         * OK, let's find out what to do for 1.1 beyond, lets fix the TODOs,
-         * add an about dialog (concerning legal issues such as the icon),
-         * and improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility"
+         * OK, let's find out what to do for 1.3 and beyond, lets fix the TODOs,
+         * add an about dialog (concerning legal issues such as the icon) DONE,
+         * improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility" DONE
+         * add multiplayer (2.0 - 3.5 is goal version range)
          */
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
         final Bundle data_saved = (Bundle) getLastNonConfigurationInstance();
@@ -242,6 +247,19 @@ public class WolfNSheep_Main extends android.app.Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
+        final AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
+        mp_alert.setMessage("Multiplayer or single-player?");
+        mp_alert.setPositiveButton("Single player",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				});
+        mp_alert.setNeutralButton("Multiplayer",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				});
+        AlertDialog mp_alert_showable = mp_alert.create();
         if(data_saved != null){
             final int[] wool_saved = data_saved.getIntArray("wool");
             final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
@@ -261,6 +279,8 @@ public class WolfNSheep_Main extends android.app.Activity {
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
+        }else{
+        	mp_alert_showable.show();
         }
 		updateTextOnly();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -444,26 +464,20 @@ public class WolfNSheep_Main extends android.app.Activity {
 				    overridePendingTransition(0, 0);
 				    startActivity(intent);
 				}});
-			String tie_text = "Tie";
-			TextView share = (TextView) findViewById(R.id.share);
-			share.setVisibility(View.VISIBLE);
-			share.setOnClickListener(new OnClickListener(){
-				public void onClick(View v) {
-					Intent sharingIntent = new Intent();
-					sharingIntent.setAction(Intent.ACTION_SEND);
-					sharingIntent.putExtra(Intent.EXTRA_TEXT, "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?");
-					sharingIntent.setType("text/plain");
-				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
-				}});
+			final String tie_text = "Tie";
+			Button share = (Button) findViewById(R.id.share);
 			int winning_score = -1;
 			String winner = "Nobody";
 			TextView winner_text = (TextView)this.findViewById(R.id.winner);
+			int winner_player_num = 0;
 			// TODONE Use arrays everywhere, so this will work!!!
 			for (player_num=1; player_num <= num_players; player_num++) {
 				if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
 					winner = tie_text;
+					winner_player_num = 0;
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
+					winner_player_num = player_num;
 					winning_score = wool[player_num]+sheared_wool[player_num];
 				}
 			}
@@ -476,6 +490,22 @@ public class WolfNSheep_Main extends android.app.Activity {
 			winner_text.setText(winner+" wins!!");
 			Toast.makeText(getBaseContext(), "Game over! Congratulations, "+winner+"!", Toast.LENGTH_LONG).show();
 			}
+			final int winner_final = winner_player_num;
+			share.setVisibility(View.VISIBLE);
+			share.setOnClickListener(new OnClickListener(){
+				public void onClick(View v) {
+					String share_text;
+					if(winner_final == 1){
+						share_text = "I got a winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+					}else{
+						share_text = "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+					}
+					Intent sharingIntent = new Intent();
+					sharingIntent.setAction(Intent.ACTION_SEND);
+					sharingIntent.putExtra(Intent.EXTRA_TEXT, share_text);
+					sharingIntent.setType("text/plain");
+				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
+				}});
 			updateTextOnly();
 			gameover =  true;
 		}		
@@ -649,18 +679,38 @@ public class WolfNSheep_Main extends android.app.Activity {
 			break;
 		case 4:
 			// Send wolf or swap sheep
+			List<Integer> list = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+			    list.add(addi);
+			}
+			Collections.shuffle(list);
+			Integer[] random = new Integer[]{0,0,0,0};
+			random[0] = list.remove(0);
+			random[1] = list.remove(0);
+			random[2] = list.remove(0);
+			random[3] = list.remove(0);
 			int player_swap = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
-					player_swap = players_checked;
+			for(int checked = 0;checked <= 3;checked++){
+				if(wool[random[checked]] >= (wool[num_player]+2) && random[checked] != num_player){
+					player_swap = random[checked];
 				}
 			}
 			int most_wool = -1;
 			int who_most_wool = 0;
-			for (player_num=1; player_num <= num_players; player_num++) {
-				if ((wool[player_num]) > most_wool && player_num != num_player) {
-					who_most_wool = player_num;
-					most_wool = wool[player_num];
+			List<Integer> list2 = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+			    list2.add(addi);
+			}
+			Collections.shuffle(list2);
+			Integer[] random2 = new Integer[]{0,0,0,0};
+			random2[0] = list2.remove(0);
+			random2[1] = list2.remove(0);
+			random2[2] = list2.remove(0);
+			random2[3] = list2.remove(0);
+			for (int checked = 0; checked <= 3; checked++) {
+				if ((wool[random2[checked]]) > most_wool && random2[checked] != num_player) {
+					who_most_wool = random2[checked];
+					most_wool = wool[who_most_wool];
 				}
 			}
 			if(player_swap != 0){
@@ -680,9 +730,19 @@ public class WolfNSheep_Main extends android.app.Activity {
 			// TODONE Eventually: If I have 3+ wool, then shear; else if opponent has 2+ more than me, swap;
 			// for now, just shear
 			int player_wolf = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-					if(wool[players_checked] >= 4 && players_checked != num_player){
-						player_wolf = players_checked;
+			List<Integer> list3 = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+			    list3.add(addi);
+			}
+			Collections.shuffle(list3);
+			Integer[] random3 = new Integer[]{0,0,0,0};
+			random3[0] = list3.remove(0);
+			random3[1] = list3.remove(0);
+			random3[2] = list3.remove(0);
+			random3[3] = list3.remove(0);
+			for(int checked = 0;checked <= 3;checked++){
+					if(wool[random3[checked]] >= 4 && random3[checked] != num_player){
+						player_wolf = random3[checked];
 					}
 				  }
 			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
@@ -695,13 +755,24 @@ public class WolfNSheep_Main extends android.app.Activity {
 				returnvalue = "P"+Integer.toString(num_player)+" sheared.";
 			}
 			break;
+			// TODONE From hereon down, implement the new random order checking
 		case 2:
 			// Swap or grow
 			// TODONE Eventually: if opponent has 2+ more than me, swap; for now, just grow
 			int player_swap_alt = 0;
-			for(int players_checked = 1;players_checked <= 4;players_checked++){
-				if(wool[players_checked] >= (wool[num_player]+2) && players_checked != num_player){
-					player_swap_alt = players_checked;
+			List<Integer> list4 = new LinkedList<Integer>();
+			for (int addi = 1; addi <= 4; addi++) {
+				list4.add(addi);
+			}
+			Collections.shuffle(list4);
+			Integer[] random4 = new Integer[]{0,0,0,0};
+			random4[0] = list4.remove(0);
+			random4[1] = list4.remove(0);
+			random4[2] = list4.remove(0);
+			random4[3] = list4.remove(0);
+			for(int checked = 1;checked <= 3;checked++){
+				if(wool[random4[checked]] >= (wool[random4[checked]]+2) && random4[checked] != num_player){
+					player_swap_alt = random4[checked];
 				}
 			}
 			if(player_swap_alt != 0){

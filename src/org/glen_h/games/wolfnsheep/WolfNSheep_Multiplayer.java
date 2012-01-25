@@ -421,10 +421,11 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 		
 	}
 
+    
     /**
      * Sends a bundle.
      * @param bundle  A bundle to send.
-     */
+     *//*
     private void sendMessage(Bundle bundle) {
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
@@ -433,7 +434,7 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
         }
 
         // Check that there's actually something to send
-        if (message.length() > 0) {
+        if (bundle != null) {
             // Get the message bytes and tell the BluetoothChatService to write
             
         	byte[] send = SerializerClass.serializeObject(bundle);
@@ -443,7 +444,7 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
             mOutStringBuffer.setLength(0);
         }
     }
-    
+    */
 	/**
      * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
      * @author Glen Husman & Matt Husman
