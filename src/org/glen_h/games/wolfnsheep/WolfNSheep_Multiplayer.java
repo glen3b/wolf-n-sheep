@@ -15,8 +15,10 @@
 
 package org.glen_h.games.wolfnsheep;
 
+/*
 import com.example.android.BluetoothChat.BluetoothChatService;
 import com.example.android.BluetoothChat.R;
+*/
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
