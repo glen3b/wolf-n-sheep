@@ -19,6 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="org.glen_h.games.wolfnsheep.WolfNSheep_Multiplayer" />
     </application>
 
 </manifest>
