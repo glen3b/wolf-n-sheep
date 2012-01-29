@@ -123,12 +123,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 	@Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		android.view.MenuInflater inflater = getMenuInflater();
-        // Catches an inflation error
-        try{
         inflater.inflate(R.menu.main_menu, menu);
-        }catch(android.view.InflateException error){
-        	return false;
-        }
         return true;
     }
     
@@ -835,10 +830,14 @@ public class WolfNSheep_Main extends android.app.Activity {
 	 */
 	protected void shearWool(int num_player){
 		// TODONE Verify function works
+		boolean autoshear = false;
+		if(wool[1] >= 5){
+			autoshear = true;
+		}
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
-		if(num_player == 1){
+		if(num_player == 1 && !autoshear){
 			text.setText("You sheared! Roll again!");
 		}
 		updateTextOnly();
