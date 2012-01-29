@@ -347,8 +347,8 @@ public class WolfNSheep_Main extends android.app.Activity {
             	random_number = randomNumber(1, 6);
             	Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
-        		roll();
                 text.setText(messages[random_number]);
+                roll();
             	}
             	else{
             	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
@@ -365,6 +365,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
             	swap(2);
+            	text.setText("You swapped with P2! Roll again!");
         		otherplayerrolls();
 			}
 		});
@@ -373,6 +374,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(3);
+                    	text.setText("You swapped with P3! Roll again!");
                 		otherplayerrolls();
 					}
 				});
@@ -380,6 +382,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(4);
+                    	text.setText("You swapped with P4! Roll again!");
                 		otherplayerrolls();
 					}
 				});
@@ -398,6 +401,7 @@ public class WolfNSheep_Main extends android.app.Activity {
                 	wool[1] = max_wool;
                 	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep! Please roll again!", Toast.LENGTH_LONG).show();
                 }
+            	text.setText("You grew! Roll again!");
             	updateTextOnly();
             	makeInvisible();
         		otherplayerrolls();
@@ -410,6 +414,7 @@ public class WolfNSheep_Main extends android.app.Activity {
         wolf_alert.setPositiveButton("P2 ("+Integer.toString(getData(Data.WOOL, 2))+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				wool[2] = 0;
+				text.setText("You wolfed P2! Roll again!");
 				otherplayerrolls();
 			}
 		});
@@ -418,6 +423,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[3] = 0;
+                    	text.setText("You wolfed P3! Roll again!");
                     	otherplayerrolls();
 					}
 				});
@@ -425,6 +431,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[4] = 0;
+                    	text.setText("You wolfed P4! Roll again!");
                     	otherplayerrolls();
 					}
 				});
@@ -550,11 +557,14 @@ public class WolfNSheep_Main extends android.app.Activity {
     		if (wool[1] > max_wool) {
     			wool[1] = max_wool;
     		}
+    		updateTextOnly();
+    		text.setText("You grew 2! Roll again!");
     		otherplayerrolls();
     	}
     	else if(random_number == 5){
     		wool[1]++;
     		updateTextOnly();
+    		text.setText("You grew! Roll again!");
     		otherplayerrolls();
     	}
     	else if(random_number == 4){
@@ -828,6 +838,9 @@ public class WolfNSheep_Main extends android.app.Activity {
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
+		if(num_player == 1){
+			text.setText("You sheared! Roll again!");
+		}
 		updateTextOnly();
 	}
 	
