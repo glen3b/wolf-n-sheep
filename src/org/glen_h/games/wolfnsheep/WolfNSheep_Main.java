@@ -247,16 +247,18 @@ public class WolfNSheep_Main extends android.app.Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
-        final AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
         mp_alert.setMessage("Multiplayer or single-player?");
         mp_alert.setPositiveButton("Single player",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						// This just continues single-player
 					}
 				});
         mp_alert.setNeutralButton("Multiplayer",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						// TODO Launch multiplayer here
 					}
 				});
         AlertDialog mp_alert_showable = mp_alert.create();
