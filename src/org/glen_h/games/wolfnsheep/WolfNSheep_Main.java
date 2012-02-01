@@ -157,6 +157,10 @@ public class WolfNSheep_Main extends android.app.Activity {
            multiplayerUnstableToast();
            return true;
            */
+    	case R.id.prefs_item:
+      	   Intent mp = new Intent(this, Extras.class);
+      	   startActivity(mp);
+      	   return true;
         case R.id.exit:
         	finish();
         	return true;
