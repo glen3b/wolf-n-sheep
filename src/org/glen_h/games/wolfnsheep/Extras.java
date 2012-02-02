@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class Extras extends ListActivity {
 
 	protected static final String PREFS_NAME = "extras";
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -24,11 +24,17 @@ public class Extras extends ListActivity {
 		  ListView lv = getListView();
 		  lv.setTextFilterEnabled(true);
 		  SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-	      // boolean autoshear_state = settings.getBoolean("autoshear", true);
+	      boolean autoshear_state = settings.getBoolean("autoshear", true);
+	      String current_state_autoshear;
 	      final SharedPreferences.Editor editor = settings.edit();
 		  final AlertDialog.Builder autoshear = new AlertDialog.Builder(this);
+		  if(autoshear_state){
+			  current_state_autoshear = "Enabled";
+		  }else{
+			  current_state_autoshear = "Disabled";
+		  }
 		  autoshear.setTitle("Auto-shear");
-		  autoshear.setMessage("Automatically shear when you have 5 wool at the beginning of your turn");
+		  autoshear.setMessage("Automatically shear when you have 5 wool at the beginning of your turn\nCurrrent Preference: "+current_state_autoshear);
 		  autoshear.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 	            	// Enable extra
