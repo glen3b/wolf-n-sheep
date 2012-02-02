@@ -22,6 +22,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -205,7 +206,8 @@ public class WolfNSheep_Main extends android.app.Activity {
 	private TextView p2_wool_text;
 	private TextView p3_wool_text;
 	private TextView p4_wool_text;
-	// private boolean autoshear_state;
+	private boolean autoshear_state;
+	private boolean shearcosts_state;
 		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -232,11 +234,11 @@ public class WolfNSheep_Main extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-        // TODO Implement auto-shear prefs checking here
-		/**
+        // TODONE Implement auto-shear prefs checking here
         SharedPreferences settings = getSharedPreferences(Extras.PREFS_NAME, 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
-	    */
+	    shearcosts_state = settings.getBoolean("shearcosts", false);
+	 
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -262,7 +264,9 @@ public class WolfNSheep_Main extends android.app.Activity {
         mp_alert.setNeutralButton("Multiplayer",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						// TODO Launch multiplayer here
+						// TODO Finish multiplayer!
+						Intent mp = new Intent(WolfNSheep_Main.this, WolfNSheep_Multiplayer.class);
+				     	startActivity(mp);
 					}
 				});
         AlertDialog mp_alert_showable = mp_alert.create();
@@ -546,8 +550,8 @@ public class WolfNSheep_Main extends android.app.Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
-		if(getData(Data.WOOL, 1) >= max_wool){
-        	/** TODO Have an option to enable "special" features not in standard ruleset, like this
+		if(getData(Data.WOOL, 1) >= max_wool && autoshear_state){
+        	/** TODONE Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 * Uncommented because CPU does it
         	 */
@@ -555,6 +559,10 @@ public class WolfNSheep_Main extends android.app.Activity {
         	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_SHORT).show();
         	updateTextOnly();
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
+        }else if(getData(Data.WOOL, 1) >= max_wool && !autoshear_state){
+        	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
+        	wool[1] = max_wool;
+        	updateTextOnly();
         }
 		if(random_number == 6){
     		wool[1] += 2;
@@ -655,13 +663,15 @@ public class WolfNSheep_Main extends android.app.Activity {
 
 		String returnvalue = null;
 		// If sheep is full at beginning of turn, "auto-shear"
-		// TODO Have an option to enable "special" features not in standard ruleset, like this
+		// TODONE Have an option to enable "special" features not in standard ruleset, like this
 		
 		// Commented because it is not standard rules, can easily make a preference for this.
 		// Uncommented because P1 does it
 		
-		if (wool[num_player] == max_wool) {
+		if (wool[num_player] >= max_wool && autoshear_state) {
 			shearWool(num_player);
+		}else if(wool[num_player] >= max_wool && !autoshear_state){
+			wool[num_player] = max_wool;
 		}
 		
 		switch (roll) {
@@ -838,17 +848,12 @@ public class WolfNSheep_Main extends android.app.Activity {
 	 * @param num_player The player whose wool to shear
 	 */
 	protected void shearWool(int num_player){
-		// TODONE Verify function works
-		boolean autoshear = false;
-		if(wool[1] >= 5){
-			autoshear = true;
+		if(shearcosts_state && wool[num_player] > 0){
+			wool[num_player]--;
 		}
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
-		if(num_player == 1 && !autoshear){
-			text.setText("You sheared! Roll again!");
-		}
 		updateTextOnly();
 	}
 	
