@@ -4,6 +4,7 @@
     <string name="roll">Roll</string>
     <string name="grow">Grow Wool</string>
     <string name="winner_unknown">Unknown winner.</string>
+    <string name="settings_item">Settings</string>
     <string name="shear">Shear Sheep</string>
     <string name="wolf">Send Wolf</string>
     <string name="swap">Swap Sheep</string>
