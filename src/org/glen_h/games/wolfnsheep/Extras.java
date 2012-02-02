@@ -11,7 +11,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class Extras extends ListActivity {
 
@@ -52,8 +51,6 @@ public class Extras extends ListActivity {
 		      if(((TextView) view).getText() == items[0]){
 		    	  autoshear.show();
 		  	  }
-		      Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-		          Toast.LENGTH_SHORT).show();
 		    }
 		  });
 

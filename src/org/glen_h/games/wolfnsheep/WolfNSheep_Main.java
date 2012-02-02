@@ -205,6 +205,7 @@ public class WolfNSheep_Main extends android.app.Activity {
 	private TextView p2_wool_text;
 	private TextView p3_wool_text;
 	private TextView p4_wool_text;
+	// private boolean autoshear_state;
 		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -231,7 +232,11 @@ public class WolfNSheep_Main extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-
+        // TODO Implement auto-shear prefs checking here
+		/**
+        SharedPreferences settings = getSharedPreferences(Extras.PREFS_NAME, 0);
+	    autoshear_state = settings.getBoolean("autoshear", true);
+	    */
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
