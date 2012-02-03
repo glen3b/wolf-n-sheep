@@ -235,10 +235,11 @@ public class WolfNSheep_Main extends android.app.Activity {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
         // TODONE Implement auto-shear prefs checking here
-        SharedPreferences settings = getSharedPreferences(Extras.PREFS_NAME, 0);
+        SharedPreferences settings = getSharedPreferences("extras", 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
 	    shearcosts_state = settings.getBoolean("shearcosts", false);
-	 
+	    Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
+	    Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -474,12 +475,14 @@ public class WolfNSheep_Main extends android.app.Activity {
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
-				    Intent intent = getIntent();
+					Intent main = getIntent();
+					overridePendingTransition(0, 0);
+					main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				    overridePendingTransition(0, 0);
-				    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				    main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				    finish();
 				    overridePendingTransition(0, 0);
-				    startActivity(intent);
+				    startActivity(main);
 				}});
 			final String tie_text = "Tie";
 			Button share = (Button) findViewById(R.id.share);
@@ -851,7 +854,6 @@ public class WolfNSheep_Main extends android.app.Activity {
 		// TODO Fix the shear costs (extras) bug!
 		if(shearcosts_state && wool[num_player] > 0){
 			wool[num_player]--;
-			Toast.makeText(getBaseContext(), "Shearing costs!", Toast.LENGTH_SHORT).show();
 		}
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;

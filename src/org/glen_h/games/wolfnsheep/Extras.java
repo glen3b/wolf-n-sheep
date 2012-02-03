@@ -3,6 +3,7 @@ package org.glen_h.games.wolfnsheep;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +33,19 @@ public class Extras extends ListActivity {
 	      boolean shearcosts_state = settings.getBoolean("shearcosts", false);
 	      final SharedPreferences.Editor editor = settings.edit();
 		  autoshear = new AlertDialog.Builder(this);
+		  final AlertDialog.Builder restart = new AlertDialog.Builder(this);
+		  restart.setTitle("Restart Required");
+		  restart.setMessage("To apply changes, please restart wolf 'n sheep.");
+		  restart.setNegativeButton("Restart Later", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {}
+			});
+		  restart.setPositiveButton("Restart Now", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					  Intent main = new Intent(getBaseContext(), WolfNSheep_Main.class);
+					  main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			          startActivity(main);
+				}
+			});
 		  shearcosts = new AlertDialog.Builder(this);
 		  if(autoshear_state){
 			  current_state_autoshear = "Enabled";
@@ -52,6 +66,7 @@ public class Extras extends ListActivity {
 					editor.commit();
 					current_state_autoshear = "Enabled";
 					autoshear.setMessage("Automatically shear when you have 5 wool at the beginning of your turn\nCurrrent Preference: "+current_state_autoshear);
+					restart.show();
 				}
 			});
 		  autoshear.setNegativeButton("Disable",
@@ -62,6 +77,7 @@ public class Extras extends ListActivity {
 							editor.commit();
 							current_state_autoshear = "Disabled";
 							autoshear.setMessage("Automatically shear when you have 5 wool at the beginning of your turn\nCurrrent Preference: "+current_state_autoshear);
+							restart.show();
 						}
 					});
 		  
@@ -74,6 +90,7 @@ public class Extras extends ListActivity {
 					editor.commit();
 					current_state_shearcosts = "Enabled";
 					shearcosts.setMessage("Add a cost of 1 wool to shear\nCurrrent Preference: "+current_state_shearcosts);
+					restart.show();
 				}
 			});
 		  shearcosts.setNegativeButton("Disable",
@@ -84,6 +101,7 @@ public class Extras extends ListActivity {
 							editor.commit();
 							current_state_shearcosts = "Disabled";
 							shearcosts.setMessage("Add a cost of 1 wool to shear\nCurrrent Preference: "+current_state_shearcosts);
+							restart.show();
 						}
 					});
 		  lv.setOnItemClickListener(new OnItemClickListener() {
