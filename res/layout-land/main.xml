@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Copyright [2011-2012] [Glen Husman & contributors]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    >
+	<Button android:id="@+id/roll"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/roll" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:visibility="visible"
+        android:text="@string/message"
+        android:textStyle="bold"
+        android:gravity="center"
+         />
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TableRow android:id="@+id/table_columns_host">
+         <TextView
+            android:text="@string/player"
+            android:textStyle="bold"
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            />
+          
+        <TextView
+            android:text="@string/wool_sheared_land"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            android:visibility="invisible"
+            />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p1_label"
+        android:text="@string/player_one_land"
+        android:visibility="visible"
+        android:textStyle="bold"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p1_wool"
+        android:textStyle="bold"
+        android:layout_gravity="right"
+        android:visibility="visible"
+         />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p2_label"
+        android:text="@string/player_two"
+        android:visibility="visible"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p2_wool"
+        android:layout_gravity="right"
+        android:visibility="visible"
+         />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p3_label"
+        android:text="@string/player_three"
+        android:visibility="visible"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p3_wool"
+        android:layout_gravity="right"
+        android:visibility="visible"
+         />
+    </TableRow>
+    
+    <TableRow>
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p4_label"
+        android:text="@string/player_four"
+        android:visibility="visible"
+         />
+        
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/p4_wool"
+        android:layout_gravity="right"
+        android:visibility="visible"
+         />
+    </TableRow>
+</TableLayout>
+        <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        />
+        <LinearLayout 
+    android:id="@+id/LinearLayout02" 
+    android:layout_height="wrap_content" 
+    android:layout_width="fill_parent" >
+    <Button android:id="@+id/grow"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_weight="1"
+    android:text="@string/grow" />
+    <Button android:id="@+id/shear"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_weight="1"
+    android:text="@string/shear" />
+    <Button android:id="@+id/wolf"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_weight="1"
+    android:text="@string/wolf" />
+        <Button android:id="@+id/swap"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_weight="1"
+    android:text="@string/swap" />
+</LinearLayout>
+        <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/winner"
+        android:visibility="gone"
+        android:text="@string/winner_unknown"
+        android:textColor="#01FF27"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        android:gravity="center"
+         />
+        <Button android:id="@+id/share"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/share" />
+        <View
+        android:layout_width="fill_parent"
+        android:layout_height="5dip"
+        />
+        <ScrollView android:layout_height="wrap_content" android:layout_width="fill_parent">
+            <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/computer_action_log"
+            />
+        </ScrollView>
+</LinearLayout>
