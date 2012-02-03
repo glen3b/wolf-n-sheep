@@ -836,9 +836,12 @@ public class WolfNSheep_Multiplayer extends Activity {
 	 * @param num_player The player whose wool to shear
 	 */
 	protected void shearWool(int num_player){
-		// TODO Fix the shear costs (extras) bug!
+		// TODONE Fix the shear costs (extras) bug!
 		if(shearcosts_state && wool[num_player] > 0){
 			wool[num_player]--;
+		}
+		if(num_player == 1){
+			text.setText("You sheared! Roll again!");
 		}
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
