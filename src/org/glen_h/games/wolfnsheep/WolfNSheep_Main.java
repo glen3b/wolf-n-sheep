@@ -848,8 +848,10 @@ public class WolfNSheep_Main extends android.app.Activity {
 	 * @param num_player The player whose wool to shear
 	 */
 	protected void shearWool(int num_player){
+		// TODO Fix the shear costs (extras) bug!
 		if(shearcosts_state && wool[num_player] > 0){
 			wool[num_player]--;
+			Toast.makeText(getBaseContext(), "Shearing costs!", Toast.LENGTH_SHORT).show();
 		}
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
