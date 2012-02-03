@@ -19,15 +19,20 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,10 +40,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This is the non-main, multiplayer, wolf 'n sheep game activity.
+ * This is the main, single-player, wolf 'n sheep game activity.
  * @author Glen Husman
  */
-public class WolfNSheep_Multiplayer extends android.app.Activity {
+public class WolfNSheep_Multiplayer extends Activity {
 	
 	/**
 	 * Gets gameplay data.
@@ -121,8 +126,8 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 	}
 	
 	@Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		android.view.MenuInflater inflater = getMenuInflater();
+    public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
@@ -157,6 +162,10 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
            multiplayerUnstableToast();
            return true;
            */
+    	case R.id.prefs_item:
+      	   Intent mp = new Intent(this, Extras.class);
+      	   startActivity(mp);
+      	   return true;
         case R.id.exit:
         	finish();
         	return true;
@@ -201,6 +210,8 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 	private TextView p2_wool_text;
 	private TextView p3_wool_text;
 	private TextView p4_wool_text;
+	private boolean autoshear_state;
+	private boolean shearcosts_state;
 		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -227,7 +238,12 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
-
+        // TODONE Implement auto-shear prefs checking here
+        SharedPreferences settings = getSharedPreferences("extras", 0);
+	    autoshear_state = settings.getBoolean("autoshear", true);
+	    shearcosts_state = settings.getBoolean("shearcosts", false);
+	    Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
+	    Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -242,21 +258,6 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
-        AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
-        mp_alert.setMessage("Multiplayer or single-player?");
-        mp_alert.setPositiveButton("Single player",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// This just continues single-player
-					}
-				});
-        mp_alert.setNeutralButton("Multiplayer",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// TODO Launch multiplayer here
-					}
-				});
-        AlertDialog mp_alert_showable = mp_alert.create();
         if(data_saved != null){
             final int[] wool_saved = data_saved.getIntArray("wool");
             final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
@@ -276,8 +277,6 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
-        }else{
-        	mp_alert_showable.show();
         }
 		updateTextOnly();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -461,12 +460,14 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
-				    Intent intent = getIntent();
+					Intent main = getIntent();
+					overridePendingTransition(0, 0);
+					main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				    overridePendingTransition(0, 0);
-				    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				    main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				    finish();
 				    overridePendingTransition(0, 0);
-				    startActivity(intent);
+				    startActivity(main);
 				}});
 			final String tie_text = "Tie";
 			Button share = (Button) findViewById(R.id.share);
@@ -537,8 +538,8 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void roll() {
-		if(getData(Data.WOOL, 1) >= max_wool){
-        	/** TODO Have an option to enable "special" features not in standard ruleset, like this
+		if(getData(Data.WOOL, 1) >= max_wool && autoshear_state){
+        	/** TODONE Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 * Uncommented because CPU does it
         	 */
@@ -546,6 +547,10 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
         	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_SHORT).show();
         	updateTextOnly();
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
+        }else if(getData(Data.WOOL, 1) >= max_wool && !autoshear_state){
+        	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
+        	wool[1] = max_wool;
+        	updateTextOnly();
         }
 		if(random_number == 6){
     		wool[1] += 2;
@@ -646,13 +651,15 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 
 		String returnvalue = null;
 		// If sheep is full at beginning of turn, "auto-shear"
-		// TODO Have an option to enable "special" features not in standard ruleset, like this
+		// TODONE Have an option to enable "special" features not in standard ruleset, like this
 		
 		// Commented because it is not standard rules, can easily make a preference for this.
 		// Uncommented because P1 does it
 		
-		if (wool[num_player] == max_wool) {
+		if (wool[num_player] >= max_wool && autoshear_state) {
 			shearWool(num_player);
+		}else if(wool[num_player] >= max_wool && !autoshear_state){
+			wool[num_player] = max_wool;
 		}
 		
 		switch (roll) {
@@ -829,17 +836,13 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 	 * @param num_player The player whose wool to shear
 	 */
 	protected void shearWool(int num_player){
-		// TODONE Verify function works
-		boolean autoshear = false;
-		if(wool[1] >= 5){
-			autoshear = true;
+		// TODO Fix the shear costs (extras) bug!
+		if(shearcosts_state && wool[num_player] > 0){
+			wool[num_player]--;
 		}
 		final int wool_old = wool[num_player];
 		sheared_wool[num_player] += wool_old;
 		wool[num_player] = 0;
-		if(num_player == 1 && !autoshear){
-			text.setText("You sheared! Roll again!");
-		}
 		updateTextOnly();
 	}
 	
@@ -882,7 +885,7 @@ public class WolfNSheep_Multiplayer extends android.app.Activity {
 	
 	 public static class LinkAlertDialog {
 
-		public static AlertDialog create(android.content.Context context, String title, String message_txt, String dismiss_text) {
+		public static AlertDialog create(Context context, String title, String message_txt, String dismiss_text) {
 		  final TextView message = new TextView(context);
 		  // i.e.: R.string.dialog_message =>
 		            // "Test this dialog following the link to dtmilano.blogspot.com"
