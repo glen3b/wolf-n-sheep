@@ -40,7 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This is the main, single-player, wolf 'n sheep game activity.
+ * This is the secondary, multi-player, wolf 'n sheep game activity.
  * @author Glen Husman
  */
 public class WolfNSheep_Multiplayer extends Activity {
@@ -125,6 +125,30 @@ public class WolfNSheep_Multiplayer extends Activity {
     	}
 	}
 	
+	public static class LinkAlertDialog {
+
+		public static AlertDialog create(Context context, String title, String message_txt, String dismiss_text) {
+		  final TextView message = new TextView(context);
+		  // i.e.: R.string.dialog_message =>
+		            // "Test this dialog following the link to dtmilano.blogspot.com"
+		  final SpannableString s = 
+		               new SpannableString(message_txt);
+		  Linkify.addLinks(s, Linkify.WEB_URLS);
+		  message.setText(s);
+		  message.setMovementMethod(LinkMovementMethod.getInstance());
+
+		  return new AlertDialog.Builder(context)
+		   .setTitle(title)
+		   .setCancelable(true)
+		   .setIcon(android.R.drawable.ic_dialog_info)
+		   .setPositiveButton(dismiss_text, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {}
+			})
+		   .setView(message)
+		   .create();
+		 }
+		}
+	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -179,7 +203,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 	
 	  private Integer random_number = 0;
 	  private Button roll;
-
+	  protected int who_player_is = 1;
 	  private int wool[] = new int[5];
 	  private int sheared_wool[] = new int[5];
 	  private int player_num;
@@ -258,6 +282,7 @@ public class WolfNSheep_Multiplayer extends Activity {
         this.text = (TextView)this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
+        AlertDialog warning = null;
         if(data_saved != null){
             final int[] wool_saved = data_saved.getIntArray("wool");
             final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
@@ -286,7 +311,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 		p1_wool_text.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	alert.setTitle("Player info");
-        		alert.setMessage("Your wool: "+getData(Data.WOOL, 1)+"\n"+"Your sheared wool: "+getData(Data.SHEARED_WOOL, 1));
+        		alert.setMessage("Your wool: "+getData(Data.WOOL, who_player_is)+"\n"+"Your sheared wool: "+getData(Data.SHEARED_WOOL, who_player_is));
         		alert.setNeutralButton("OK",
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
@@ -339,7 +364,7 @@ public class WolfNSheep_Multiplayer extends Activity {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = randomNumber(1, 6);
-            	Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
+            	Log.i(TAG, "Player rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
                 text.setText(messages[random_number]);
                 roll();
@@ -351,15 +376,24 @@ public class WolfNSheep_Multiplayer extends Activity {
               }
             };
         this.roll.setOnClickListener(roll_action);
+        if(data_saved == null){
+        	warning = LinkAlertDialog.create(this, "Multiplayer", "Hello, welcome to multiplayer! Please feel free to use this multiplayer," +
+        			" but keep in mind it is in early development and may have bugs or typos, so if you find one, PLEASE file one at the URL listed below." +
+        			" Thank you for using our feature in development!\n" +
+        			"Bug report URL:\n" +
+        			"http://code.google.com/p/wolf-n-sheep/issues/list", "OK");
+        	warning.show();
+        }
         }
     private void init_app() {
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Player selection");
-		alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to swap sheep with?");
+		alert.setMessage("You have "+Integer.toString(wool[who_player_is])+" wool.\nWho would you like to swap sheep with?");
 		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
             	swap(2);
             	text.setText("You swapped with P2! Roll again!");
+            	who_player_is = who_player_qued;
         		otherplayerrolls();
 			}
 		});
@@ -369,6 +403,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(3);
                     	text.setText("You swapped with P3! Roll again!");
+                    	who_player_is = who_player_qued;
                 		otherplayerrolls();
 					}
 				});
@@ -377,6 +412,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	swap(4);
                     	text.setText("You swapped with P4! Roll again!");
+                    	who_player_is = who_player_qued;
                 		otherplayerrolls();
 					}
 				});
@@ -398,6 +434,7 @@ public class WolfNSheep_Multiplayer extends Activity {
             	text.setText("You grew! Roll again!");
             	updateTextOnly();
             	makeInvisible();
+            	who_player_is = who_player_qued;
         		otherplayerrolls();
 
             }
@@ -409,6 +446,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				wool[2] = 0;
 				text.setText("You wolfed P2! Roll again!");
+				who_player_is = who_player_qued;
 				otherplayerrolls();
 			}
 		});
@@ -418,6 +456,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[3] = 0;
                     	text.setText("You wolfed P3! Roll again!");
+                    	who_player_is = who_player_qued;
                     	otherplayerrolls();
 					}
 				});
@@ -426,6 +465,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[4] = 0;
                     	text.setText("You wolfed P4! Roll again!");
+                    	who_player_is = who_player_qued;
                     	otherplayerrolls();
 					}
 				});
@@ -500,10 +540,10 @@ public class WolfNSheep_Multiplayer extends Activity {
 			share.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
 					String share_text;
-					if(winner_final == 1){
-						share_text = "I got a winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+					if(winner_final == who_player_is){
+						share_text = "I got a winning high score of "+Integer.toString(sheared_wool[who_player_is])+" wool on wolf 'n sheep. Think you can beat it?";
 					}else{
-						share_text = "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+						share_text = "I got a high score of "+Integer.toString(sheared_wool[who_player_is])+" wool on wolf 'n sheep. Think you can beat it?";
 					}
 					Intent sharingIntent = new Intent();
 					sharingIntent.setAction(Intent.ACTION_SEND);
@@ -537,34 +577,44 @@ public class WolfNSheep_Multiplayer extends Activity {
 	 * Do the actual roll. Uses the {@code random_number} integer and performs moves based on that.
 	 * @author Glen Husman & Matt Husman
 	 */
+	int who_player_qued;
 	protected void roll() {
-		if(getData(Data.WOOL, 1) >= max_wool && autoshear_state){
+		if(getData(Data.WOOL, who_player_is) >= max_wool && autoshear_state){
         	/** TODONE Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 * Uncommented because CPU does it
         	 */
-    		shearWool(1);
+    		shearWool(who_player_is);
         	Toast.makeText(getBaseContext(), "Auto-sheared a full sheep!", Toast.LENGTH_SHORT).show();
         	updateTextOnly();
 			//Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
-        }else if(getData(Data.WOOL, 1) >= max_wool && !autoshear_state){
+        }else if(getData(Data.WOOL, who_player_is) >= max_wool && !autoshear_state){
         	Toast.makeText(getBaseContext(), "Cannot have more than "+Integer.toString(max_wool)+" wool on your sheep!", Toast.LENGTH_LONG).show();
-        	wool[1] = max_wool;
+        	wool[who_player_is] = max_wool;
         	updateTextOnly();
         }
+		
+		if(who_player_is == 1){
+			who_player_qued = 2;
+		}else{
+			who_player_qued = 1;
+		}
+		
 		if(random_number == 6){
-    		wool[1] += 2;
-    		if (wool[1] > max_wool) {
-    			wool[1] = max_wool;
+    		wool[who_player_is] += 2;
+    		if (wool[who_player_is] > max_wool) {
+    			wool[who_player_is] = max_wool;
     		}
     		updateTextOnly();
     		text.setText("You grew 2! Roll again!");
+    		who_player_is = who_player_qued;
     		otherplayerrolls();
     	}
     	else if(random_number == 5){
-    		wool[1]++;
+    		wool[who_player_is]++;
     		updateTextOnly();
     		text.setText("You grew! Roll again!");
+    		who_player_is = who_player_qued;
     		otherplayerrolls();
     	}
     	else if(random_number == 4){
@@ -585,31 +635,35 @@ public class WolfNSheep_Multiplayer extends Activity {
     	}
         this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	shearWool(1);
+            	shearWool(who_player_is);
             	makeInvisible();
+            	who_player_is = who_player_qued;
         		otherplayerrolls();
             }
           });
         
-        updateText();
-		checkIfGameOver();
+        updateTextOnly();
+		// checkIfGameOver();
 	}
 
 	protected void otherplayerrolls() {
-		int random_number_p2 = randomNumber(1, 6);
-		String p2logtext = "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'";
-		Log.i(TAG, p2logtext);
+		if(who_player_is == 1){
+			random_number = randomNumber(1, 6);
+			text.setText(messages[random_number]);
+			roll();
+			return;
+		}else if(who_player_is == 2){
 		int random_number_p3 = randomNumber(1, 6);
 		String p3logtext = "Computer 3 (P3) rolled number "+Integer.toString(random_number_p3)+" on the die, also known as a '"+messages[random_number_p3]+"'";
 		Log.i(TAG, p3logtext);
 		int random_number_p4 = randomNumber(1, 6);
 		String p4logtext = "Computer 4 (P4) rolled number "+Integer.toString(random_number_p4)+" on the die, also known as a '"+messages[random_number_p4]+"'";
 		Log.i(TAG, p4logtext);
-		String p2did = p_action(2, random_number_p2);
 		String p3did = p_action(3, random_number_p3);
 		String p4did = p_action(4, random_number_p4);
-		logtext.setText(p2did+"\n"+p3did+"\n"+p4did);
+		logtext.setText(p3did+"\n"+p4did);
 		updateTextOnly();
+		}
 	}
 	
 	/**
@@ -840,7 +894,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 		if(shearcosts_state && wool[num_player] > 0){
 			wool[num_player]--;
 		}
-		if(num_player == 1){
+		if(num_player == who_player_is){
 			text.setText("You sheared! Roll again!");
 		}
 		final int wool_old = wool[num_player];
@@ -879,34 +933,11 @@ public class WolfNSheep_Multiplayer extends Activity {
 	 */
 	protected void swap(int player){
 		// If we now have arrays working, we can do instead:
-		final int temp_wool = wool[1];
-		wool[1] = wool[player];
+		final int temp_wool = wool[who_player_is];
+		wool[who_player_is] = wool[player];
 		wool[player] = temp_wool;
 		// We might be able to make the "wool_text" into arrays eventually
 		updateText();		
 		}
-	
-	 public static class LinkAlertDialog {
-
-		public static AlertDialog create(Context context, String title, String message_txt, String dismiss_text) {
-		  final TextView message = new TextView(context);
-		  // i.e.: R.string.dialog_message =>
-		            // "Test this dialog following the link to dtmilano.blogspot.com"
-		  final SpannableString s = 
-		               new SpannableString(message_txt);
-		  Linkify.addLinks(s, Linkify.WEB_URLS);
-		  message.setText(s);
-		  message.setMovementMethod(LinkMovementMethod.getInstance());
-
-		  return new AlertDialog.Builder(context)
-		   .setTitle(title)
-		   .setCancelable(true)
-		   .setIcon(android.R.drawable.ic_dialog_info)
-		   .setPositiveButton(dismiss_text, null)
-		   .setView(message)
-		   .create();
-		 }
-		}
-
-    }
+}
 
