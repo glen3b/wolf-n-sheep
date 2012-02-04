@@ -144,8 +144,8 @@ public class WolfNSheep_Main extends Activity {
 	}
 	*/
 	
-	private String about_dialog_text = "Wolf 'N Sheep 1.3 - http://code.google.com/p/wolf-n-sheep -" +
-			" Wolf 'N Sheep release 1.3. An android game inspired by wild wool. Soon to have multiplayer support. " +
+	private String about_dialog_text = "Wolf 'N Sheep 1.4 - http://code.google.com/p/wolf-n-sheep -" +
+			" Wolf 'N Sheep release 1.4. An android game inspired by wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 			"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
