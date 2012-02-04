@@ -246,7 +246,7 @@ public class WolfNSheep_Multiplayer extends Activity {
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
-         * OK, let's find out what to do for 1.3 and beyond, lets fix the TODOs,
+         * OK, let's find out what to do for 1.4 and beyond, lets fix the TODOs,
          * add an about dialog (concerning legal issues such as the icon) DONE,
          * improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility" DONE
          * add multiplayer (2.0 - 3.5 is goal version range)
