@@ -47,7 +47,7 @@ public class WolfNSheep_Main extends Activity {
 	
 	/**
 	 * Gets gameplay data.
-	 * @param data_get The data to get (SHEARED_WOOL or WOOL)
+	 * @param data_get The data to get
 	 * @param num_player_data The player to get the data for
 	 * @return The data. -1 if invalid (default in switch).
 	 */
@@ -61,6 +61,27 @@ public class WolfNSheep_Main extends Activity {
             	return num_players;
             default:
             	return -1;
+        	}
+        }
+	
+	/**
+	 * Gets gameplay data.
+	 * @param data_get The data to get
+	 * @param num_player_data The player to get the data for
+	 * @return The data. -1 if invalid (default in switch).
+	 */
+	String getStringData(Data data_get, Integer num_player_data) {
+        switch (data_get) {
+            case LASTMOVE:
+            	return players_did[num_player_data];
+            case WOOL:
+            	return Integer.toString(getData(Data.WOOL, num_player_data));
+            case SHEARED_WOOL:
+            	return Integer.toString(getData(Data.SHEARED_WOOL, num_player_data));
+            case PLAYERS:
+            	return Integer.toString(getData(Data.PLAYERS, num_player_data));
+            default:
+            	return null;
         	}
         }
 	
@@ -186,6 +207,7 @@ public class WolfNSheep_Main extends Activity {
 	  private TextView logtext;
 	  private int num_players = 4;
 	  private String TAG = "WolfNSheep_Main";
+	  private String[] players_did = {"","P1 is unknown, should refer to main text","None","None","None"};
 	  private int total_wool;
       private final int max_wool = 5;
       private final int max_total_wool = 25;
@@ -247,6 +269,10 @@ public class WolfNSheep_Main extends Activity {
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
+        TextView p1_label = (TextView)this.findViewById(R.id.p1_label);
+        TextView p2_label = (TextView)this.findViewById(R.id.p2_label);
+        TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
+        TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
         this.logtext = (TextView) findViewById(R.id.computer_action_log);
         this.p3_wool_text = (TextView)this.findViewById(R.id.p3_wool);
         this.p4_wool_text = (TextView)this.findViewById(R.id.p4_wool);
@@ -302,10 +328,10 @@ public class WolfNSheep_Main extends Activity {
 		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert4 = new AlertDialog.Builder(this);
-		p1_wool_text.setOnClickListener(new OnClickListener() {
+		OnClickListener p1_pinfo = new OnClickListener() {
             public void onClick(View v) {
             	alert.setTitle("Player info");
-        		alert.setMessage("Your wool: "+getData(Data.WOOL, 1)+"\n"+"Your sheared wool: "+getData(Data.SHEARED_WOOL, 1));
+        		alert.setMessage("Your wool: "+getStringData(Data.WOOL, 1)+"\n"+"Your sheared wool: "+getStringData(Data.SHEARED_WOOL, 1));
         		alert.setNeutralButton("OK",
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
@@ -313,11 +339,12 @@ public class WolfNSheep_Main extends Activity {
         				});
         		alert.show();
               }
-            });
-		p2_wool_text.setOnClickListener(new OnClickListener() {
+            };
+        OnClickListener p2_pinfo = new OnClickListener() {
             public void onClick(View v) {
             	alert2.setTitle("Player info");
-            	alert2.setMessage("P2's wool: "+getData(Data.WOOL, 2)+"\n"+"P2's sheared wool: "+getData(Data.SHEARED_WOOL, 2));
+            	alert2.setMessage("P2's wool: "+getStringData(Data.WOOL, 2)+"\n"+"P2's sheared wool: "+getStringData(Data.SHEARED_WOOL, 2)+
+            			"\n"+"P2's last move: "+getStringData(Data.LASTMOVE, 2));
             	alert2.setNeutralButton("OK",
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
@@ -325,11 +352,12 @@ public class WolfNSheep_Main extends Activity {
         				});
             	alert2.show();
               }
-            });
-		p3_wool_text.setOnClickListener(new OnClickListener() {
+            };
+        OnClickListener p3_pinfo = new OnClickListener() {
             public void onClick(View v) {
             	alert3.setTitle("Player info");
-            	alert3.setMessage("P3's wool: "+getData(Data.WOOL, 3)+"\n"+"P3's sheared wool: "+getData(Data.SHEARED_WOOL, 3));
+            	alert3.setMessage("P3's wool: "+getStringData(Data.WOOL, 3)+"\n"+"P3's sheared wool: "+getStringData(Data.SHEARED_WOOL, 3)+
+            			"\n"+"P3's last move: "+getStringData(Data.LASTMOVE, 3));
             	alert3.setNeutralButton("OK",
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
@@ -337,11 +365,12 @@ public class WolfNSheep_Main extends Activity {
         				});
             	alert3.show();
               }
-            });
-		p4_wool_text.setOnClickListener(new OnClickListener() {
+            };
+        OnClickListener p4_pinfo = new OnClickListener() {
             public void onClick(View v) {
             	alert4.setTitle("Player info");
-            	alert4.setMessage("P4's wool: "+getData(Data.WOOL, 4)+"\n"+"P4's sheared wool: "+getData(Data.SHEARED_WOOL, 4));
+            	alert4.setMessage("P4's wool: "+getStringData(Data.WOOL, 4)+"\n"+"P4's sheared wool: "+getStringData(Data.SHEARED_WOOL, 4)+
+            			"\n"+"P4's last move: "+getStringData(Data.LASTMOVE, 4));
             	alert4.setNeutralButton("OK",
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
@@ -349,7 +378,11 @@ public class WolfNSheep_Main extends Activity {
         				});
             	alert4.show();
               }
-            });
+            };
+		p1_label.setOnClickListener(p1_pinfo);
+		p2_label.setOnClickListener(p2_pinfo);
+		p3_label.setOnClickListener(p3_pinfo);
+		p4_label.setOnClickListener(p4_pinfo);
         // text.setText(getResources().getString(R.string.message));
 		init_app();
         OnClickListener roll_action = new OnClickListener() {
@@ -624,10 +657,10 @@ public class WolfNSheep_Main extends Activity {
 		int random_number_p4 = randomNumber(1, 6);
 		String p4logtext = "Computer 4 (P4) rolled number "+Integer.toString(random_number_p4)+" on the die, also known as a '"+messages[random_number_p4]+"'";
 		Log.i(TAG, p4logtext);
-		String p2did = p_action(2, random_number_p2);
-		String p3did = p_action(3, random_number_p3);
-		String p4did = p_action(4, random_number_p4);
-		logtext.setText(p2did+"\n"+p3did+"\n"+p4did);
+		players_did[2] = p_action(2, random_number_p2);
+		players_did[3] = p_action(3, random_number_p3);
+		players_did[4] = p_action(4, random_number_p4);
+		logtext.setText(players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]);
 		updateTextOnly();
 	}
 	
