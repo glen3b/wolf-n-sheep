@@ -456,8 +456,8 @@ public class WolfNSheep_Main extends Activity {
           });
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
-        wolf_alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to send the wolf to?");
-        wolf_alert.setPositiveButton("P2 ("+Integer.toString(getData(Data.WOOL, 2))+" wool)", new DialogInterface.OnClickListener() {
+        wolf_alert.setMessage("You have "+getStringData(Data.WOOL, 1)+" wool.\nWho would you like to send the wolf to?");
+        wolf_alert.setPositiveButton("P2 ("+getStringData(Data.WOOL, 2)+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				wool[2] = 0;
 				text.setText("You wolfed P2! Roll again!");
@@ -465,7 +465,7 @@ public class WolfNSheep_Main extends Activity {
 			}
 		});
 
-        wolf_alert.setNeutralButton("P3 ("+Integer.toString(getData(Data.WOOL, 3))+" wool)",
+        wolf_alert.setNeutralButton("P3 ("+getStringData(Data.WOOL, 3)+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[3] = 0;
@@ -473,7 +473,7 @@ public class WolfNSheep_Main extends Activity {
                     	otherplayerrolls();
 					}
 				});
-        wolf_alert.setNegativeButton("P4 ("+Integer.toString(getData(Data.WOOL, 4))+" wool)",
+        wolf_alert.setNegativeButton("P4 ("+getStringData(Data.WOOL, 4)+" wool)",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
                     	wool[4] = 0;
@@ -679,10 +679,10 @@ public class WolfNSheep_Main extends Activity {
 	
 	private void updateTextOnly() {
 		/** Now uses table format */
-		p1_wool_text.setText(Integer.toString(getData(Data.WOOL, 1))+"/"+Integer.toString(getData(Data.SHEARED_WOOL, 1)));
-	    p2_wool_text.setText(Integer.toString(getData(Data.WOOL, 2))+"/"+Integer.toString(getData(Data.SHEARED_WOOL, 2)));
-	    p3_wool_text.setText(Integer.toString(getData(Data.WOOL, 3))+"/"+Integer.toString(getData(Data.SHEARED_WOOL, 3)));
-	    p4_wool_text.setText(Integer.toString(getData(Data.WOOL, 4))+"/"+Integer.toString(getData(Data.SHEARED_WOOL, 4)));
+		p1_wool_text.setText(getStringData(Data.WOOL, 1)+"/"+getStringData(Data.SHEARED_WOOL, 1));
+	    p2_wool_text.setText(getStringData(Data.WOOL, 2)+"/"+getStringData(Data.SHEARED_WOOL, 2));
+	    p3_wool_text.setText(getStringData(Data.WOOL, 3)+"/"+getStringData(Data.SHEARED_WOOL, 3));
+	    p4_wool_text.setText(getStringData(Data.WOOL, 4)+"/"+getStringData(Data.SHEARED_WOOL, 4));
 		/*
 		p1_wool_text.setText("Your wool: "+Integer.toString(getData(Data.WOOL, 1))+" Your sheared wool: "+Integer.toString(getData(Data.SHEARED_WOOL, 1)));
 	    p2_wool_text.setText("P2 wool: "+Integer.toString(getData(Data.WOOL, 2))+" P2 sheared wool: "+Integer.toString(getData(Data.SHEARED_WOOL, 2)));
