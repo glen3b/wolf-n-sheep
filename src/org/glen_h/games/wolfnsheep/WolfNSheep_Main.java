@@ -164,12 +164,12 @@ public class WolfNSheep_Main extends Activity {
 	@author Glen Husman
 	*/
 	/*
-	private void multiplayerUnstableToast(){
+	void multiplayerUnstableToast(){
 		Toast.makeText(getBaseContext(), "This is highly unstable and not ready for use!!", Toast.LENGTH_LONG).show();
 	}
 	*/
 	
-	private String about_dialog_text = "Wolf 'N Sheep 1.4 - http://code.google.com/p/wolf-n-sheep -" +
+	String about_dialog_text = "Wolf 'N Sheep 1.4 - http://code.google.com/p/wolf-n-sheep -" +
 			" Wolf 'N Sheep release 1.4. An android game inspired by wild wool. Soon to have multiplayer support. " +
 			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
@@ -220,7 +220,7 @@ public class WolfNSheep_Main extends Activity {
       private Button grow;
       private Button swap;
       // TODONE Fix dice (Also fix onClick functions for the dice)
-	  private String[] messages = 
+	  String[] messages = 
 	        { "Roll the die!",
       		"Shear sheep or grow wool.",
       		"Swap sheep or grow wool.",
@@ -411,7 +411,7 @@ public class WolfNSheep_Main extends Activity {
             };
         this.roll.setOnClickListener(roll_action);
         }
-    private void init_app() {
+    void init_app() {
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Player selection");
 		alert.setMessage("You have "+Integer.toString(wool[1])+" wool.\nWho would you like to swap sheep with?");
@@ -600,7 +600,7 @@ public class WolfNSheep_Main extends Activity {
 	 * Clear all visible buttons (wolf, grow, shear, and swap).
 	 * Changes the visibility states of the action buttons to View.GONE.
 	 */
-	private void makeInvisible() {
+	void makeInvisible() {
 		// Clear all visible buttons
 		wolf.setVisibility(View.GONE);
 		grow.setVisibility(View.GONE);
@@ -717,7 +717,7 @@ public class WolfNSheep_Main extends Activity {
 		  return randomNum;
 	}
 	
-	private void updateTextOnly() {
+	void updateTextOnly() {
 		/** Now uses table format */
 		p1_wool_text.setText(getStringData(Data.WOOL, 1)+"/"+getStringData(Data.SHEARED_WOOL, 1));
 	    p2_wool_text.setText(getStringData(Data.WOOL, 2)+"/"+getStringData(Data.SHEARED_WOOL, 2));
@@ -934,7 +934,7 @@ public class WolfNSheep_Main extends Activity {
     	updateTextOnly();
 	}
 	
-	private void shearWoolGameover(Integer num_player){
+	void shearWoolGameover(Integer num_player){
 		CharSequence old_text = text.getText();
 		shearWool(num_player);
 		if(num_player == 1){
@@ -964,7 +964,7 @@ public class WolfNSheep_Main extends Activity {
 	/**
 	 * Update the TextView's text for all players wool.
 	 */
-	private void updateText(){
+	void updateText(){
 	updateTextOnly();
 	init_app();
 	checkIfGameOver();
