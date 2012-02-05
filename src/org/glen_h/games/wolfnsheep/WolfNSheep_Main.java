@@ -236,6 +236,7 @@ public class WolfNSheep_Main extends Activity {
 	private TextView p4_wool_text;
 	private boolean autoshear_state;
 	private boolean shearcosts_state;
+	private boolean criticalalerts_state;
 		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -266,6 +267,7 @@ public class WolfNSheep_Main extends Activity {
         SharedPreferences settings = getSharedPreferences("extras", 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
 	    shearcosts_state = settings.getBoolean("shearcosts", false);
+	    criticalalerts_state = settings.getBoolean("criticalalerts", true);
 	    Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
 	    Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
         this.setContentView(R.layout.main);
@@ -785,10 +787,16 @@ public class WolfNSheep_Main extends Activity {
 				final int num_player_old_wool = wool[num_player];
 				wool[player_swap] = num_player_old_wool;
 				wool[num_player] = player_swap_old_wool;
-				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap)+".";
+				returnvalue = "P"+num_player.toString()+" swapped with P"+Integer.toString(player_swap)+".";
+				if(criticalalerts_state && player_swap == 1){
+					LinkAlertDialog.create(this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
+				}
 			}else{
 				wool[who_most_wool] = 0;
 				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(who_most_wool)+".";
+				if(criticalalerts_state && who_most_wool == 1){
+					LinkAlertDialog.create(this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
+				}
 			}
 			break;
 		case 3:
@@ -816,6 +824,9 @@ public class WolfNSheep_Main extends Activity {
 			if(player_wolf > 0 && player_wolf < 5){
 				wool[player_wolf] = 0;
 				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf)+".";
+				if(criticalalerts_state && player_wolf == 1){
+					LinkAlertDialog.create(this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
+				}
 				}
 			else{
 				shearWool(num_player);
@@ -848,6 +859,9 @@ public class WolfNSheep_Main extends Activity {
 				wool[player_swap_alt] = num_player_old_wool;
 				wool[num_player] = player_swap_old_wool;
 				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap_alt)+".";
+				if(criticalalerts_state && player_swap_alt == 1){
+					LinkAlertDialog.create(this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
+				}
 			}else{
 				wool[num_player]++;
 				returnvalue = "P"+Integer.toString(num_player)+" grew.";
