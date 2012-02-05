@@ -23,5 +23,5 @@ package org.glen_h.games.wolfnsheep;
  *
  */
 public enum Data {
-	WOOL, SHEARED_WOOL, PLAYERS, LASTMOVE
+	WOOL, SHEARED_WOOL, PLAYERS, LASTMOVE, LASTMOVE_FULL
 }

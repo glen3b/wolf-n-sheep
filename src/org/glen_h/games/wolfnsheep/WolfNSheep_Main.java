@@ -75,7 +75,9 @@ public class WolfNSheep_Main extends Activity {
             case LASTMOVE:
                 StringBuilder p__did = new StringBuilder(players_did[num_player_data].replace("P"+num_player_data.toString()+" ", ""));
                 p__did.setCharAt(0, Character.toUpperCase(p__did.charAt(0)));  
-                return p__did.toString().replace('.', ' ');
+                return p__did.toString().replace(".", "");
+            case LASTMOVE_FULL:
+            	return players_did[num_player_data];
             case WOOL:
             	return getData(Data.WOOL, num_player_data).toString();
             case SHEARED_WOOL:
@@ -294,6 +296,7 @@ public class WolfNSheep_Main extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// This just continues single-player
+						init_app();
 					}
 				});
         mp_alert.setNeutralButton("Multiplayer",
@@ -327,6 +330,7 @@ public class WolfNSheep_Main extends Activity {
         	mp_alert.show();
         }
 		updateTextOnly();
+		init_app();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
@@ -457,6 +461,15 @@ public class WolfNSheep_Main extends Activity {
 
             }
           });
+        this.shear.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	shearWool(1);
+            	updateTextOnly();
+            	makeInvisible();
+        		otherplayerrolls();
+
+            }
+          });
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
         wolf_alert.setMessage("You have "+getStringData(Data.WOOL, 1)+" wool.\nWho would you like to send the wolf to?");
@@ -504,13 +517,13 @@ public class WolfNSheep_Main extends Activity {
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
 		if(total_wool >= max_total_wool){
 			// Game over!
-			text.setText("Game over!");
-			text.setTextColor(Color.GREEN);
-			shearWool(1);
-        	shearWool(2);
-        	shearWool(3);
-			shearWool(4);
+			
+			shearWoolGameover(1);
+			shearWoolGameover(2);
+			shearWoolGameover(3);
+			shearWoolGameover(4);
 			roll.setVisibility(View.VISIBLE);
+			text.setTextColor(Color.GREEN);
 			makeInvisible();
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
@@ -542,14 +555,18 @@ public class WolfNSheep_Main extends Activity {
 				}
 			}
 			winner_text.setVisibility(View.VISIBLE);
+			text.setText(((String) text.getText()).replace(" Roll again!", ""));
 			if(winner == tie_text){
 				winner_text.setText("Tie!!");
 				Toast.makeText(getBaseContext(), "Game over! Tie!!", Toast.LENGTH_LONG).show();
 			}
 			else{
 			winner_text.setText(winner+" wins!!");
+			text.setText("Game over!");
 			Toast.makeText(getBaseContext(), "Game over! Congratulations, "+winner+"!", Toast.LENGTH_LONG).show();
 			}
+			logtext.setText("Last moves:"+"\n"+players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]);
+			text.setText("Game over!");
 			final int winner_final = winner_player_num;
 			share.setVisibility(View.VISIBLE);
 			share.setOnClickListener(new OnClickListener(){
@@ -566,13 +583,16 @@ public class WolfNSheep_Main extends Activity {
 					sharingIntent.setType("text/plain");
 				    startActivity(Intent.createChooser(sharingIntent,"Share high score using"));
 				}});
-			updateTextOnly();
+			if(winner_final == 1){
+				text.setText("Game over! You won!");
+			}
 			gameover =  true;
 		}		
 		else{
 			// Game-in-progress.
 			gameover =  false;
 		}
+		updateTextOnly();
 		return gameover;
 	}
  
@@ -663,7 +683,24 @@ public class WolfNSheep_Main extends Activity {
 		players_did[2] = p_action(2, random_number_p2);
 		players_did[3] = p_action(3, random_number_p3);
 		players_did[4] = p_action(4, random_number_p4);
-		logtext.setText(players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]);
+		int winning_score = -1;
+		String winner;
+		int winner_player_num = 0;
+		// TODONE Use arrays everywhere, so this will work!!!
+		for (player_num=1; player_num <= num_players; player_num++) {
+			if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
+				winner_player_num = 0;
+			} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
+				winner_player_num = player_num;
+				winning_score = wool[player_num]+sheared_wool[player_num];
+			}
+		}
+		if(winner_player_num == 0){
+			winner = "Currently tied.";
+		}else{
+			winner = "P"+Integer.toString(winner_player_num)+" currently winning.";
+		}
+		logtext.setText(players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]+"\n"+winner);
 		updateTextOnly();
 	}
 	
@@ -897,6 +934,14 @@ public class WolfNSheep_Main extends Activity {
     	updateTextOnly();
 	}
 	
+	private void shearWoolGameover(Integer num_player){
+		CharSequence old_text = text.getText();
+		shearWool(num_player);
+		if(num_player == 1){
+			text.setText(old_text);
+		}
+	}
+	
 	/**
 	 * Shears the wool of a player.
 	 * @author Glen Husman & Matt Husman
@@ -921,6 +966,7 @@ public class WolfNSheep_Main extends Activity {
 	 */
 	private void updateText(){
 	updateTextOnly();
+	init_app();
 	checkIfGameOver();
 	// Maybe use this code sometime
 	
