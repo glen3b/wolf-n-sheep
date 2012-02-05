@@ -75,11 +75,11 @@ public class WolfNSheep_Main extends Activity {
             case LASTMOVE:
             	return players_did[num_player_data];
             case WOOL:
-            	return Integer.toString(getData(Data.WOOL, num_player_data));
+            	return getData(Data.WOOL, num_player_data).toString();
             case SHEARED_WOOL:
-            	return Integer.toString(getData(Data.SHEARED_WOOL, num_player_data));
+            	return getData(Data.SHEARED_WOOL, num_player_data).toString();
             case PLAYERS:
-            	return Integer.toString(getData(Data.PLAYERS, num_player_data));
+            	return getData(Data.PLAYERS, num_player_data).toString();
             default:
             	return null;
         	}
