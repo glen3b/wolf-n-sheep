@@ -73,7 +73,9 @@ public class WolfNSheep_Main extends Activity {
 	String getStringData(Data data_get, Integer num_player_data) {
         switch (data_get) {
             case LASTMOVE:
-            	return players_did[num_player_data];
+                StringBuilder p__did = new StringBuilder(players_did[num_player_data].replace("P"+num_player_data.toString()+" ", ""));
+                p__did.setCharAt(0, Character.toUpperCase(p__did.charAt(0)));  
+                return p__did.toString().replace('.', ' ');
             case WOOL:
             	return getData(Data.WOOL, num_player_data).toString();
             case SHEARED_WOOL:
