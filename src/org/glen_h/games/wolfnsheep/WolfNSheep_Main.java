@@ -300,7 +300,6 @@ public class WolfNSheep_Main extends Activity {
 				     	startActivity(mp);
 					}
 				});
-        AlertDialog mp_alert_showable = mp_alert.create();
         if(data_saved != null){
             final int[] wool_saved = data_saved.getIntArray("wool");
             final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
@@ -321,7 +320,7 @@ public class WolfNSheep_Main extends Activity {
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
         }else{
-        	mp_alert_showable.show();
+        	mp_alert.show();
         }
 		updateTextOnly();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
