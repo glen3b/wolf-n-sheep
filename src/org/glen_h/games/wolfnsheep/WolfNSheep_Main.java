@@ -51,7 +51,7 @@ public class WolfNSheep_Main extends Activity {
 	 * @param num_player_data The player to get the data for
 	 * @return The data. -1 if invalid (default in switch).
 	 */
-	int getData(Data data_get, Integer num_player_data) {
+	Integer getData(Data data_get, Integer num_player_data) {
         switch (data_get) {
             case WOOL:
             	return wool[num_player_data];
