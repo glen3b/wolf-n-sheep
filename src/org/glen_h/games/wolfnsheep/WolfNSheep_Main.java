@@ -178,7 +178,7 @@ public class WolfNSheep_Main extends Activity {
 	
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        Integer item_id = item.getItemId();
+        int item_id = item.getItemId();
     	switch (item_id) {
         /*
     	case R.id.multiplayer:
@@ -202,7 +202,7 @@ public class WolfNSheep_Main extends Activity {
         return false;
     }
 	
-	  private Integer random_number = 0;
+	  private int random_number = 0;
 	  private Button roll;
 
 	  private int wool[] = new int[5];
@@ -210,17 +210,17 @@ public class WolfNSheep_Main extends Activity {
 	  private int player_num;
 	  private TextView logtext;
 	  private int num_players = 4;
-	  private String TAG = "WolfNSheep_Main";
+	  private static final String TAG = "WolfNSheep_Main";
 	  private String[] players_did = {"","P1 is unknown, should refer to main text","None","None","None"};
 	  private int total_wool;
-      private final int max_wool = 5;
-      private final int max_total_wool = 25;
+      private static final int max_wool = 5;
+      private static final int max_total_wool = 25;
       private Button shear;
       private Button wolf;
       private Button grow;
       private Button swap;
       // TODONE Fix dice (Also fix onClick functions for the dice)
-	  String[] messages = 
+	  static final String[] messages = 
 	        { "Roll the die!",
       		"Shear sheep or grow wool.",
       		"Swap sheep or grow wool.",
@@ -398,7 +398,7 @@ public class WolfNSheep_Main extends Activity {
                 text.setTextColor(Color.YELLOW);
             	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             	random_number = randomNumber(1, 6);
-            	Log.i(TAG, "Player (P1) rolled number "+random_number.toString()+" on the die, also known as a '"+messages[random_number]+"'");
+            	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
                 text.setText(messages[random_number]);
                 roll();
