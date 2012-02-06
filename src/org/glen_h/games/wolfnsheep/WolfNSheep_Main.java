@@ -220,7 +220,7 @@ public class WolfNSheep_Main extends Activity {
       private Button grow;
       private Button swap;
       // TODONE Fix dice (Also fix onClick functions for the dice)
-	  static final String[] messages = 
+	  public static final String[] messages = 
 	        { "Roll the die!",
       		"Shear sheep or grow wool.",
       		"Swap sheep or grow wool.",
