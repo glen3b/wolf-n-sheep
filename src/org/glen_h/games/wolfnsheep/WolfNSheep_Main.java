@@ -507,7 +507,8 @@ public class WolfNSheep_Main extends Activity {
 		
 	}
 
-    int[] tie_between = {0,0};
+    int[] tie_between = new int[5];
+    int ways_tie;
     
 	/**
      * Checks whether the game is over, and, if so, returns {@code true} and performs the necessary game actions.
@@ -517,15 +518,25 @@ public class WolfNSheep_Main extends Activity {
 	protected boolean checkIfGameOver() {
 		boolean gameover;
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
+		// FIXMED Developer cheat
+		// total_wool = 25;
+		// TODONE Remove developer cheat when done testing
 		if(total_wool >= max_total_wool){
 			// Game over!
 			shearWoolGameover(1);
 			shearWoolGameover(2);
 			shearWoolGameover(3);
 			shearWoolGameover(4);
+			// FIXMED Developer cheat
+			// sheared_wool[1]++;
+			// sheared_wool[2] = sheared_wool[1];
+			// sheared_wool[3] = sheared_wool[2];
+			// sheared_wool[4] = sheared_wool[3];
+			// TODONE Remove developer cheat when done testing
 			roll.setVisibility(View.VISIBLE);
 			text.setTextColor(Color.GREEN);
 			makeInvisible();
+			ways_tie = tie_between[1] + tie_between[2] + tie_between[3] + tie_between[4] + 1;
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
@@ -548,8 +559,7 @@ public class WolfNSheep_Main extends Activity {
 			for (player_num=1; player_num <= num_players; player_num++) {
 				if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
 					winner = tie_text;
-					tie_between[0] = winner_player_num;
-					tie_between[1] = player_num;
+					tie_between[player_num] = 1;
 					winner_player_num = 0;
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
@@ -557,17 +567,16 @@ public class WolfNSheep_Main extends Activity {
 					winning_score = wool[player_num]+sheared_wool[player_num];
 				}
 			}
-			Log.i(TAG,"Tied between array shows tie between these players: "+tie_between[0]+" and "+tie_between[1]);
+			Log.i(TAG,"Tied between array shows these tie statistics: "+tie_between[1]+", "+tie_between[2]+", "+tie_between[3]+", "+tie_between[4]);
 			winner_text.setVisibility(View.VISIBLE);
 			text.setText(((String) text.getText()).replace(" Roll again!", ""));
 			if(winner == tie_text){
-				if(tie_between[0] == 0 || tie_between[1] == 0){
-					winner_text.setText("Multi-way tie!!");
-					Toast.makeText(getBaseContext(), "Game over! Congratulations!!", Toast.LENGTH_LONG).show();
-				}else{
+				winner_text.setText(ways_tie+"-way tie!!");
+				Toast.makeText(getBaseContext(), "Game over! Congratulations!!", Toast.LENGTH_LONG).show();
+				/*
 				winner_text.setText("Tie between P"+tie_between[0]+" and P"+tie_between[1]+"!!");
 				Toast.makeText(getBaseContext(), "Game over! Congratulations, P"+tie_between[0]+" and P"+tie_between[1]+"!!", Toast.LENGTH_LONG).show();
-				}
+				*/
 			}
 			else{
 			winner_text.setText(winner+" wins!!");
@@ -583,7 +592,7 @@ public class WolfNSheep_Main extends Activity {
 					String share_text;
 					if(winner_final == 1){
 						share_text = "I got a 1st place winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
-					}else if(tie_between[0] == 1 || tie_between[1] == 1){
+					}else if(ways_tie > 1 && tie_between[1] >= 1){
 						share_text = "I tied with a 1st winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
 					}
 					else{
