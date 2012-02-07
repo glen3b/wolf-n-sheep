@@ -518,25 +518,26 @@ public class WolfNSheep_Main extends Activity {
 	protected boolean checkIfGameOver() {
 		boolean gameover;
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
-		// FIXMED Developer cheat
-		// total_wool = 25;
-		// TODONE Remove developer cheat when done testing
+		// FIXME Developer cheat
+		total_wool = 25;
+		// TODO Remove developer cheat when done testing
 		if(total_wool >= max_total_wool){
 			// Game over!
 			shearWoolGameover(1);
 			shearWoolGameover(2);
 			shearWoolGameover(3);
 			shearWoolGameover(4);
-			// FIXMED Developer cheat
-			// sheared_wool[1]++;
-			// sheared_wool[2] = sheared_wool[1];
-			// sheared_wool[3] = sheared_wool[2];
-			// sheared_wool[4] = sheared_wool[3];
-			// TODONE Remove developer cheat when done testing
+			// FIXME Developer cheat
+			sheared_wool[1]++;
+			sheared_wool[2] = sheared_wool[1];
+			sheared_wool[3] = sheared_wool[2];
+			sheared_wool[4] = sheared_wool[3];
+			// TODO Remove developer cheat when done testing
 			roll.setVisibility(View.VISIBLE);
 			text.setTextColor(Color.GREEN);
 			makeInvisible();
-			ways_tie = tie_between[1] + tie_between[2] + tie_between[3] + tie_between[4] + 1;
+			// FIXME Tie-checking bug where if there is a 4+ way tie involving P1, P1 is not listed in tied players, or here!
+			ways_tie = tie_between[1] + tie_between[2] + tie_between[3] + tie_between[4] /* + 1 */;
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
@@ -570,8 +571,13 @@ public class WolfNSheep_Main extends Activity {
 			Log.i(TAG,"Tied between array shows these tie statistics: "+tie_between[1]+", "+tie_between[2]+", "+tie_between[3]+", "+tie_between[4]);
 			winner_text.setVisibility(View.VISIBLE);
 			text.setText(((String) text.getText()).replace(" Roll again!", ""));
+			String tiebetween = "";
+			for (int loopi01=1; loopi01 <= 4; loopi01++) {
+				if (tie_between[loopi01] >= 1 && loopi01 != 4) tiebetween = tiebetween.concat("P"+loopi01+" and ");
+				else if (tie_between[loopi01] >= 1 && loopi01 == 4) tiebetween = tiebetween.concat("P"+loopi01);
+			}
 			if(winner == tie_text){
-				winner_text.setText(ways_tie+"-way tie!!");
+				winner_text.setText(ways_tie+"-way tie between "+tiebetween+"!!");
 				Toast.makeText(getBaseContext(), "Game over! Congratulations!!", Toast.LENGTH_LONG).show();
 				/*
 				winner_text.setText("Tie between P"+tie_between[0]+" and P"+tie_between[1]+"!!");
