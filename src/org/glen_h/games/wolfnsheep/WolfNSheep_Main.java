@@ -518,21 +518,23 @@ public class WolfNSheep_Main extends Activity {
 	protected boolean checkIfGameOver() {
 		boolean gameover;
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
-		// FIXME Developer cheat
-		total_wool = 25;
-		// TODO Remove developer cheat when done testing
+		// FIXMED Developer cheat
+		// total_wool = 25;
+		// TODONE Remove developer cheat when done testing
 		if(total_wool >= max_total_wool){
 			// Game over!
 			shearWoolGameover(1);
 			shearWoolGameover(2);
 			shearWoolGameover(3);
 			shearWoolGameover(4);
-			// FIXME Developer cheat
+			// FIXMED Developer cheat
+			/*
 			sheared_wool[1]++;
 			sheared_wool[2] = sheared_wool[1];
 			sheared_wool[3] = sheared_wool[2];
 			sheared_wool[4] = sheared_wool[3];
-			// TODO Remove developer cheat when done testing
+			*/
+			// TODONE Remove developer cheat when done testing
 			roll.setVisibility(View.VISIBLE);
 			text.setTextColor(Color.GREEN);
 			makeInvisible();
