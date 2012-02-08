@@ -530,7 +530,7 @@ public class WolfNSheep_Main extends Activity {
 			// FIXMED Developer cheat
 			/*
 			sheared_wool[1]++;
-			sheared_wool[2] = sheared_wool[1];
+			sheared_wool[2] = sheared_wool[1] + 1;
 			sheared_wool[3] = sheared_wool[2];
 			sheared_wool[4] = sheared_wool[3];
 			*/
@@ -538,7 +538,7 @@ public class WolfNSheep_Main extends Activity {
 			roll.setVisibility(View.VISIBLE);
 			text.setTextColor(Color.GREEN);
 			makeInvisible();
-			// FIXME Tie-checking bug where if there is a 4+ way tie involving P1, P1 is not listed in tied players, or here!
+			// FIXMED Tie-checking bug where if there is a 4+ way tie involving P1, P1 is not listed in tied players, or here!
 			ways_tie = tie_between[1] + tie_between[2] + tie_between[3] + tie_between[4] /* + 1 */;
 			roll.setText("Restart");
 			roll.setOnClickListener(new OnClickListener(){
@@ -564,6 +564,7 @@ public class WolfNSheep_Main extends Activity {
 					winner = tie_text;
 					tie_between[player_num] = 1;
 					winner_player_num = 0;
+					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 1]+sheared_wool[player_num - 1] && player_num - 1 != 0) tie_between[player_num - 1] = 1;
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
 					winner_player_num = player_num;
@@ -580,7 +581,7 @@ public class WolfNSheep_Main extends Activity {
 			}
 			if(winner == tie_text){
 				winner_text.setText(ways_tie+"-way tie between "+tiebetween+"!!");
-				Toast.makeText(getBaseContext(), "Game over! Congratulations!!", Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "Game over! Congratulations, "+tiebetween+"!!", Toast.LENGTH_LONG).show();
 				/*
 				winner_text.setText("Tie between P"+tie_between[0]+" and P"+tie_between[1]+"!!");
 				Toast.makeText(getBaseContext(), "Game over! Congratulations, P"+tie_between[0]+" and P"+tie_between[1]+"!!", Toast.LENGTH_LONG).show();
@@ -601,7 +602,7 @@ public class WolfNSheep_Main extends Activity {
 					if(winner_final == 1){
 						share_text = "I got a 1st place winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
 					}else if(ways_tie > 1 && tie_between[1] >= 1){
-						share_text = "I tied with a 1st winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+						share_text = "I tied with a 1st place winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
 					}
 					else{
 						share_text = "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
