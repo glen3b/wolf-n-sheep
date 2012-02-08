@@ -21,4 +21,5 @@
     <string name="share">Share High Score</string>
     <string name="extras_title">Wolf \'N Sheep Extras</string>
     <string name="player_one_land">P1</string>
+    <string name="help_item">Help</string>
 </resources>

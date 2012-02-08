@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -180,16 +181,13 @@ public class WolfNSheep_Main extends Activity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         int item_id = item.getItemId();
     	switch (item_id) {
-        /*
-    	case R.id.multiplayer:
-     	   Intent mp = new Intent(this, WolfNSheep_Multiplayer.class);
-     	   startActivity(mp);
-           multiplayerUnstableToast();
+    	case R.id.help:
+    	   Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://code.google.com/p/wolf-n-sheep/wiki/GameHelp"));
+    	   startActivity(browserIntent);
            return true;
-           */
     	case R.id.prefs_item:
-      	   Intent mp = new Intent(this, Extras.class);
-      	   startActivity(mp);
+      	   Intent prefs = new Intent(this, Extras.class);
+      	   startActivity(prefs);
       	   return true;
         case R.id.exit:
         	finish();
