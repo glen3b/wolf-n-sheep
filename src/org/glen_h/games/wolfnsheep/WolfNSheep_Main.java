@@ -526,11 +526,11 @@ public class WolfNSheep_Main extends Activity {
 			shearWoolGameover(3);
 			shearWoolGameover(4);
 			// FIXMED Developer cheat
-			/*
-			sheared_wool[1]++;
-			sheared_wool[2] = sheared_wool[1] + 1;
-			sheared_wool[3] = sheared_wool[2];
-			sheared_wool[4] = sheared_wool[3];
+			/**
+			sheared_wool[1] = 0;
+			sheared_wool[2] = 0;
+			sheared_wool[3] = 0;
+			sheared_wool[4] = 0;
 			*/
 			// TODONE Remove developer cheat when done testing
 			roll.setVisibility(View.VISIBLE);
@@ -562,7 +562,13 @@ public class WolfNSheep_Main extends Activity {
 					winner = tie_text;
 					tie_between[player_num] = 1;
 					winner_player_num = 0;
-					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 1]+sheared_wool[player_num - 1] && player_num - 1 != 0) tie_between[player_num - 1] = 1;
+					try{
+					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 1]+sheared_wool[player_num - 1] && (player_num - 1) > 0) tie_between[player_num - 1] = 1;
+					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 2]+sheared_wool[player_num - 2] && (player_num - 2) > 0) tie_between[player_num - 2] = 1;
+					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 3]+sheared_wool[player_num - 3] && (player_num - 3) > 0) tie_between[player_num - 3] = 1;
+					}catch (ArrayIndexOutOfBoundsException array_error){
+						Log.e(TAG, "We had an array error here (in the additional tie-checking verifiers [if statements])", array_error);
+					}
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
 					winner_player_num = player_num;
@@ -579,7 +585,8 @@ public class WolfNSheep_Main extends Activity {
 			}
 			if(winner == tie_text){
 				winner_text.setText(ways_tie+"-way tie between "+tiebetween+"!!");
-				Toast.makeText(getBaseContext(), "Game over! Congratulations, "+tiebetween+"!!", Toast.LENGTH_LONG).show();
+				winner_text.setText(((String) winner_text.getText()).replace(" and !!", "!!"));
+				Toast.makeText(getBaseContext(), ("Game over! Congratulations, "+tiebetween+"!!").replace(" and !!", "!!"), Toast.LENGTH_LONG).show();
 				/*
 				winner_text.setText("Tie between P"+tie_between[0]+" and P"+tie_between[1]+"!!");
 				Toast.makeText(getBaseContext(), "Game over! Congratulations, P"+tie_between[0]+" and P"+tie_between[1]+"!!", Toast.LENGTH_LONG).show();
