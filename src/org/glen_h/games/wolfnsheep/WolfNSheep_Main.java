@@ -516,23 +516,21 @@ public class WolfNSheep_Main extends Activity {
 	protected boolean checkIfGameOver() {
 		boolean gameover;
 		total_wool = wool[1] + wool[2] + wool[3] + wool[4] + sheared_wool[1] + sheared_wool[2] + sheared_wool[3] + sheared_wool[4];
-		// FIXMED Developer cheat
-		// total_wool = 25;
-		// TODONE Remove developer cheat when done testing
+		// FIXME Developer cheat
+		total_wool = 25;
+		// TODO Remove developer cheat when done testing
 		if(total_wool >= max_total_wool){
 			// Game over!
 			shearWoolGameover(1);
 			shearWoolGameover(2);
 			shearWoolGameover(3);
 			shearWoolGameover(4);
-			// FIXMED Developer cheat
-			/**
+			// FIXME Developer cheat
 			sheared_wool[1] = 0;
 			sheared_wool[2] = 0;
 			sheared_wool[3] = 0;
 			sheared_wool[4] = 0;
-			*/
-			// TODONE Remove developer cheat when done testing
+			// TODO Remove developer cheat when done testing
 			roll.setVisibility(View.VISIBLE);
 			text.setTextColor(Color.GREEN);
 			makeInvisible();
@@ -562,6 +560,11 @@ public class WolfNSheep_Main extends Activity {
 					winner = tie_text;
 					tie_between[player_num] = 1;
 					winner_player_num = 0;
+					if(wool[player_num]+sheared_wool[player_num] == wool[1]+sheared_wool[1] && player_num != 1) tie_between[1] = 1;
+					if(wool[player_num]+sheared_wool[player_num] == wool[2]+sheared_wool[2] && player_num != 2) tie_between[2] = 1;
+					if(wool[player_num]+sheared_wool[player_num] == wool[3]+sheared_wool[3] && player_num != 3) tie_between[3] = 1;
+					if(wool[player_num]+sheared_wool[player_num] == wool[4]+sheared_wool[4] && player_num != 4) tie_between[4] = 1;
+					/*
 					try{
 					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 1]+sheared_wool[player_num - 1] && (player_num - 1) > 0) tie_between[player_num - 1] = 1;
 					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 2]+sheared_wool[player_num - 2] && (player_num - 2) > 0) tie_between[player_num - 2] = 1;
@@ -569,6 +572,7 @@ public class WolfNSheep_Main extends Activity {
 					}catch (ArrayIndexOutOfBoundsException array_error){
 						Log.e(TAG, "We had an array error here (in the additional tie-checking verifiers [if statements])", array_error);
 					}
+					*/
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
 					winner = "P"+Integer.toString(player_num);
 					winner_player_num = player_num;
@@ -607,7 +611,7 @@ public class WolfNSheep_Main extends Activity {
 					if(winner_final == 1){
 						share_text = "I got a 1st place winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
 					}else if(ways_tie > 1 && tie_between[1] >= 1){
-						share_text = "I tied with a 1st place winning high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
+						share_text = "I tied with a 1st place high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
 					}
 					else{
 						share_text = "I got a high score of "+Integer.toString(sheared_wool[1])+" wool on wolf 'n sheep. Think you can beat it?";
