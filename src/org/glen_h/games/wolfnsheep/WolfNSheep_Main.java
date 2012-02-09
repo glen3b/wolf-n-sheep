@@ -270,6 +270,7 @@ public class WolfNSheep_Main extends Activity {
 	    criticalalerts_state = settings.getBoolean("criticalalerts", true);
 	    Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
 	    Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
+	    Log.d(TAG, "Critical alerts preference is "+Boolean.toString(criticalalerts_state));
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
