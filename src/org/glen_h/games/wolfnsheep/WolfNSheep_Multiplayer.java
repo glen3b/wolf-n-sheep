@@ -21,15 +21,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -125,30 +121,6 @@ public class WolfNSheep_Multiplayer extends Activity {
         	break;
     	}
 	}
-	
-	public static class LinkAlertDialog {
-
-		public static AlertDialog create(Context context, String title, String message_txt, String dismiss_text) {
-		  final TextView message = new TextView(context);
-		  // i.e.: R.string.dialog_message =>
-		            // "Test this dialog following the link to dtmilano.blogspot.com"
-		  final SpannableString s = 
-		               new SpannableString(message_txt);
-		  Linkify.addLinks(s, Linkify.WEB_URLS);
-		  message.setText(s);
-		  message.setMovementMethod(LinkMovementMethod.getInstance());
-
-		  return new AlertDialog.Builder(context)
-		   .setTitle(title)
-		   .setCancelable(true)
-		   .setIcon(android.R.drawable.ic_dialog_info)
-		   .setPositiveButton(dismiss_text, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {}
-			})
-		   .setView(message)
-		   .create();
-		 }
-		}
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -876,7 +848,7 @@ public class WolfNSheep_Multiplayer extends Activity {
 
 	/**
 	 * Shears P1's wool.
-	 * @deprecated Use {@link shearWool(int)} instead.
+	 * @deprecated Use {@link #shearWool(int)} instead.
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void shearWool(){

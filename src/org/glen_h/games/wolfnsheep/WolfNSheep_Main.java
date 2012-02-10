@@ -976,7 +976,7 @@ public class WolfNSheep_Main extends Activity {
 
 	/**
 	 * Shears P1's wool.
-	 * @deprecated Use {@link shearWool(int)} instead.
+	 * @deprecated Use {@link #shearWool(int)} instead.
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void shearWool(){
