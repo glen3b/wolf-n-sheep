@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 /**
  * This is the secondary, multi-player, wolf 'n sheep game activity.
+ * THIS ACTIVITY IS DEPRECATED. WE ARE NOW TRYING TO USE A SEPERATE MODE IN THE MAIN ACTIVITY, BUT ALL IN ONE ACTIVITY.
  * @author Glen Husman
  */
 public class WolfNSheep_Multiplayer extends Activity {

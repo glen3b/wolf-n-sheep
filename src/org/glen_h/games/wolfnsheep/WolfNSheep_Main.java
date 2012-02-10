@@ -45,7 +45,7 @@ import android.widget.Toast;
  * @author Glen Husman
  */
 public class WolfNSheep_Main extends Activity {
-	
+
 	/**
 	 * Gets gameplay data.
 	 * @param data_get The data to get
@@ -237,6 +237,7 @@ public class WolfNSheep_Main extends Activity {
 	private boolean autoshear_state;
 	private boolean shearcosts_state;
 	private boolean criticalalerts_state;
+	protected PlayerMode mode;
 		
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -295,6 +296,7 @@ public class WolfNSheep_Main extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// This just continues single-player
+						mode = PlayerMode.SINGLEPLAYER;
 						init_app();
 					}
 				});
@@ -302,8 +304,9 @@ public class WolfNSheep_Main extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// TODO Finish multiplayer!
-						Intent mp = new Intent(WolfNSheep_Main.this, WolfNSheep_Multiplayer.class);
-				     	startActivity(mp);
+						mode = PlayerMode.MULTIPLAYER;
+						// TODO Get this to do something 
+						// init_app();
 					}
 				});
         if(data_saved != null){
@@ -325,9 +328,12 @@ public class WolfNSheep_Main extends Activity {
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
-        }else{
+        }
+        /*
+        else{
         	mp_alert.show();
         }
+        */
 		updateTextOnly();
 		init_app();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -1041,28 +1047,6 @@ public class WolfNSheep_Main extends Activity {
 		wool[player] = temp_wool;
 		// We might be able to make the "wool_text" into arrays eventually
 		updateText();		
-		}
-	
-	 public static class LinkAlertDialog {
-
-		public static AlertDialog create(Context context, String title, String message_txt, String dismiss_text) {
-		  final TextView message = new TextView(context);
-		  // i.e.: R.string.dialog_message =>
-		            // "Test this dialog following the link to dtmilano.blogspot.com"
-		  final SpannableString s = 
-		               new SpannableString(message_txt);
-		  Linkify.addLinks(s, Linkify.WEB_URLS);
-		  message.setText(s);
-		  message.setMovementMethod(LinkMovementMethod.getInstance());
-
-		  return new AlertDialog.Builder(context)
-		   .setTitle(title)
-		   .setCancelable(true)
-		   .setIcon(android.R.drawable.ic_dialog_info)
-		   .setPositiveButton(dismiss_text, null)
-		   .setView(message)
-		   .create();
-		 }
 		}
 
     }
