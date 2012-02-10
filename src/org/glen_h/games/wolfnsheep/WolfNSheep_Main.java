@@ -86,6 +86,11 @@ public class WolfNSheep_Main extends Activity {
         	}
         }
 	
+	
+	/**
+	 * When the screen orientation changes, save all the vital data in a Bundle (when received, cast to Bundle from Object).
+	 * @author Glen Husman
+	 */
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 	    final int[] wool_saved = wool;
