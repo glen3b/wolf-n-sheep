@@ -249,10 +249,10 @@ public class WolfNSheep_Main extends Activity {
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
-         * OK, let's find out what to do for 1.4 and beyond, lets fix the TODOs,
+         * OK, let's find out what to do for 1.5 and beyond, lets fix the TODOs,
          * add an about dialog (concerning legal issues such as the icon) DONE,
-         * improve player logic, example randomize the order in which players are checked for swap or wolf "compatibility" DONE
-         * add multiplayer (2.0 - 3.5 is goal version range)
+         * improve player logic DONE, example randomize the order in which players are checked for swap or wolf "compatibility" DONE
+         * add multiplayer (2.0 - 3.5 is goal version range) WORKON
          */
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
         final Bundle data_saved = (Bundle) getLastNonConfigurationInstance();
