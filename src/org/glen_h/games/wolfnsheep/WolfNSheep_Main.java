@@ -547,16 +547,24 @@ public class WolfNSheep_Main extends Activity {
 			// FIXMED Tie-checking bug where if there is a 4+ way tie involving P1, P1 is not listed in tied players, or here!
 			ways_tie = tie_between[1] + tie_between[2] + tie_between[3] + tie_between[4] /* + 1 */;
 			roll.setText("Restart");
+            final AlertDialog.Builder restarting_conf = new AlertDialog.Builder(this);
+            restarting_conf.setTitle("New game?");
+            restarting_conf.setMessage("Start a new game?");
+            restarting_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {
+					Intent main = getIntent();
+		            overridePendingTransition(0, 0);
+		            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		            overridePendingTransition(0, 0);
+		            main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+		            finish();
+		            overridePendingTransition(0, 0);
+		            startActivity(main);
+				}});
+            restarting_conf.setNegativeButton("No", null);
 			roll.setOnClickListener(new OnClickListener(){
 				public void onClick(View v) {
-					Intent main = getIntent();
-					overridePendingTransition(0, 0);
-					main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				    overridePendingTransition(0, 0);
-				    main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				    finish();
-				    overridePendingTransition(0, 0);
-				    startActivity(main);
+					restarting_conf.show();
 				}});
 			final String tie_text = "Tie";
 			Button share = (Button) findViewById(R.id.share);
