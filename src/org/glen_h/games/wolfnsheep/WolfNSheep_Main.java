@@ -407,12 +407,11 @@ public class WolfNSheep_Main extends Activity {
             	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
             	makeInvisible();
                 text.setText(messages[random_number]);
-                roll();
+                if(!checkIfGameOver()) roll();
             	}
             	else{
             	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
             	}
-            	checkIfGameOver();
               }
             };
         this.roll.setOnClickListener(roll_action);
