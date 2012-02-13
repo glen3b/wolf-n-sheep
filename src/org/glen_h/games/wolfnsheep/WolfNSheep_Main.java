@@ -24,6 +24,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -171,12 +174,9 @@ public class WolfNSheep_Main extends Activity {
 	}
 	*/
 	
-	String about_dialog_text = "Wolf 'N Sheep 1.4 - http://code.google.com/p/wolf-n-sheep -" +
-			" Wolf 'N Sheep release 1.4. An android game inspired by wild wool. Soon to have multiplayer support. " +
-			"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
-			"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
-			"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
-			"http://www.apache.org/licenses/LICENSE-2.0";
+	protected String version_name;
+	protected String version_code;
+	protected String about_dialog_text;
 	
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -194,6 +194,28 @@ public class WolfNSheep_Main extends Activity {
         	finish();
         	return true;
         case R.id.about:
+        	PackageManager manager = this.getPackageManager();
+        	   PackageInfo info;
+			try {
+				info = manager.getPackageInfo(this.getPackageName(), 0);
+			} catch (NameNotFoundException e) {
+				info = null;
+				Log.e(TAG, "Why was the package name not found?", e);
+			}
+			try{
+			version_name = info.versionName;
+			version_code = Integer.toString(info.versionCode);
+			about_dialog_text = "Wolf 'N Sheep "+version_name+" - http://code.google.com/p/wolf-n-sheep -" +
+					" Wolf 'N Sheep version "+version_name+". An android game inspired by wild wool. Soon to have multiplayer support. " +
+					"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
+					"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
+					"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
+					"http://www.apache.org/licenses/LICENSE-2.0";
+			}catch (NullPointerException nullerror){
+				Log.e(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
+				version_name = "Unknown";
+				version_code = "Unknown";
+			}
         	AlertDialog about = LinkAlertDialog.create(this,"About",about_dialog_text,"OK");
         	about.show();
         	return true;
@@ -306,7 +328,7 @@ public class WolfNSheep_Main extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// TODO Finish multiplayer!
 						mode = PlayerMode.MULTIPLAYER;
-						// TODO Get this to do something 
+						// TODO Get this to do something (like select # of players)
 						// init_app();
 					}
 				});
@@ -330,6 +352,7 @@ public class WolfNSheep_Main extends Activity {
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
         }
+        // TODO When ready, show dialog again
         /*
         else{
         	mp_alert.show();
