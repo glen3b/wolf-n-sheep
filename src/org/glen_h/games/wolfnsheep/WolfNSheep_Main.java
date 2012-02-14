@@ -328,6 +328,9 @@ public class WolfNSheep_Main extends Activity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// TODO Finish multiplayer!
 						mode = PlayerMode.MULTIPLAYER;
+			        	if(mode == PlayerMode.MULTIPLAYER){
+			            	// TODO # of players selection dialog display
+			            }
 						// TODO Get this to do something (like select # of players)
 						// init_app();
 					}
