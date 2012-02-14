@@ -755,6 +755,12 @@ public class WolfNSheep_Main extends Activity {
 	}
 
 	protected void otherplayerrolls() {
+		if(mode == PlayerMode.MULTIPLAYER_2P || mode == PlayerMode.MULTIPLAYER_3P || mode == PlayerMode.MULTIPLAYER_4P){
+			// TODO Do something special for multiplayer
+		}else if(mode == PlayerMode.MULTIPLAYER){
+			// TODO Show # of players selection dialog
+		}else{
+			// This is singleplayer
 		int random_number_p2 = randomNumber(1, 6);
 		String p2logtext = "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'";
 		Log.i(TAG, p2logtext);
@@ -767,6 +773,7 @@ public class WolfNSheep_Main extends Activity {
 		players_did[2] = p_action(2, random_number_p2);
 		players_did[3] = p_action(3, random_number_p3);
 		players_did[4] = p_action(4, random_number_p4);
+		}
 		int winning_score = -1;
 		String winner;
 		int winner_player_num = 0;
