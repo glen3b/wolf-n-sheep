@@ -428,16 +428,15 @@ public class WolfNSheep_Main extends Activity {
             public void onClick(View v) {
             	init_app();
                 text.setTextColor(Color.YELLOW);
-            	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-            	random_number = randomNumber(1, 6);
-            	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
-            	makeInvisible();
-                text.setText(messages[random_number]);
-                if(!checkIfGameOver()) roll();
+            	if(!checkIfGameOver() && shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
+            		random_number = randomNumber(1, 6);
+                	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
+                	makeInvisible();
+                	text.setText(messages[random_number]);
+                	roll();
             	}
-            	else{
-            	    Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();  
-            	}
+            	else if(checkIfGameOver()){}
+            	else Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
               }
             };
         this.roll.setOnClickListener(roll_action);
