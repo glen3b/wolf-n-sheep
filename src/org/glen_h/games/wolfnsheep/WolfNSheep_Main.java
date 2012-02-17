@@ -97,6 +97,7 @@ public class WolfNSheep_Main extends Activity {
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 	    final int[] wool_saved = wool;
+	    final String[] players_did_saved = players_did;
 	    final int[] sheared_wool_saved = sheared_wool;
 	    final int shear_visible = shear.getVisibility();
 	    final int wolf_visible = wolf.getVisibility();
@@ -107,6 +108,7 @@ public class WolfNSheep_Main extends Activity {
 	    final CharSequence log_text_content = logtext.getText();
 	    Bundle data = new Bundle();
 	    data.putIntArray("wool", wool_saved);
+	    data.putStringArray("players_did", players_did_saved);
 	    data.putCharSequence("lastmoves", log_text_content);
 	    data.putIntArray("sheared_wool", sheared_wool_saved);
 	    data.putCharSequence("randomnum", random_num_tosave);
@@ -345,7 +347,9 @@ public class WolfNSheep_Main extends Activity {
     	    final int grow_visible = data_saved.getInt("grow_visible");
     	    final CharSequence random_num_saved = data_saved.getCharSequence("randomnum");
     	    final int swap_visible = data_saved.getInt("swap_visible");
+    	    final String[] players_did_saved = data_saved.getStringArray("players_did");
             wool = wool_saved;
+            players_did = players_did_saved;
             shear.setVisibility(shear_visible);
             wolf.setVisibility(wolf_visible);
             grow.setVisibility(grow_visible);
@@ -354,6 +358,7 @@ public class WolfNSheep_Main extends Activity {
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
             logtext.setText(log_saved);
+            updateTextOnly();
         }
         // TODO When ready, show dialog again
         /*
@@ -436,7 +441,7 @@ public class WolfNSheep_Main extends Activity {
                 	roll();
             	}
             	else if(checkIfGameOver()){}
-            	else Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
+            	else Toast.makeText(getBaseContext(), "No re-rol ls!", Toast.LENGTH_LONG).show();
               }
             };
         this.roll.setOnClickListener(roll_action);
