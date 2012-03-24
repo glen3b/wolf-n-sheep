@@ -360,7 +360,7 @@ public class WolfNSheep_Main extends Activity {
             logtext.setText(log_saved);
             updateTextOnly();
         }
-        // TODO When ready, show dialog again
+        // TODO When ready, show multiplayer-singleplayer choice dialog again
         /*
         else{
         	mp_alert.show();
