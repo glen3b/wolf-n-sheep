@@ -582,12 +582,8 @@ public class WolfNSheep_Main extends Activity {
             restarting_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which) {
 					Intent main = getIntent();
-		            overridePendingTransition(0, 0);
 		            main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		            overridePendingTransition(0, 0);
-		            main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		            finish();
-		            overridePendingTransition(0, 0);
 		            startActivity(main);
 				}});
             restarting_conf.setNegativeButton("No", null);
