@@ -15,9 +15,20 @@
 
 package org.glen_h.games.wolfnsheep;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -116,6 +127,7 @@ public class WolfNSheep_Main extends Activity {
 	    data.putInt("wolf_visible", wolf_visible);
 	    data.putInt("grow_visible", grow_visible);
 	    data.putInt("text_color", rolled_color);
+	    data.putInt("pmode", mode.ordinal());
 	    data.putInt("swap_visible", swap_visible);
 	    return data;
 	}
@@ -214,9 +226,10 @@ public class WolfNSheep_Main extends Activity {
 					"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
 					"http://www.apache.org/licenses/LICENSE-2.0";
 			}catch (NullPointerException nullerror){
-				Log.e(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
+				Log.w(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
 				version_name = "Unknown";
 				version_code = "Unknown";
+				about_dialog_text = "We're sorry, an unexpected error occured.";
 			}
         	AlertDialog about = LinkAlertDialog.create(this,"About",about_dialog_text,"OK");
         	about.show();
@@ -225,6 +238,53 @@ public class WolfNSheep_Main extends Activity {
         return false;
     }
 	
+    void joinGame(){
+
+    }
+    
+    void createGame(){
+    	
+    }
+    
+    /**
+	 * Post data to a URL.
+	 * @author Glen Husman
+	 * @param url The URL to post data to.
+	 * @param ids The array of IDs of POST variables.
+	 * @param values The array of values of POST variables.
+	 * @return The HTTP status code of the request.
+	 */
+	public static int postData(String url, String[] ids, String[] values) {
+	    // Create a new HttpClient and Post Header
+	    HttpClient httpclient = new DefaultHttpClient();
+	    HttpPost httppost = new HttpPost(url);
+
+	    try {
+	        if(ids.length-1 == values.length-1){
+	    	// Add your data
+	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(ids.length-1);
+	        for(int ii = 0; ii <= ids.length-1; ii++){
+	        nameValuePairs.add(new BasicNameValuePair(ids[ii], values[ii]));
+	        }
+	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+	        // Execute HTTP Post Request
+	        HttpResponse result = httpclient.execute(httppost);
+	        return result.getStatusLine().getStatusCode();
+	        }
+			return -1;
+	    } catch (ClientProtocolException e) {
+	    	return -1;
+	    } catch (IOException e) {
+	    	return -1;
+	    }
+	} 
+    /*
+    void createdGame(String id, String user, String password){
+    	
+    }
+    */
+    
 	  private int random_number = 0;
 	  private Button roll;
 
@@ -329,10 +389,50 @@ public class WolfNSheep_Main extends Activity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// TODO Finish multiplayer!
-						mode = PlayerMode.MULTIPLAYER;
-			        	if(mode == PlayerMode.MULTIPLAYER){
-			            	// TODO # of players selection dialog display
+						// For the moment, there must be 4 players
+						mode = PlayerMode.MULTIPLAYER_4P;
+			        	/**
+						if(mode == PlayerMode.MULTIPLAYER){
+			            	// TODONE # of players selection dialog display
+			        		AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
+			                mp_alert.setMessage("Multiplayer or single-player?");
+			                mp_alert.setPositiveButton("Single player",
+			        				new DialogInterface.OnClickListener() {
+			        					public void onClick(DialogInterface dialog, int whichButton) {
+			        						// This just continues single-player
+			        						mode = PlayerMode.SINGLEPLAYER;
+			        						init_app();
+			        					}
+			        				});
+			                mp_alert.setNeutralButton("Multiplayer",
+			        				new DialogInterface.OnClickListener() {
+			        					public void onClick(DialogInterface dialog, int whichButton) {
+			        						// TODO Finish multiplayer!
+			        						mode = PlayerMode.MULTIPLAYER;
+			        			        	if(mode == PlayerMode.MULTIPLAYER){
+			        			            	// TODO # of players selection dialog display
+			        			            }
+			        						// TODO Get this to do something (like select # of players)
+			        						// init_app();
+			        					}
+			        				});
 			            }
+			            */
+						AlertDialog.Builder join_or_make = new AlertDialog.Builder(WolfNSheep_Main.this);
+						join_or_make.setTitle("Join game or make game?");
+						join_or_make.setPositiveButton("Make game",
+		        				new DialogInterface.OnClickListener() {
+		        					public void onClick(DialogInterface dialog, int whichButton) {
+		        						createGame();
+		        					}
+		        				});
+						join_or_make.setNeutralButton("Join game",
+		        				new DialogInterface.OnClickListener() {
+		        					public void onClick(DialogInterface dialog, int whichButton) {
+		        						joinGame();
+		        					}
+		        				});
+						// For the moment, there must be 4 players
 						// TODO Get this to do something (like select # of players)
 						// init_app();
 					}
@@ -357,15 +457,15 @@ public class WolfNSheep_Main extends Activity {
             text.setTextColor(text_color_saved);
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
+            mode = PlayerMode.values()[data_saved.getInt("pmode")];
             logtext.setText(log_saved);
             updateTextOnly();
+            checkIfGameOver();
         }
         // TODO When ready, show multiplayer-singleplayer choice dialog again
-        /*
         else{
         	mp_alert.show();
         }
-        */
 		updateTextOnly();
 		init_app();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
