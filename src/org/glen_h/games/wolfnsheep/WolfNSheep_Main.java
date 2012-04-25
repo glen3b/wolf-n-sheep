@@ -15,7 +15,11 @@
 
 package org.glen_h.games.wolfnsheep;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -41,12 +45,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -189,7 +195,13 @@ public class WolfNSheep_Main extends Activity {
 	*/
 	
 	protected String version_name;
+	int mpPlayerNum;
+	SharedPreferences settings;
 	protected String version_code;
+	private String mpUser;
+	private String mpPassword;
+	// For the moment, intranet
+	private static final String mpUrl = "http://192.168.1.101/ws-mp/";
 	protected String about_dialog_text;
 	
     @Override
@@ -238,8 +250,141 @@ public class WolfNSheep_Main extends Activity {
         return false;
     }
 	
-    void joinGame(){
+	private void mpAuth(){
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	final SharedPreferences.Editor setedit = settings.edit();
+    	alert.setTitle("Multiplayer Login: Username");
+    	alert.setMessage("Please enter your multiplayer server username");
 
+    	// Set an EditText view to get user input 
+    	final EditText input = new EditText(WolfNSheep_Main.this);
+    	alert.setView(input);
+
+    	alert.setPositiveButton("Proceed to password", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton) {
+    	mpUser = input.getText().toString();
+    	setedit.putString("mpUser", mpUser);
+    	setedit.commit();
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+
+    	alert.setTitle("Multiplayer Login: Password");
+    	alert.setMessage("Please enter your multiplayer server password");
+
+    	// Set an EditText view to get user input 
+    	final EditText input = new EditText(WolfNSheep_Main.this);
+    	input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    	alert.setView(input);
+
+    	alert.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton) {
+    	mpPassword = SerializerClass.md5(input.getText().toString());
+    	setedit.putString("mpPassword", mpPassword);
+    	setedit.commit();
+    	 }
+    	});
+    	 alert.show();
+    	 }
+    	});
+
+    	alert.setNeutralButton("Register", new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int whichButton) {
+    	     // Open webpage to register
+    		 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mpUrl+"registration.html"));
+    		 startActivity(browserIntent);
+    	}
+    	});
+
+    	 alert.show();
+    }
+    
+	/**
+	 * Makes a URL from a string without the need for a try/catch.
+	 * @see java.net.URL URL
+	 * @author Glen Husman
+	 * @return URL
+	 */
+	public static URL makeURL(String webaddress) {
+		
+		/*
+		 * Makes a URL from a string
+		 */
+		
+		URL website;
+		try {
+			website = new URL(webaddress);
+		} catch (MalformedURLException e) {
+			website = null;
+			Log.e("URL", "Malformed URL Exception was thrown on string to URL conversion");
+		}
+	return website;
+	}
+	
+	/**
+	 * Downloads a text file and returns its contents as an array.
+	 * @author Glen Husman
+	 */
+	public static String[] downloadFile(URL website) {
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(
+			              new InputStreamReader(
+			              website.openStream()));
+		} catch (IOException e) {
+			in = null;
+			e.printStackTrace();
+			Log.w("WishlistEditActivity", "in is null!");
+		}
+
+	      String input;
+	      ArrayList<String> stringList = new ArrayList<String>();
+	      try {
+			while ((input = in.readLine()) != null) {
+			      stringList.add(input);
+			  }
+		} catch (IOException e) {
+			stringList = new ArrayList<String>();
+			}
+	      
+	    String[] itemArray = new String[stringList.size()];
+		String[] returnedArray = stringList.toArray(itemArray);
+		return returnedArray;
+		}
+	
+    void joinGame(){
+    	if(settings.getString("mpUser", null) == null && settings.getString("mpPassword", null) == null){
+    		mpAuth();
+    	}else{
+    	
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+
+    	alert.setTitle("Join Game");
+    	alert.setMessage("Please enter the game ID");
+
+    	// Set an EditText view to get user input 
+    	final EditText input = new EditText(WolfNSheep_Main.this);
+    	alert.setView(input);
+
+    	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton) {
+    		String game_id = input.getText().toString();
+    		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
+    		String pnum = downloadFile(makeURL(url))[0];
+    		Log.i(TAG, "URL:"+url);
+    		try{
+    			mpPlayerNum = Integer.parseInt(pnum);
+    		}catch(NumberFormatException err){
+    			LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "An error occurred.", "OK").show();
+    		}
+    	 }
+    	});
+
+    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int whichButton) {
+    	}
+    	});
+
+    	 alert.show();
+    	}
     }
     
     void createGame(){
@@ -323,7 +468,8 @@ public class WolfNSheep_Main extends Activity {
 	private boolean shearcosts_state;
 	private boolean criticalalerts_state;
 	protected PlayerMode mode;
-		
+	
+	
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
 	 * @author Glen Husman & Matt Husmam */
@@ -350,7 +496,7 @@ public class WolfNSheep_Main extends Activity {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
         // TODONE Implement auto-shear prefs checking here
-        SharedPreferences settings = getSharedPreferences("extras", 0);
+        settings = getSharedPreferences("extras", 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
 	    shearcosts_state = settings.getBoolean("shearcosts", false);
 	    criticalalerts_state = settings.getBoolean("criticalalerts", true);
@@ -432,6 +578,7 @@ public class WolfNSheep_Main extends Activity {
 		        						joinGame();
 		        					}
 		        				});
+						join_or_make.show();
 						// For the moment, there must be 4 players
 						// TODO Get this to do something (like select # of players)
 						// init_app();
