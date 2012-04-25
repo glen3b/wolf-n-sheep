@@ -45,6 +45,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -350,34 +352,80 @@ public class WolfNSheep_Main extends Activity {
 		return returnedArray;
 		}
 	
+	public void run() {
+        handler.sendEmptyMessage(0);
+	}
+
+	private Handler handler = new Handler() {
+		@Override
+        public void handleMessage(Message msg) {
+			// Stuff
+
+        }
+	};
+	
+	String game_id;
+	boolean game_id_valid;
+	private AlertDialog.Builder aalert;
+	
 	private void mpJoinGameNet(String game_id){
+		WolfNSheep_Main.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
 		String pnum = downloadFile(makeURL(url))[0];
 		Log.i(TAG, "URL:"+url);
 		try{
 			mpPlayerNum = Integer.parseInt(pnum);
 			Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
+			game_id_valid = true;
 		}catch(NumberFormatException err){
 			if(pnum == "BAD_LOGIN") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "Your password was incorrect.", "OK").show();
 			else if(pnum == "BAD_ID") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game ID was not valid.", "OK").show();
 			else if(pnum == "BAD_GAME") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
-			else LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "AN error occurred.", "OK").show();
+			else LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "An error occurred.", "OK").show();
+			Log.w(TAG, "ERROR:"+pnum);
+			game_id_valid = false;
 		}
 		if(mpPlayerNum != -1){
-			AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+			aalert = new AlertDialog.Builder(WolfNSheep_Main.this);
 
-	    	alert.setTitle("Game Status");
+	    	aalert.setTitle("Game Status");
 	    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
+	    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
 	    	Log.d(TAG, "Game status:"+gamestat);
+	    	String players_joined_game = "";
+	    	for(String pjoined : players_array_joined_game){
+	    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
+	    	}
+	    	StringBuilder pjg = new StringBuilder(players_joined_game);
+	    	pjg.replace(players_joined_game.lastIndexOf("\n"), players_joined_game.lastIndexOf("\n") + 1, "" );
+	    	players_joined_game = pjg.toString();
 	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
-	    	alert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".");
+	    	aalert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
 
-		    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int whichButton) {
 		    	// Dead end!
 		    }
 		    });
-	    	 alert.show();
+		    aalert.setNeutralButton("Update", new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog, int whichButton) {
+			    	dialog.cancel();
+			    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep_Main.this.game_id))[0];
+			    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep_Main.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+			    	Log.d(TAG, "Game status:"+gamestat);
+			    	String players_joined_game = "";
+			    	for(String pjoined : players_array_joined_game){
+			    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
+			    	}
+			    	StringBuilder pjg = new StringBuilder(players_joined_game);
+			    	pjg.replace(players_joined_game.lastIndexOf("\n"), players_joined_game.lastIndexOf("\n") + 1, "" );
+			    	players_joined_game = pjg.toString();
+			    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
+			    	aalert.setMessage("You have joined game "+WolfNSheep_Main.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
+			    	aalert.show();
+			    }
+			    });
+	    	 aalert.show();
 		}
 	}
 	
