@@ -350,6 +350,20 @@ public class WolfNSheep_Main extends Activity {
 		return returnedArray;
 		}
 	
+	private void mpJoinGameNet(String game_id){
+		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
+		String pnum = downloadFile(makeURL(url))[0];
+		Log.i(TAG, "URL:"+url);
+		try{
+			mpPlayerNum = Integer.parseInt(pnum);
+		}catch(NumberFormatException err){
+			if(pnum == "BAD_LOGIN") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "Your password was incorrect.", "OK").show();
+			else if(pnum == "BAD_ID") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game ID was not valid.", "OK").show();
+			else if(pnum == "BAD_GAME") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
+			else LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "AN error occurred.", "OK").show();
+		}
+	}
+	
     void joinGame(){
     	if(settings.getString("mpUser", null) == null && settings.getString("mpPassword", null) == null){
     		mpAuth();
@@ -367,15 +381,8 @@ public class WolfNSheep_Main extends Activity {
     	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
     	public void onClick(DialogInterface dialog, int whichButton) {
     		String game_id = input.getText().toString();
-    		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
-    		String pnum = downloadFile(makeURL(url))[0];
-    		Log.i(TAG, "URL:"+url);
-    		try{
-    			mpPlayerNum = Integer.parseInt(pnum);
-    		}catch(NumberFormatException err){
-    			LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "An error occurred.", "OK").show();
-    		}
-    	 }
+    		mpJoinGameNet(game_id);
+    	}
     	});
 
     	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -388,7 +395,36 @@ public class WolfNSheep_Main extends Activity {
     }
     
     void createGame(){
-    	
+    	if(settings.getString("mpUser", null) == null && settings.getString("mpPassword", null) == null){
+    		mpAuth();
+    	}else{
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	final String id = downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0];
+    	alert.setTitle("Make Game");
+    	if(id != "BAD_LOGIN"){
+    	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
+
+    	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int whichButton) {
+    		mpJoinGameNet(id);
+    	}
+    	});
+
+    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+    	 public void onClick(DialogInterface dialog, int whichButton) {
+    	}
+    	});
+
+    	 alert.show();
+    	}else{
+    		alert.setMessage("An error occurred.");
+
+        	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int whichButton) {
+        	}
+        	});
+    	}
+    	}
     }
     
     /**
@@ -576,6 +612,12 @@ public class WolfNSheep_Main extends Activity {
 		        				new DialogInterface.OnClickListener() {
 		        					public void onClick(DialogInterface dialog, int whichButton) {
 		        						joinGame();
+		        					}
+		        				});
+						join_or_make.setNegativeButton("Login to server",
+		        				new DialogInterface.OnClickListener() {
+		        					public void onClick(DialogInterface dialog, int whichButton) {
+		        						mpAuth();
 		        					}
 		        				});
 						join_or_make.show();
