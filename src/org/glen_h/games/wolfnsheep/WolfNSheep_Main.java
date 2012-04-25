@@ -195,7 +195,7 @@ public class WolfNSheep_Main extends Activity {
 	*/
 	
 	protected String version_name;
-	int mpPlayerNum;
+	int mpPlayerNum = -1;
 	SharedPreferences settings;
 	protected String version_code;
 	private String mpUser;
@@ -356,6 +356,7 @@ public class WolfNSheep_Main extends Activity {
 		Log.i(TAG, "URL:"+url);
 		try{
 			mpPlayerNum = Integer.parseInt(pnum);
+			Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
 		}catch(NumberFormatException err){
 			if(pnum == "BAD_LOGIN") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "Your password was incorrect.", "OK").show();
 			else if(pnum == "BAD_ID") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game ID was not valid.", "OK").show();
