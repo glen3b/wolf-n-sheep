@@ -378,9 +378,9 @@ public class WolfNSheep_Main extends Activity {
 			Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
 			game_id_valid = true;
 		}catch(NumberFormatException err){
-			if(pnum == "BAD_LOGIN") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "Your password was incorrect.", "OK").show();
-			else if(pnum == "BAD_ID") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game ID was not valid.", "OK").show();
-			else if(pnum == "BAD_GAME") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
+			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "Your password was incorrect.", "OK").show();
+			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game ID was not valid.", "OK").show();
+			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
 			else LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "An error occurred.", "OK").show();
 			Log.w(TAG, "ERROR:"+pnum);
 			game_id_valid = false;
