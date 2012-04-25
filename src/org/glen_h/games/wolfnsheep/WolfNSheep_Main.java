@@ -363,6 +363,22 @@ public class WolfNSheep_Main extends Activity {
 			else if(pnum == "BAD_GAME") LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
 			else LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "AN error occurred.", "OK").show();
 		}
+		if(mpPlayerNum != -1){
+			AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+
+	    	alert.setTitle("Game Status");
+	    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
+	    	Log.d(TAG, "Game status:"+gamestat);
+	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
+	    	alert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".");
+
+		    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int whichButton) {
+		    	// Dead end!
+		    }
+		    });
+	    	 alert.show();
+		}
 	}
 	
     void joinGame(){
