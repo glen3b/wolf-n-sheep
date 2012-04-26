@@ -352,18 +352,6 @@ public class WolfNSheep_Main extends Activity {
 		return returnedArray;
 		}
 	
-	public void run() {
-        handler.sendEmptyMessage(0);
-	}
-
-	private Handler handler = new Handler() {
-		@Override
-        public void handleMessage(Message msg) {
-			// Stuff
-
-        }
-	};
-	
 	String game_id;
 	boolean game_id_valid;
 	private AlertDialog.Builder aalert;
