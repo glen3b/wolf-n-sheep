@@ -797,6 +797,9 @@ public class WolfNSheep_Main extends Activity {
             	}
             	else if(!checkIfGameOver()) Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
             	}else{
+            		if(downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0].contains("open-game")){
+            			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
+            		}else{
             		String turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
             		Log.i(TAG, turn);
             		if(turn.contains(Integer.toString(mpPlayerNum))){
@@ -822,6 +825,7 @@ public class WolfNSheep_Main extends Activity {
             		}else{
             			Toast.makeText(getBaseContext(), "Not your turn!", Toast.LENGTH_SHORT).show();
             		}
+            	}
             	}
               }
             };
