@@ -809,13 +809,30 @@ public class WolfNSheep_Main extends Activity {
                 	text.setText(messages[random_number]);
                 	roll();
             	}
-            	else if(checkIfGameOver()){}
-            	else Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
+            	else if(!checkIfGameOver()) Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
             	}else{
-            		String turn = downloadFile(makeURL(mpUrl+"get-scores.php"))[0];
+            		String turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
+            		Log.i(TAG, turn);
             		if(turn.contains(Integer.toString(mpPlayerNum))){
-            		String[] scores = downloadFile(makeURL(mpUrl+"get-scores.php"));
-            		// ...
+            		String[] scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
+            		int len = scores.length;
+
+                    for (int i = 0; i < len; ++i) {
+                    	Log.i(TAG, "Coing to try to parse int: "+scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
+                    	if(i < 4) wool[i] = Integer.parseInt(scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
+                    	if(i >= 4) sheared_wool[i-3] = Integer.parseInt(scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", ""));
+                    }
+                    if(checkIfGameOver()){
+                    	// Notify server game is over
+                    }
+                    text.setTextColor(Color.YELLOW);
+                	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
+                		random_number = randomNumber(1, 6);
+                    	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
+                    	makeInvisible();
+                    	text.setText(messages[random_number]);
+                    	roll();
+                	}
             		}else{
             			Toast.makeText(getBaseContext(), "Not your turn!", Toast.LENGTH_SHORT).show();
             		}
