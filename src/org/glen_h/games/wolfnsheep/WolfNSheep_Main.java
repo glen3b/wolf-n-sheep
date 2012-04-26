@@ -508,8 +508,10 @@ public class WolfNSheep_Main extends Activity {
 	    try {
 	        if(ids.length-1 == values.length-1){
 	    	// Add your data
-	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(ids.length-1);
-	        for(int ii = 0; ii <= ids.length-1; ii++){
+	        int len = ids.length-1;
+	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(len);
+	        
+	        for(int ii = 0; ii <= len; ii++){
 	        nameValuePairs.add(new BasicNameValuePair(ids[ii], values[ii]));
 	        }
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -570,6 +572,18 @@ public class WolfNSheep_Main extends Activity {
 	private boolean criticalalerts_state;
 	protected PlayerMode mode;
 	
+	public int[] convertStringArraytoIntArray(String[] sarray) throws NumberFormatException {
+		if (sarray != null) {
+		int intarray[] = new int[sarray.length];
+		int i = 0;
+		for (String str : sarray) {
+		intarray[i] = Integer.parseInt(str);
+		i++;
+		}
+		return intarray;
+		}
+		return null;
+	}
 	
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
@@ -785,6 +799,7 @@ public class WolfNSheep_Main extends Activity {
 		init_app();
         OnClickListener roll_action = new OnClickListener() {
             public void onClick(View v) {
+            	if(mode == PlayerMode.SINGLEPLAYER){
             	init_app();
                 text.setTextColor(Color.YELLOW);
             	if(!checkIfGameOver() && shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
@@ -795,7 +810,16 @@ public class WolfNSheep_Main extends Activity {
                 	roll();
             	}
             	else if(checkIfGameOver()){}
-            	else Toast.makeText(getBaseContext(), "No re-rol ls!", Toast.LENGTH_LONG).show();
+            	else Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
+            	}else{
+            		String turn = downloadFile(makeURL(mpUrl+"get-scores.php"))[0];
+            		if(turn.contains(Integer.toString(mpPlayerNum))){
+            		String[] scores = downloadFile(makeURL(mpUrl+"get-scores.php"));
+            		// ...
+            		}else{
+            			Toast.makeText(getBaseContext(), "Not your turn!", Toast.LENGTH_SHORT).show();
+            		}
+            	}
               }
             };
         this.roll.setOnClickListener(roll_action);
@@ -1109,10 +1133,14 @@ public class WolfNSheep_Main extends Activity {
 	}
 
 	protected void otherplayerrolls() {
-		if(mode == PlayerMode.MULTIPLAYER_2P || mode == PlayerMode.MULTIPLAYER_3P || mode == PlayerMode.MULTIPLAYER_4P){
-			// TODO Do something special for multiplayer
-		}else if(mode == PlayerMode.MULTIPLAYER){
-			// TODO Show # of players selection dialog
+		if(mode == PlayerMode.MULTIPLAYER || mode == PlayerMode.MULTIPLAYER_2P || mode == PlayerMode.MULTIPLAYER_3P || mode == PlayerMode.MULTIPLAYER_4P){
+			// TODONE Do something special for multiplayer
+			String[] ids = new String[]{"player", "username", "password", "id", "p1wool", "p2wool", "p3wool", "p4wool", "p1shearedwool", "p2shearedwool", "p3shearedwool", "p4shearedwool"};
+			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(wool[2]), Integer.toString(wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[1]), Integer.toString(sheared_wool[2]), Integer.toString(sheared_wool[3]), Integer.toString(sheared_wool[4])};
+			int status = postData(mpUrl+"game.php", ids, values);
+			if(status >= 400){
+				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK");
+			}
 		}else{
 			// This is singleplayer
 		int random_number_p2 = randomNumber(1, 6);
