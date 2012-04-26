@@ -729,7 +729,7 @@ public class WolfNSheep_Main extends Activity {
 		OnClickListener p1_pinfo = new OnClickListener() {
             public void onClick(View v) {
             	alert.setTitle("Player info");
-        		alert.setMessage("Your wool: "+getStringData(Data.WOOL, 1)+"\n"+"Your sheared wool: "+getStringData(Data.SHEARED_WOOL, 1));
+        		alert.setMessage("P1's wool: "+getStringData(Data.WOOL, 1)+"\n"+"P1's sheared wool: "+getStringData(Data.SHEARED_WOOL, 1));
         		alert.setNeutralButton("OK",
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
@@ -835,6 +835,7 @@ public class WolfNSheep_Main extends Activity {
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Player selection");
 		alert.setMessage("You have "+Integer.toString(wool[mpPlayerNum])+" wool.\nWho would you like to swap sheep with?");
+		if(mpPlayerNum == 1){
 		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
             	swap(2);
@@ -859,6 +860,82 @@ public class WolfNSheep_Main extends Activity {
                 		otherplayerrolls();
 					}
 				});
+		}else if(mpPlayerNum == 2){
+			alert.setPositiveButton("P1 ("+Integer.toString(wool[1])+" wool)", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+	            	swap(1);
+	            	text.setText("You swapped with P1! Roll again!");
+	        		otherplayerrolls();
+				}
+			});
+
+			alert.setNeutralButton("P3 ("+Integer.toString(wool[3])+" wool)",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+	                    	swap(3);
+	                    	text.setText("You swapped with P3! Roll again!");
+	                		otherplayerrolls();
+						}
+					});
+			alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+	                    	swap(4);
+	                    	text.setText("You swapped with P4! Roll again!");
+	                		otherplayerrolls();
+						}
+					});
+		}else if(mpPlayerNum == 3){
+			alert.setPositiveButton("P1 ("+Integer.toString(wool[1])+" wool)", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+	            	swap(1);
+	            	text.setText("You swapped with P1! Roll again!");
+	        		otherplayerrolls();
+				}
+			});
+
+			alert.setNeutralButton("P2 ("+Integer.toString(wool[2])+" wool)",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+	                    	swap(2);
+	                    	text.setText("You swapped with P2! Roll again!");
+	                		otherplayerrolls();
+						}
+					});
+			alert.setNegativeButton("P4 ("+Integer.toString(wool[4])+" wool)",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+	                    	swap(4);
+	                    	text.setText("You swapped with P4! Roll again!");
+	                		otherplayerrolls();
+						}
+					});
+		}else if(mpPlayerNum == 4){
+			alert.setPositiveButton("P1 ("+Integer.toString(wool[1])+" wool)",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+                	swap(1);
+                	text.setText("You swapped with P1! Roll again!");
+            		otherplayerrolls();
+				}
+			});
+
+			alert.setNeutralButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+	            	swap(2);
+	            	text.setText("You swapped with P2! Roll again!");
+	        		otherplayerrolls();
+				}
+			});
+			alert.setNegativeButton("P3 ("+Integer.toString(wool[3])+" wool)",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+                	swap(3);
+                	text.setText("You swapped with P3! Roll again!");
+            		otherplayerrolls();
+				}
+			});
+		}
 				
 		this.swap.setOnClickListener(new OnClickListener() {	
 			public void onClick(View v) {
@@ -893,6 +970,7 @@ public class WolfNSheep_Main extends Activity {
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
         wolf_alert.setMessage("You have "+getStringData(Data.WOOL, mpPlayerNum)+" wool.\nWho would you like to send the wolf to?");
+        if(mpPlayerNum == 1){
         wolf_alert.setPositiveButton("P2 ("+getStringData(Data.WOOL, 2)+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				wool[2] = 0;
@@ -917,6 +995,80 @@ public class WolfNSheep_Main extends Activity {
                     	otherplayerrolls();
 					}
 				});
+        }else if(mpPlayerNum == 2){
+            wolf_alert.setPositiveButton("P1 ("+getStringData(Data.WOOL, 1)+" wool)", new DialogInterface.OnClickListener() {
+    			public void onClick(DialogInterface dialog, int whichButton) {
+    				wool[1] = 0;
+    				text.setText("You wolfed P1! Roll again!");
+    				otherplayerrolls();
+    			}
+    		});
+
+            wolf_alert.setNeutralButton("P3 ("+getStringData(Data.WOOL, 3)+" wool)",
+    				new DialogInterface.OnClickListener() {
+    					public void onClick(DialogInterface dialog, int whichButton) {
+                        	wool[3] = 0;
+                        	text.setText("You wolfed P3! Roll again!");
+                        	otherplayerrolls();
+    					}
+    				});
+            wolf_alert.setNegativeButton("P4 ("+getStringData(Data.WOOL, 4)+" wool)",
+    				new DialogInterface.OnClickListener() {
+    					public void onClick(DialogInterface dialog, int whichButton) {
+                        	wool[4] = 0;
+                        	text.setText("You wolfed P4! Roll again!");
+                        	otherplayerrolls();
+    					}
+    				});
+            }else if(mpPlayerNum == 3){
+                wolf_alert.setPositiveButton("P1 ("+getStringData(Data.WOOL, 1)+" wool)", new DialogInterface.OnClickListener() {
+        			public void onClick(DialogInterface dialog, int whichButton) {
+        				wool[1] = 0;
+        				text.setText("You wolfed P1! Roll again!");
+        				otherplayerrolls();
+        			}
+        		});
+
+                wolf_alert.setNeutralButton("P2 ("+getStringData(Data.WOOL, 2)+" wool)", new DialogInterface.OnClickListener() {
+        			public void onClick(DialogInterface dialog, int whichButton) {
+        				wool[2] = 0;
+        				text.setText("You wolfed P2! Roll again!");
+        				otherplayerrolls();
+        			}
+        		});
+                wolf_alert.setNegativeButton("P4 ("+getStringData(Data.WOOL, 4)+" wool)",
+        				new DialogInterface.OnClickListener() {
+        					public void onClick(DialogInterface dialog, int whichButton) {
+                            	wool[4] = 0;
+                            	text.setText("You wolfed P4! Roll again!");
+                            	otherplayerrolls();
+        					}
+        				});
+                }else if(mpPlayerNum == 4){
+                	wolf_alert.setPositiveButton("P1 ("+getStringData(Data.WOOL, 1)+" wool)", new DialogInterface.OnClickListener() {
+            			public void onClick(DialogInterface dialog, int whichButton) {
+            				wool[1] = 0;
+            				text.setText("You wolfed P1! Roll again!");
+            				otherplayerrolls();
+            			}
+            		});
+
+                    wolf_alert.setNeutralButton("P2 ("+getStringData(Data.WOOL, 2)+" wool)", new DialogInterface.OnClickListener() {
+            			public void onClick(DialogInterface dialog, int whichButton) {
+            				wool[2] = 0;
+            				text.setText("You wolfed P2! Roll again!");
+            				otherplayerrolls();
+            			}
+            		});
+                    wolf_alert.setNegativeButton("P3 ("+getStringData(Data.WOOL, 3)+" wool)",
+    				new DialogInterface.OnClickListener() {
+    					public void onClick(DialogInterface dialog, int whichButton) {
+                        	wool[3] = 0;
+                        	text.setText("You wolfed P3! Roll again!");
+                        	otherplayerrolls();
+    					}
+    				});
+                }
         this.wolf.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
             	makeInvisible();
