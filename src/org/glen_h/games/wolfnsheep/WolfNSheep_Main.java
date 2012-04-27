@@ -811,6 +811,7 @@ public class WolfNSheep_Main extends Activity {
                     	if(i < 4) wool[i] = Integer.parseInt(scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
                     	if(i >= 4) sheared_wool[i-3] = Integer.parseInt(scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", ""));
                     }
+                    updateTextOnly();
                     if(checkIfGameOver()){
                     	// Notify server game is over
                     }
