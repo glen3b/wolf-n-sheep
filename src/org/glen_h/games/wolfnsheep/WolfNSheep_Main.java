@@ -395,6 +395,12 @@ public class WolfNSheep_Main extends Activity {
 	        final TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
 	        final TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
 		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    protected void deactivatep1(){
+		    	p1_label.setText("P1");
+	    		p1_label.setTypeface(Typeface.DEFAULT);
+	    		p1_wool_text.setTypeface(Typeface.DEFAULT);
+		    }
+		    	
 		    public void onClick(DialogInterface dialog, int whichButton) {
 		    	// Not a dead end anymore!
 		    	String extratext = "";
@@ -402,20 +408,20 @@ public class WolfNSheep_Main extends Activity {
 		    		extratext = " (You)";
 		    	}
 		    	if(mpPlayerNum == 2){
-		    		p1_label.setText("P1");
-		    		p1_label.setTypeface(Typeface.DEFAULT);
+		    		deactivatep1();
 		    		p2_label.setText("P2"+extratext);
 		    		p2_label.setTypeface(Typeface.DEFAULT_BOLD);
+		    		p2_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
 		    	}else if(mpPlayerNum == 3){
-		    		p1_label.setText("P1");
-		    		p1_label.setTypeface(Typeface.DEFAULT);
+		    		deactivatep1();
 		    		p3_label.setText("P3"+extratext);
 		    		p3_label.setTypeface(Typeface.DEFAULT_BOLD);
+		    		p3_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
 		    	}else if(mpPlayerNum == 4){
-		    		p1_label.setText("P1");
-		    		p1_label.setTypeface(Typeface.DEFAULT);
+		    		deactivatep1();
 		    		p4_label.setText("P4"+extratext);
 		    		p4_label.setTypeface(Typeface.DEFAULT_BOLD);
+		    		p4_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
 		    	}
 		    }
 		    });
@@ -834,8 +840,16 @@ public class WolfNSheep_Main extends Activity {
 
                     for (int i = 0; i < len; ++i) {
                     	Log.i(TAG, "Going to try to parse int: "+scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
-                    	if(i < 4) wool[i] = Integer.parseInt(scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
-                    	if(i >= 4) sheared_wool[i-3] = Integer.parseInt(scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", ""));
+                    	try{
+                    		if(i < 4) wool[i] = Integer.parseInt(scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
+                    	}catch(NumberFormatException e){
+                    		wool[i] = 0;
+                    	}
+                    	try{
+                    		if(i >= 4) sheared_wool[i-3] = Integer.parseInt(scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", ""));
+                    	}catch(NumberFormatException e){
+                    		sheared_wool[i] = 0;
+                    	}
                     }
                     updateTextOnly();
                     checkIfGameOver();
@@ -1327,8 +1341,8 @@ public class WolfNSheep_Main extends Activity {
 	protected void otherplayerrolls() {
 		if(mode == PlayerMode.MULTIPLAYER || mode == PlayerMode.MULTIPLAYER_2P || mode == PlayerMode.MULTIPLAYER_3P || mode == PlayerMode.MULTIPLAYER_4P){
 			// TODONE Do something special for multiplayer
-			String[] ids = new String[]{"player", "username", "password", "id", "p1wool", "p2wool", "p3wool", "p4wool", "p1shearedwool", "p2shearedwool", "p3shearedwool", "p4shearedwool"};
-			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(wool[2]), Integer.toString(wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[1]), Integer.toString(sheared_wool[2]), Integer.toString(sheared_wool[3]), Integer.toString(sheared_wool[4])};
+			String[] ids = new String[]{"player", "username", "password", "id", "p"+mpPlayerNum+"wool", "p"+mpPlayerNum+"shearedwool"};
+			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[mpPlayerNum]), Integer.toString(sheared_wool[mpPlayerNum])};
 			int status = postData(mpUrl+"game.php", ids, values);
 			if(status >= 400){
 				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK");
