@@ -838,9 +838,7 @@ public class WolfNSheep_Main extends Activity {
                     	if(i >= 4) sheared_wool[i-3] = Integer.parseInt(scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", ""));
                     }
                     updateTextOnly();
-                    if(checkIfGameOver()){
-                    	// Notify server game is over
-                    }
+                    checkIfGameOver();
                     text.setTextColor(Color.YELLOW);
                 	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
                 		random_number = randomNumber(1, 6);
@@ -1235,6 +1233,14 @@ public class WolfNSheep_Main extends Activity {
 				text.setText("Game over! You tied!");
 			}
 			gameover =  true;
+			if(mode != PlayerMode.SINGLEPLAYER){
+				String[] ids = new String[]{"username", "password", "id"};
+				String[] values = new String[]{settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id};
+				int status = postData(mpUrl+"gameover.php", ids, values);
+				if(status >= 400){
+					LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK");
+				}
+			}
 		}		
 		else{
 			// Game-in-progress.
