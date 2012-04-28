@@ -42,7 +42,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
@@ -387,10 +389,34 @@ public class WolfNSheep_Main extends Activity {
 	    	players_joined_game = pjg.toString();
 	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
 	    	aalert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
-
+	    	final int orientation = getResources().getConfiguration().orientation;
+	    	final TextView p1_label = (TextView)this.findViewById(R.id.p1_label);
+	        final TextView p2_label = (TextView)this.findViewById(R.id.p2_label);
+	        final TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
+	        final TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
 		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int whichButton) {
-		    	// Dead end!
+		    	// Not a dead end anymore!
+		    	String extratext = "";
+				if(orientation != Configuration.ORIENTATION_LANDSCAPE){
+		    		extratext = " (You)";
+		    	}
+		    	if(mpPlayerNum == 2){
+		    		p1_label.setText("P1");
+		    		p1_label.setTypeface(Typeface.DEFAULT);
+		    		p2_label.setText("P2"+extratext);
+		    		p2_label.setTypeface(Typeface.DEFAULT_BOLD);
+		    	}else if(mpPlayerNum == 3){
+		    		p1_label.setText("P1");
+		    		p1_label.setTypeface(Typeface.DEFAULT);
+		    		p3_label.setText("P3"+extratext);
+		    		p3_label.setTypeface(Typeface.DEFAULT_BOLD);
+		    	}else if(mpPlayerNum == 4){
+		    		p1_label.setText("P1");
+		    		p1_label.setTypeface(Typeface.DEFAULT);
+		    		p4_label.setText("P4"+extratext);
+		    		p4_label.setTypeface(Typeface.DEFAULT_BOLD);
+		    	}
 		    }
 		    });
 		    aalert.setNeutralButton("Update", new DialogInterface.OnClickListener() {
