@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="org.glen_h.games.wolfnsheep.Extras" android:label="@string/extras_title"></activity>
+        <activity android:name="org.glen_h.games.wolfnsheep.MultiplayerLogin"></activity>
     </application>
 
 </manifest>

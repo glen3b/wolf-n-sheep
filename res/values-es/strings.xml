@@ -22,4 +22,9 @@
     <string name="extras_title">Lobo \'N Ovejas Extras</string>
     <string name="player_one_land">P1</string>
     <string name="help_item">ayuda</string>
+    <string name="passwd">Password: </string>
+    <string name="user">Username: </string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="mplogin">Multiplayer Login</string>
 </resources>

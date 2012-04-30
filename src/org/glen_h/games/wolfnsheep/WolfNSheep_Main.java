@@ -200,10 +200,10 @@ public class WolfNSheep_Main extends Activity {
 	int mpPlayerNum = 1;
 	SharedPreferences settings;
 	protected String version_code;
-	private String mpUser;
-	private String mpPassword;
+	static String mpUser;
+	static String mpPassword;
 	// For the moment, intranet
-	private static final String mpUrl = "http://192.168.1.101/ws-mp/";
+	protected static final String mpUrl = "http://192.168.1.101/ws-mp/";
 	protected String about_dialog_text;
 	
     @Override
@@ -253,13 +253,15 @@ public class WolfNSheep_Main extends Activity {
     }
 	
 	private void mpAuth(){
-    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	/*
+		AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
     	final SharedPreferences.Editor setedit = settings.edit();
     	alert.setTitle("Multiplayer Login: Username");
     	alert.setMessage("Please enter your multiplayer server username");
 
     	// Set an EditText view to get user input 
     	final EditText input = new EditText(WolfNSheep_Main.this);
+    	input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
     	alert.setView(input);
 
     	alert.setPositiveButton("Proceed to password", new DialogInterface.OnClickListener() {
@@ -297,6 +299,10 @@ public class WolfNSheep_Main extends Activity {
     	});
 
     	 alert.show();
+    	 */
+		Intent login = new Intent(WolfNSheep_Main.this, MultiplayerLogin.class);
+		WolfNSheep_Main.this.startActivity(login);
+        finish();
     }
     
 	/**
@@ -459,6 +465,7 @@ public class WolfNSheep_Main extends Activity {
 
     	// Set an EditText view to get user input 
     	final EditText input = new EditText(WolfNSheep_Main.this);
+    	input.setInputType(InputType.TYPE_CLASS_NUMBER);
     	alert.setView(input);
 
     	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
