@@ -47,6 +47,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -62,8 +64,46 @@ import android.widget.Toast;
  * This is the main, single-player, wolf 'n sheep game activity.
  * @author Glen Husman
  */
-public class WolfNSheep_Main extends Activity {
+public class WolfNSheep_Main extends Activity implements Runnable {
 
+	public void run() {
+        for(;;){
+        	String[] scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
+    		int len = scores.length;
+    		String turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
+    		Log.i(TAG, turn);
+    		if(turn.contains(Integer.toString(mpPlayerNum))) Toast.makeText(getBaseContext(), "Your turn!", Toast.LENGTH_LONG);
+            for (int i = 0; i < len; ++i) {
+            	Log.i(TAG, "Going to try to parse int: "+scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
+            	try{
+            		if((i+1) <= 4) wool[(i+1)] = Integer.parseInt(scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", ""));
+            	}catch(NumberFormatException e){
+            		Log.w(TAG, "Error parsing score!", e);
+            		wool[(i+1)] = 0;
+            	}
+            	try{
+            		if((i+1) > 4) sheared_wool[i-3] = Integer.parseInt(scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", ""));
+            	}catch(NumberFormatException e){
+            		Log.w(TAG, "Error parsing score!", e);
+            		sheared_wool[i-3] = 0;
+            	}
+            }
+        	try {
+				Thread.sleep(15000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        }
+	}
+
+	Handler handler = new Handler() {
+		@Override
+        public void handleMessage(Message msg) {
+                
+
+		}
+	};
+	
 	/**
 	 * Gets gameplay data.
 	 * @param data_get The data to get
@@ -361,6 +401,7 @@ public class WolfNSheep_Main extends Activity {
 	String game_id;
 	boolean game_id_valid;
 	private AlertDialog.Builder aalert;
+	private String gamestat;
 	
 	private void mpJoinGameNet(String game_id){
 		WolfNSheep_Main.this.game_id = game_id;
@@ -383,7 +424,7 @@ public class WolfNSheep_Main extends Activity {
 			aalert = new AlertDialog.Builder(WolfNSheep_Main.this);
 
 	    	aalert.setTitle("Game Status");
-	    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
+	    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
 	    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
 	    	Log.d(TAG, "Game status:"+gamestat);
 	    	String players_joined_game = "";
@@ -408,6 +449,12 @@ public class WolfNSheep_Main extends Activity {
 		    }
 		    	
 		    public void onClick(DialogInterface dialog, int whichButton) {
+		    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep_Main.this.game_id))[0];
+		    	if(!gamestat.contains("locked-game")){
+		    		dialog.cancel();
+		    		Toast.makeText(WolfNSheep_Main.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
+		    		aalert.show();
+		    	}else{
 		    	// Not a dead end anymore!
 		    	String extratext = "";
 				if(orientation != Configuration.ORIENTATION_LANDSCAPE){
@@ -429,6 +476,9 @@ public class WolfNSheep_Main extends Activity {
 		    		p4_label.setTypeface(Typeface.DEFAULT_BOLD);
 		    		p4_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
 		    	}
+		    	Thread thread = new Thread(WolfNSheep_Main.this);
+                thread.start();
+		    }
 		    }
 		    });
 		    aalert.setNeutralButton("Update", new DialogInterface.OnClickListener() {
@@ -674,7 +724,7 @@ public class WolfNSheep_Main extends Activity {
         mp_alert.setNeutralButton("Multiplayer",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						// TODO Finish multiplayer!
+						// TODONE Finish multiplayer!
 						// For the moment, there must be 4 players
 						mode = PlayerMode.MULTIPLAYER_4P;
 			        	/**
@@ -693,12 +743,12 @@ public class WolfNSheep_Main extends Activity {
 			                mp_alert.setNeutralButton("Multiplayer",
 			        				new DialogInterface.OnClickListener() {
 			        					public void onClick(DialogInterface dialog, int whichButton) {
-			        						// TODO Finish multiplayer!
+			        						// TODONE Finish multiplayer!
 			        						mode = PlayerMode.MULTIPLAYER;
 			        			        	if(mode == PlayerMode.MULTIPLAYER){
-			        			            	// TODO # of players selection dialog display
+			        			            	// STILL_TODO # of players selection dialog display
 			        			            }
-			        						// TODO Get this to do something (like select # of players)
+			        						// STILL_TODO Get this to do something (like select # of players)
 			        						// init_app();
 			        					}
 			        				});
@@ -726,7 +776,7 @@ public class WolfNSheep_Main extends Activity {
 		        				});
 						join_or_make.show();
 						// For the moment, there must be 4 players
-						// TODO Get this to do something (like select # of players)
+						// TODONE Get this to do something (like select # of players)
 						// init_app();
 					}
 				});
@@ -755,7 +805,6 @@ public class WolfNSheep_Main extends Activity {
             updateTextOnly();
             checkIfGameOver();
         }
-        // TODO When ready, show multiplayer-singleplayer choice dialog again
         else{
         	mp_alert.show();
         }
