@@ -1308,7 +1308,7 @@ public class WolfNSheep_Main extends Activity {
 				String[] values = new String[]{settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id};
 				int status = postData(mpUrl+"gameover.php", ids, values);
 				if(status >= 400){
-					LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer gameover.", "OK");
+					LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer gameover.", "OK").show();
 				}
 			}
 		}		
@@ -1401,7 +1401,7 @@ public class WolfNSheep_Main extends Activity {
 			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(sheared_wool[1]), Integer.toString(wool[2]), Integer.toString(sheared_wool[2]), Integer.toString(wool[3]), Integer.toString(sheared_wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[4])};
 			int status = postData(mpUrl+"game.php", ids, values);
 			if(status >= 400){
-				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK");
+				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK").show();
 			}
 		}else{
 			// This is singleplayer
