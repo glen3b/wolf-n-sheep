@@ -132,6 +132,11 @@ public class WolfNSheep_Main extends Activity {
 	    final CharSequence random_num_tosave = text.getText();
 	    final int grow_visible = grow.getVisibility();
 	    final int swap_visible = swap.getVisibility();
+	    final String mp_password = mpPassword;
+	    final String mp_user = mpUser;
+	    final String mp_gameid = game_id;
+	    final int player_mode = mode.ordinal();
+	    final int player = mpPlayerNum;
 	    final int rolled_color = text.getCurrentTextColor();
 	    final CharSequence log_text_content = logtext.getText();
 	    Bundle data = new Bundle();
@@ -139,12 +144,16 @@ public class WolfNSheep_Main extends Activity {
 	    data.putStringArray("players_did", players_did_saved);
 	    data.putCharSequence("lastmoves", log_text_content);
 	    data.putIntArray("sheared_wool", sheared_wool_saved);
+	    data.putString("mpUser", mp_user);
+	    data.putString("game_id", mp_gameid);
+	    data.putString("mpPassword", mp_password);
 	    data.putCharSequence("randomnum", random_num_tosave);
 	    data.putInt("shear_visible", shear_visible);
+	    data.putInt("mpPlayerNum", player);
 	    data.putInt("wolf_visible", wolf_visible);
 	    data.putInt("grow_visible", grow_visible);
 	    data.putInt("text_color", rolled_color);
-	    data.putInt("pmode", mode.ordinal());
+	    data.putInt("pmode", player_mode);
 	    data.putInt("swap_visible", swap_visible);
 	    return data;
 	}
@@ -768,6 +777,10 @@ public class WolfNSheep_Main extends Activity {
             text.setText(random_num_saved);
             sheared_wool = sheared_wool_saved;
             mode = PlayerMode.values()[data_saved.getInt("pmode")];
+            mpPlayerNum = data_saved.getInt("mpPlayerNum");
+            mpUser = data_saved.getString("mpUser");
+            mpPassword = data_saved.getString("mpPassword");
+            game_id = data_saved.getString("game_id");
             logtext.setText(log_saved);
             updateTextOnly();
             checkIfGameOver();
