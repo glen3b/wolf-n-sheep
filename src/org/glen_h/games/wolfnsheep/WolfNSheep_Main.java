@@ -930,6 +930,7 @@ public class WolfNSheep_Main extends Activity {
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Player selection");
 		alert.setMessage("You have "+Integer.toString(wool[mpPlayerNum])+" wool.\nWho would you like to swap sheep with?");
+		alert.setCancelable(false);
 		if(mpPlayerNum == 1){
 		alert.setPositiveButton("P2 ("+Integer.toString(wool[2])+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
@@ -1065,6 +1066,7 @@ public class WolfNSheep_Main extends Activity {
         final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
         wolf_alert.setTitle("Player selection");
         wolf_alert.setMessage("You have "+getStringData(Data.WOOL, mpPlayerNum)+" wool.\nWho would you like to send the wolf to?");
+        wolf_alert.setCancelable(false);
         if(mpPlayerNum == 1){
         wolf_alert.setPositiveButton("P2 ("+getStringData(Data.WOOL, 2)+" wool)", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
