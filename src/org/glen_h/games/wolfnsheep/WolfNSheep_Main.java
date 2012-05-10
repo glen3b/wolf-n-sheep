@@ -400,7 +400,7 @@ public class WolfNSheep_Main extends Activity {
 		}
 		if(game_id_valid){
 			aalert = new AlertDialog.Builder(WolfNSheep_Main.this);
-
+			aalert.setCancelable(false);
 	    	aalert.setTitle("Game Status");
 	    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
 	    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
@@ -485,7 +485,7 @@ public class WolfNSheep_Main extends Activity {
     	}else{
     	
     	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
-
+    	alert.setCancelable(false);
     	alert.setTitle("Join Game");
     	alert.setMessage("Please enter the game ID");
 
@@ -515,6 +515,7 @@ public class WolfNSheep_Main extends Activity {
     		mpAuth();
     	}else{
     	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	alert.setCancelable(false);
     	final String id = downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0];
     	alert.setTitle("Make Game");
     	if(id != "BAD_LOGIN"){
@@ -689,6 +690,7 @@ public class WolfNSheep_Main extends Activity {
         text.setTextColor(Color.GREEN);
         AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
         mp_alert.setMessage("Multiplayer or single-player?");
+        mp_alert.setCancelable(false);
         mp_alert.setPositiveButton("Single player",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
@@ -700,7 +702,7 @@ public class WolfNSheep_Main extends Activity {
         mp_alert.setNeutralButton("Multiplayer",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						// TODONE Finish multiplayer!
+						// TODO Re-implement server-side multiplayer!
 						// For the moment, there must be 4 players
 						mode = PlayerMode.MULTIPLAYER_4P;
 			        	/**
@@ -731,6 +733,7 @@ public class WolfNSheep_Main extends Activity {
 			            }
 			            */
 						AlertDialog.Builder join_or_make = new AlertDialog.Builder(WolfNSheep_Main.this);
+						join_or_make.setCancelable(false);
 						join_or_make.setTitle("Join game or make game?");
 						join_or_make.setPositiveButton("Make game",
 		        				new DialogInterface.OnClickListener() {
