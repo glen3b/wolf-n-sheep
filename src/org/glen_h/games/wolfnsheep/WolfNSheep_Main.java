@@ -630,7 +630,6 @@ public class WolfNSheep_Main extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try{
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
@@ -916,10 +915,6 @@ public class WolfNSheep_Main extends Activity {
               }
             };
         this.roll.setOnClickListener(roll_action);
-        }catch(Throwable err){
-        	String errmsg = err.getClass().getName();
-        	LinkAlertDialog.create(this, "Error", "An error ("+errmsg+") occurred. You should probably restart the app.", "OK").show();
-        }
         }
     void init_app() {
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
