@@ -221,7 +221,7 @@ public class WolfNSheep_Main extends Activity {
 	static String mpUser;
 	static String mpPassword;
 	// For the moment, intranet
-	protected static final String mpUrl = "http://192.168.1.101/ws-mp/";
+	protected static final String mpUrl = "http://192.168.1.111/ws-mp/";
 	protected String about_dialog_text;
 	
     @Override
@@ -624,25 +624,13 @@ public class WolfNSheep_Main extends Activity {
 	private boolean criticalalerts_state;
 	protected PlayerMode mode;
 	
-	public int[] convertStringArraytoIntArray(String[] sarray) throws NumberFormatException {
-		if (sarray != null) {
-		int intarray[] = new int[sarray.length];
-		int i = 0;
-		for (String str : sarray) {
-		intarray[i] = Integer.parseInt(str);
-		i++;
-		}
-		return intarray;
-		}
-		return null;
-	}
-	
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
 	 * @author Glen Husman & Matt Husmam */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
@@ -928,6 +916,10 @@ public class WolfNSheep_Main extends Activity {
               }
             };
         this.roll.setOnClickListener(roll_action);
+        }catch(Throwable err){
+        	String errmsg = err.getClass().getName();
+        	LinkAlertDialog.create(this, "Error", "An error ("+errmsg+") occurred. You should probably restart the app.", "OK").show();
+        }
         }
     void init_app() {
     	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
