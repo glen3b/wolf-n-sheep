@@ -384,7 +384,7 @@ public class WolfNSheep_Main extends Activity {
 	private void mpJoinGameNet(String game_id){
 		WolfNSheep_Main.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
-		String pnum = downloadFile(makeURL(url))[0];
+		String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
 		Log.i(TAG, "URL:"+url);
 		try{
 			mpPlayerNum = Integer.parseInt(pnum);
@@ -516,7 +516,7 @@ public class WolfNSheep_Main extends Activity {
     	}else{
     	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
     	alert.setCancelable(false);
-    	final String id = downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0];
+    	final String id = downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "");
     	alert.setTitle("Make Game");
     	if(id != "BAD_LOGIN"){
     	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
@@ -534,7 +534,7 @@ public class WolfNSheep_Main extends Activity {
 
     	 alert.show();
     	}else{
-    		alert.setMessage("An error occurred.");
+    		alert.setMessage("An error occurred (try checking your login).");
 
         	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int whichButton) {
