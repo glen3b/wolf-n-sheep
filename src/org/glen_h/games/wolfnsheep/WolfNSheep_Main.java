@@ -1392,6 +1392,7 @@ public class WolfNSheep_Main extends Activity {
 			String[] ids = new String[]{"player", "username", "password", "id", "p1wool", "p1shearedwool", "p2wool", "p2shearedwool", "p3wool", "p3shearedwool", "p4wool", "p4shearedwool"};
 			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(sheared_wool[1]), Integer.toString(wool[2]), Integer.toString(sheared_wool[2]), Integer.toString(wool[3]), Integer.toString(sheared_wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[4])};
 			int status = postData(mpUrl+"game.php", ids, values);
+			Log.i(TAG, "Just POSTed data");
 			if(status >= 400){
 				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK").show();
 			}
