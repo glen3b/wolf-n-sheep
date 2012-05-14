@@ -62,7 +62,7 @@ import android.widget.Toast;
  * This is the main, single-player, wolf 'n sheep game activity.
  * @author Glen Husman
  */
-public class WolfNSheep_Main extends Activity {
+public class WolfNSheep extends Activity {
 	
 	
 	/**
@@ -272,13 +272,13 @@ public class WolfNSheep_Main extends Activity {
 	
 	private void mpAuth(){
     	/*
-		AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+		AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
     	final SharedPreferences.Editor setedit = settings.edit();
     	alert.setTitle("Multiplayer Login: Username");
     	alert.setMessage("Please enter your multiplayer server username");
 
     	// Set an EditText view to get user input 
-    	final EditText input = new EditText(WolfNSheep_Main.this);
+    	final EditText input = new EditText(WolfNSheep.this);
     	input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
     	alert.setView(input);
 
@@ -287,13 +287,13 @@ public class WolfNSheep_Main extends Activity {
     	mpUser = input.getText().toString();
     	setedit.putString("mpUser", mpUser);
     	setedit.commit();
-    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
 
     	alert.setTitle("Multiplayer Login: Password");
     	alert.setMessage("Please enter your multiplayer server password");
 
     	// Set an EditText view to get user input 
-    	final EditText input = new EditText(WolfNSheep_Main.this);
+    	final EditText input = new EditText(WolfNSheep.this);
     	input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
     	alert.setView(input);
 
@@ -318,8 +318,8 @@ public class WolfNSheep_Main extends Activity {
 
     	 alert.show();
     	 */
-		Intent login = new Intent(WolfNSheep_Main.this, MultiplayerLogin.class);
-		WolfNSheep_Main.this.startActivity(login);
+		Intent login = new Intent(WolfNSheep.this, MultiplayerLogin.class);
+		WolfNSheep.this.startActivity(login);
         finish();
     }
     
@@ -382,7 +382,7 @@ public class WolfNSheep_Main extends Activity {
 	private String gamestat;
 	
 	private void mpJoinGameNet(String game_id){
-		WolfNSheep_Main.this.game_id = game_id;
+		WolfNSheep.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
 		String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
 		Log.i(TAG, "URL:"+url);
@@ -391,15 +391,15 @@ public class WolfNSheep_Main extends Activity {
 			Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
 			game_id_valid = true;
 		}catch(NumberFormatException err){
-			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "Your password was incorrect.", "OK").show();
-			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game ID was not valid.", "OK").show();
-			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
-			else LinkAlertDialog.create(WolfNSheep_Main.this, "ERROR", "An error occurred.", "OK").show();
+			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", "OK").show();
+			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", "OK").show();
+			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
+			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
 			Log.w(TAG, "ERROR:"+pnum);
 			game_id_valid = false;
 		}
 		if(game_id_valid){
-			aalert = new AlertDialog.Builder(WolfNSheep_Main.this);
+			aalert = new AlertDialog.Builder(WolfNSheep.this);
 			aalert.setCancelable(false);
 	    	aalert.setTitle("Game Status");
 	    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
@@ -427,10 +427,10 @@ public class WolfNSheep_Main extends Activity {
 		    }
 		    	
 		    public void onClick(DialogInterface dialog, int whichButton) {
-		    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep_Main.this.game_id))[0];
+		    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
 		    	if(!gamestat.contains("locked-game")){
 		    		dialog.cancel();
-		    		Toast.makeText(WolfNSheep_Main.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
+		    		Toast.makeText(WolfNSheep.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
 		    		aalert.show();
 		    	}else{
 		    	// Not a dead end anymore!
@@ -460,8 +460,8 @@ public class WolfNSheep_Main extends Activity {
 		    aalert.setNeutralButton("Update", new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog, int whichButton) {
 			    	dialog.cancel();
-			    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep_Main.this.game_id))[0];
-			    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep_Main.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+			    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+			    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
 			    	Log.d(TAG, "Game status:"+gamestat);
 			    	String players_joined_game = "";
 			    	for(String pjoined : players_array_joined_game){
@@ -471,7 +471,7 @@ public class WolfNSheep_Main extends Activity {
 			    	pjg.replace(players_joined_game.lastIndexOf("\n"), players_joined_game.lastIndexOf("\n") + 1, "" );
 			    	players_joined_game = pjg.toString();
 			    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
-			    	aalert.setMessage("You have joined game "+WolfNSheep_Main.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
+			    	aalert.setMessage("You have joined game "+WolfNSheep.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
 			    	aalert.show();
 			    }
 			    });
@@ -484,13 +484,13 @@ public class WolfNSheep_Main extends Activity {
     		mpAuth();
     	}else{
     	
-    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
     	alert.setCancelable(false);
     	alert.setTitle("Join Game");
     	alert.setMessage("Please enter the game ID");
 
     	// Set an EditText view to get user input 
-    	final EditText input = new EditText(WolfNSheep_Main.this);
+    	final EditText input = new EditText(WolfNSheep.this);
     	input.setInputType(InputType.TYPE_CLASS_NUMBER);
     	alert.setView(input);
 
@@ -514,7 +514,7 @@ public class WolfNSheep_Main extends Activity {
     	if(settings.getString("mpUser", null) == null && settings.getString("mpPassword", null) == null){
     		mpAuth();
     	}else{
-    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep_Main.this);
+    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
     	alert.setCancelable(false);
     	final String id = downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "");
     	alert.setTitle("Make Game");
@@ -593,7 +593,7 @@ public class WolfNSheep_Main extends Activity {
 	  private int player_num;
 	  private TextView logtext;
 	  private int num_players = 4;
-	  private static final String TAG = "WolfNSheep_Main";
+	  private static final String TAG = "WolfNSheep";
 	  private String[] players_did = {"","P1 is unknown, should refer to main text","None","None","None"};
 	  private int total_wool;
       private static final int max_wool = 5;
@@ -719,7 +719,7 @@ public class WolfNSheep_Main extends Activity {
 			        				});
 			            }
 			            */
-						AlertDialog.Builder join_or_make = new AlertDialog.Builder(WolfNSheep_Main.this);
+						AlertDialog.Builder join_or_make = new AlertDialog.Builder(WolfNSheep.this);
 						join_or_make.setCancelable(false);
 						join_or_make.setTitle("Join game or make game?");
 						join_or_make.setPositiveButton("Make game",

@@ -22,20 +22,20 @@ public class MultiplayerLogin extends Activity {
 		Button login = (Button) findViewById(R.id.login);
 		register.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(WolfNSheep_Main.mpUrl+"registration.html"));
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(WolfNSheep.mpUrl+"registration.html"));
 				startActivity(browserIntent);
 			}
 		});
 		login.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				WolfNSheep_Main.mpUser = user.getText().toString();
-				WolfNSheep_Main.mpPassword = SerializerClass.md5(password.getText().toString());
+				WolfNSheep.mpUser = user.getText().toString();
+				WolfNSheep.mpPassword = SerializerClass.md5(password.getText().toString());
 				SharedPreferences settings = getSharedPreferences("extras", 0);
 				SharedPreferences.Editor pwdedit = settings.edit();
-				pwdedit.putString("mpUser", WolfNSheep_Main.mpUser);
-				pwdedit.putString("mpPassword", WolfNSheep_Main.mpPassword);
+				pwdedit.putString("mpUser", WolfNSheep.mpUser);
+				pwdedit.putString("mpPassword", WolfNSheep.mpPassword);
 				pwdedit.commit();
-				Intent intent = new Intent(MultiplayerLogin.this, WolfNSheep_Main.class);
+				Intent intent = new Intent(MultiplayerLogin.this, WolfNSheep.class);
 		        startActivity(intent);
 				MultiplayerLogin.this.finish();
 			}

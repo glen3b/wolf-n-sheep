@@ -46,7 +46,7 @@ public class Extras extends ListActivity {
 			});
 		  restart.setPositiveButton("Restart Now", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					  Intent main = new Intent(getBaseContext(), WolfNSheep_Main.class);
+					  Intent main = new Intent(getBaseContext(), WolfNSheep.class);
 					  main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			          startActivity(main);
 				}
