@@ -865,7 +865,9 @@ public class WolfNSheep_Main extends Activity {
             		int len = scores.length;
 
                     for (int i = 0; i < len; ++i) {
-                    	String parse = scores[i].replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("\n", "");
+                    	String parse = scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", "");
+                    	parse = parse.replaceAll("S", "");
+                    	// String parse = scores[i].split(" ")[1];
                     	Log.i(TAG, "Going to try to parse int: "+parse);
                     	try{
                     		if((i+1) <= 4) wool[(i+1)] = Integer.parseInt(parse);
