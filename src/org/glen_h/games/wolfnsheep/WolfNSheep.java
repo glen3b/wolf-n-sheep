@@ -552,7 +552,7 @@ public class WolfNSheep extends Activity {
 	 * @param values The array of values of POST variables.
 	 * @return The HTTP status code of the request.
 	 */
-	public static int postData(String url, String[] ids, String[] values) {
+	protected static int postData(String url, String[] ids, String[] values) {
 	    // Create a new HttpClient and Post Header
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost(url);
