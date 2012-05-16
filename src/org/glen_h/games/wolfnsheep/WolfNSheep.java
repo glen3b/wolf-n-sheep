@@ -613,7 +613,7 @@ public class WolfNSheep extends Activity {
 	private boolean autoshear_state;
 	private boolean shearcosts_state;
 	private boolean criticalalerts_state;
-	protected PlayerMode mode;
+	protected PlayerMode mode = null;
 	
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
