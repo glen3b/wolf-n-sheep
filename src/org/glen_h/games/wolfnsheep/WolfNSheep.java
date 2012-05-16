@@ -217,7 +217,6 @@ public class WolfNSheep extends Activity {
 	protected String version_name;
 	int mpPlayerNum = 1;
 	SharedPreferences settings;
-	protected String version_code;
 	static String mpUser;
 	static String mpPassword;
 	// For the moment, intranet
@@ -250,9 +249,8 @@ public class WolfNSheep extends Activity {
 			}
 			try{
 			version_name = info.versionName;
-			version_code = Integer.toString(info.versionCode);
 			about_dialog_text = "Wolf 'N Sheep "+version_name+" - http://code.google.com/p/wolf-n-sheep -" +
-					" Wolf 'N Sheep version "+version_name+". An android game inspired by wild wool. Soon to have multiplayer support. " +
+					" Wolf 'N Sheep version "+version_name+". An android game inspired by wild wool. " +
 					"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 					"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 					"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
@@ -260,7 +258,6 @@ public class WolfNSheep extends Activity {
 			}catch (NullPointerException nullerror){
 				Log.w(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
 				version_name = "Unknown";
-				version_code = "Unknown";
 				about_dialog_text = "We're sorry, an unexpected error occured.";
 			}
         	AlertDialog about = LinkAlertDialog.create(this,"About",about_dialog_text,"OK");
