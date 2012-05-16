@@ -219,7 +219,6 @@ public class WolfNSheep extends Activity {
 	SharedPreferences settings;
 	static String mpUser;
 	static String mpPassword;
-	// For the moment, intranet
 	protected static final String mpUrl = "http://glen3b.pagekite.me/ws-mp/";
 	protected String about_dialog_text;
 	
