@@ -221,7 +221,7 @@ public class WolfNSheep extends Activity {
 	static String mpUser;
 	static String mpPassword;
 	// For the moment, intranet
-	protected static final String mpUrl = "http://192.168.1.111/ws-mp/";
+	protected static final String mpUrl = "http://glen3b.pagekite.me/ws-mp/";
 	protected String about_dialog_text;
 	
     @Override
