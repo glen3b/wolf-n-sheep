@@ -737,6 +737,7 @@ public class WolfNSheep extends Activity {
 						// init_app();
 					}
 				});
+        Uri mp_url = getIntent().getData();
         if(data_saved != null){
             final int[] wool_saved = data_saved.getIntArray("wool");
             final int[] sheared_wool_saved = data_saved.getIntArray("sheared_wool");
@@ -766,8 +767,11 @@ public class WolfNSheep extends Activity {
             updateTextOnly();
             checkIfGameOver();
         }
-        else{
+        else if(mp_url == null){
         	mp_alert.show();
+        }else{
+        	mode = PlayerMode.MULTIPLAYER_4P;
+        	mpJoinGameNet(mp_url.toString().replace("\n", "").replace("glen://", ""));
         }
 		updateTextOnly();
 		init_app();
