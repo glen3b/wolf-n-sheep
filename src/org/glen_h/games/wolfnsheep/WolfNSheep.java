@@ -771,7 +771,8 @@ public class WolfNSheep extends Activity {
         	mp_alert.show();
         }else{
         	mode = PlayerMode.MULTIPLAYER_4P;
-        	mpJoinGameNet(mp_url.toString().replace("\n", "").replace("glen://", ""));
+        	// mpJoinGameNet(mp_url.toString().replace("\n", "").replace("glen://", ""));
+        	mpJoinGameNet(mp_url.getPath());
         }
 		updateTextOnly();
 		init_app();
