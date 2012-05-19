@@ -343,6 +343,7 @@ public class WolfNSheep extends Activity {
 	
 	/**
 	 * Downloads a text file and returns its contents as an array.
+	 * TODO Implement this threaded
 	 * @author Glen Husman
 	 */
 	public static String[] downloadFile(URL website) {
@@ -537,6 +538,7 @@ public class WolfNSheep extends Activity {
     
     /**
 	 * Post data to a URL.
+	 * TODO Implement this threaded
 	 * @author Glen Husman
 	 * @param url The URL to post data to.
 	 * @param ids The array of IDs of POST variables.
