@@ -584,11 +584,11 @@ public class WolfNSheep extends Activity {
 	  private int player_num;
 	  private TextView logtext;
 	  private int num_players = 4;
-	  private static final String TAG = "WolfNSheep";
+	  protected static final String TAG = "WolfNSheep";
 	  private String[] players_did = {"","P1 is unknown, should refer to main text","None","None","None"};
 	  private int total_wool;
-      private static final int max_wool = 5;
-      private static final int max_total_wool = 25;
+	  protected static final int max_wool = 5;
+	  protected static final int max_total_wool = 25;
       private Button shear;
       private Button wolf;
       private Button grow;
