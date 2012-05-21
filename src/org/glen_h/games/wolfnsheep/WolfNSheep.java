@@ -644,6 +644,7 @@ public class WolfNSheep extends Activity {
         for (player_num=1; player_num <= num_players; player_num++) {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
+        Log.w(TAG, "We are up and running. DEBUG is "+DEBUG+", if false, you shall not see any more log messages.");
         // TODONE Implement auto-shear prefs checking here
         settings = getSharedPreferences("extras", 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
