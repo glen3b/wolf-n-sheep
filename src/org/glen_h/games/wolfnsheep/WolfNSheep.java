@@ -386,9 +386,12 @@ public class WolfNSheep extends Activity {
 	private void mpJoinGameNet(String game_id){
 		WolfNSheep.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
-		String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
+		// String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
+		load.show();
+		(new JoinGame()).execute(makeURL(url));
 		if(DEBUG) Log.i(TAG, "URL:"+url);
-		try{
+		/**
+		 * try{
 			mpPlayerNum = Integer.parseInt(pnum);
 			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
 			game_id_valid = true;
@@ -479,6 +482,7 @@ public class WolfNSheep extends Activity {
 			    });
 	    	 aalert.show();
 		}
+		 */
 	}
 		
     void joinGame(){
@@ -529,6 +533,32 @@ public class WolfNSheep extends Activity {
         }
 
         @Override
+        protected void onPostExecute(String pnum) {
+        	load.cancel();
+        	try{
+    			mpPlayerNum = Integer.parseInt(pnum);
+    			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
+    			game_id_valid = true;
+    		}catch(NumberFormatException err){
+    			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", "OK").show();
+    			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", "OK").show();
+    			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
+    			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
+    			if(DEBUG) Log.w(TAG, "ERROR:"+pnum);
+    			game_id_valid = false;
+    		}
+        }
+    }
+
+    
+    private class JoinGame extends AsyncTask<URL, Void, String> {
+        @Override
+    	protected String doInBackground(URL... urls) {
+        	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
+        	return downloadFile(urls[0])[0].replace("\n", "");
+        }
+
+        @Override
         protected void onPostExecute(String result) {
         	load.cancel();
         	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
@@ -554,7 +584,6 @@ public class WolfNSheep extends Activity {
         	alert.show();
         }
     }
-
     
     /**
 	 * Post data to a URL.
@@ -680,7 +709,7 @@ public class WolfNSheep extends Activity {
         TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
         load = new ProgressDialog(this);
         load.setTitle("Loading");
-        load.setMessage("Loading Wolf 'N Sheep Multiplayer data...");
+        load.setMessage("Loading Wolf 'N Sheep Multiplayer game data...");
         load.setCancelable(false);
         this.logtext = (TextView) findViewById(R.id.computer_action_log);
         this.p3_wool_text = (TextView)this.findViewById(R.id.p3_wool);
