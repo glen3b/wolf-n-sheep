@@ -1656,6 +1656,7 @@ public class WolfNSheep extends Activity {
 	/**
 	 * Shears mpPlayerNum's wool.
 	 * @deprecated Use {@link #shearWool(int)} instead.
+	 * @param go Whether to shear as if it is game over
 	 * @author Glen Husman & Matt Husman
 	 */
 	protected void shearWool(boolean go){
