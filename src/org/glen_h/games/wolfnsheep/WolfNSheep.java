@@ -64,6 +64,8 @@ import android.widget.Toast;
  */
 public class WolfNSheep extends Activity {
 	
+	public static final boolean DEBUG = true;
+	
 	
 	/**
 	 * Returns the game's vital statistics as a string.
@@ -244,7 +246,7 @@ public class WolfNSheep extends Activity {
 				info = manager.getPackageInfo(this.getPackageName(), 0);
 			} catch (NameNotFoundException e) {
 				info = null;
-				Log.e(TAG, "Why was the package name not found?", e);
+				if(DEBUG) Log.e(TAG, "Why was the package name not found?", e);
 			}
 			try{
 			version_name = info.versionName;
@@ -255,7 +257,7 @@ public class WolfNSheep extends Activity {
 					"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
 					"http://www.apache.org/licenses/LICENSE-2.0";
 			}catch (NullPointerException nullerror){
-				Log.w(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
+				if(DEBUG) Log.w(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
 				version_name = "Unknown";
 				about_dialog_text = "We're sorry, an unexpected error occured.";
 			}
@@ -336,7 +338,7 @@ public class WolfNSheep extends Activity {
 			website = new URL(webaddress);
 		} catch (MalformedURLException e) {
 			website = null;
-			Log.e("URL", "Malformed URL Exception was thrown on string to URL conversion");
+			if(DEBUG) Log.e("URL", "Malformed URL Exception was thrown on string to URL conversion");
 		}
 	return website;
 	}
@@ -355,7 +357,7 @@ public class WolfNSheep extends Activity {
 		} catch (IOException e) {
 			in = null;
 			e.printStackTrace();
-			Log.w("WishlistEditActivity", "in is null!");
+			if(DEBUG) Log.w("WishlistEditActivity", "in is null!");
 		}
 
 	      String input;
@@ -382,17 +384,17 @@ public class WolfNSheep extends Activity {
 		WolfNSheep.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
 		String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
-		Log.i(TAG, "URL:"+url);
+		if(DEBUG) Log.i(TAG, "URL:"+url);
 		try{
 			mpPlayerNum = Integer.parseInt(pnum);
-			Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
+			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
 			game_id_valid = true;
 		}catch(NumberFormatException err){
 			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", "OK").show();
 			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", "OK").show();
 			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
 			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
-			Log.w(TAG, "ERROR:"+pnum);
+			if(DEBUG) Log.w(TAG, "ERROR:"+pnum);
 			game_id_valid = false;
 		}
 		if(game_id_valid){
@@ -401,7 +403,7 @@ public class WolfNSheep extends Activity {
 	    	aalert.setTitle("Game Status");
 	    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
 	    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
-	    	Log.d(TAG, "Game status:"+gamestat);
+	    	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
 	    	String players_joined_game = "";
 	    	for(String pjoined : players_array_joined_game){
 	    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
@@ -459,7 +461,7 @@ public class WolfNSheep extends Activity {
 			    	dialog.cancel();
 			    	String gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
 			    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
-			    	Log.d(TAG, "Game status:"+gamestat);
+			    	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
 			    	String players_joined_game = "";
 			    	for(String pjoined : players_array_joined_game){
 			    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
@@ -647,9 +649,9 @@ public class WolfNSheep extends Activity {
 	    autoshear_state = settings.getBoolean("autoshear", true);
 	    shearcosts_state = settings.getBoolean("shearcosts", false);
 	    criticalalerts_state = settings.getBoolean("criticalalerts", true);
-	    Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
-	    Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
-	    Log.d(TAG, "Critical alerts preference is "+Boolean.toString(criticalalerts_state));
+	    if(DEBUG) Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
+	    if(DEBUG) Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
+	    if(DEBUG) Log.d(TAG, "Critical alerts preference is "+Boolean.toString(criticalalerts_state));
         this.setContentView(R.layout.main);
         this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
         this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
@@ -841,7 +843,7 @@ public class WolfNSheep extends Activity {
                 text.setTextColor(Color.YELLOW);
             	if(!checkIfGameOver() && shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
             		random_number = randomNumber(1, 6);
-                	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
+                	if(DEBUG) Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
                 	makeInvisible();
                 	text.setText(messages[random_number]);
                 	roll();
@@ -852,7 +854,7 @@ public class WolfNSheep extends Activity {
             			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
             		}else{
             		String turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
-            		Log.i(TAG, turn);
+            		if(DEBUG) Log.i(TAG, turn);
             		if(turn.contains(Integer.toString(mpPlayerNum))){
             		String[] scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
             		int len = scores.length;
@@ -861,17 +863,17 @@ public class WolfNSheep extends Activity {
                     	String parse = scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", "");
                     	parse = parse.replaceAll("S", "");
                     	// String parse = scores[i].split(" ")[1];
-                    	Log.i(TAG, "Going to try to parse int: "+parse);
+                    	if(DEBUG) Log.i(TAG, "Going to try to parse int: "+parse);
                     	try{
                     		if((i+1) <= 4) wool[(i+1)] = Integer.parseInt(parse);
                     	}catch(NumberFormatException e){
-                    		Log.w(TAG, "Error parsing score!", e);
+                    		if(DEBUG) Log.w(TAG, "Error parsing score!", e);
                     		wool[(i+1)] = 0;
                     	}
                     	try{
                     		if((i+1) > 4) sheared_wool[i-3] = Integer.parseInt(parse);
                     	}catch(NumberFormatException e){
-                    		Log.w(TAG, "Error parsing score!", e);
+                    		if(DEBUG) Log.w(TAG, "Error parsing score!", e);
                     		sheared_wool[i-3] = 0;
                     	}
                     }
@@ -898,7 +900,7 @@ public class WolfNSheep extends Activity {
                     text.setTextColor(Color.YELLOW);
                 	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
                 		random_number = randomNumber(1, 6);
-                    	Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
+                    	if(DEBUG) Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
                     	makeInvisible();
                     	text.setText(messages[random_number]);
                     	roll();
@@ -1233,7 +1235,7 @@ public class WolfNSheep extends Activity {
 					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 2]+sheared_wool[player_num - 2] && (player_num - 2) > 0) tie_between[player_num - 2] = 1;
 					if(wool[player_num]+sheared_wool[player_num] == wool[player_num - 3]+sheared_wool[player_num - 3] && (player_num - 3) > 0) tie_between[player_num - 3] = 1;
 					}catch (ArrayIndexOutOfBoundsException array_error){
-						Log.e(TAG, "We had an array error here (in the additional tie-checking verifiers [if statements])", array_error);
+						if(DEBUG) Log.e(TAG, "We had an array error here (in the additional tie-checking verifiers [if statements])", array_error);
 					}
 					*/
 				} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
@@ -1242,7 +1244,7 @@ public class WolfNSheep extends Activity {
 					winning_score = wool[player_num]+sheared_wool[player_num];
 				}
 			}
-			Log.i(TAG,"Tied between array shows these tie statistics: "+tie_between[1]+", "+tie_between[2]+", "+tie_between[3]+", "+tie_between[4]);
+			if(DEBUG) Log.i(TAG,"Tied between array shows these tie statistics: "+tie_between[1]+", "+tie_between[2]+", "+tie_between[3]+", "+tie_between[4]);
 			winner_text.setVisibility(View.VISIBLE);
 			text.setText(((String) text.getText()).replace(" Roll again!", ""));
 			String tiebetween = "";
@@ -1388,7 +1390,7 @@ public class WolfNSheep extends Activity {
 			String[] ids = new String[]{"player", "username", "password", "id", "p1wool", "p1shearedwool", "p2wool", "p2shearedwool", "p3wool", "p3shearedwool", "p4wool", "p4shearedwool"};
 			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(sheared_wool[1]), Integer.toString(wool[2]), Integer.toString(sheared_wool[2]), Integer.toString(wool[3]), Integer.toString(sheared_wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[4])};
 			int status = postData(mpUrl+"game.php", ids, values);
-			Log.i(TAG, "Just POSTed data");
+			if(DEBUG) Log.i(TAG, "Just POSTed data");
 			if(status >= 400){
 				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK").show();
 			}
@@ -1396,13 +1398,13 @@ public class WolfNSheep extends Activity {
 			// This is singleplayer
 		int random_number_p2 = randomNumber(1, 6);
 		String p2logtext = "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'";
-		Log.i(TAG, p2logtext);
+		if(DEBUG) Log.i(TAG, p2logtext);
 		int random_number_p3 = randomNumber(1, 6);
 		String p3logtext = "Computer 3 (P3) rolled number "+Integer.toString(random_number_p3)+" on the die, also known as a '"+messages[random_number_p3]+"'";
-		Log.i(TAG, p3logtext);
+		if(DEBUG) Log.i(TAG, p3logtext);
 		int random_number_p4 = randomNumber(1, 6);
 		String p4logtext = "Computer 4 (P4) rolled number "+Integer.toString(random_number_p4)+" on the die, also known as a '"+messages[random_number_p4]+"'";
-		Log.i(TAG, p4logtext);
+		if(DEBUG) Log.i(TAG, p4logtext);
 		players_did[2] = p_action(2, random_number_p2);
 		players_did[3] = p_action(3, random_number_p3);
 		players_did[4] = p_action(4, random_number_p4);
