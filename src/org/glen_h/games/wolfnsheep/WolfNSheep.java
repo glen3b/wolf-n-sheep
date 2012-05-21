@@ -555,7 +555,7 @@ public class WolfNSheep extends Activity {
 	    try {
 	        if(ids.length-1 == values.length-1){
 	    	// Add your data
-	        int len = ids.length-1;
+	        final int len = ids.length-1;
 	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(len);
 	        
 	        for(int ii = 0; ii <= len; ii++){
@@ -1513,9 +1513,10 @@ public class WolfNSheep extends Activity {
 		case 4:
 			// Send wolf or swap sheep
 			List<Integer> list = new LinkedList<Integer>();
-			for (int addi = 1; addi <= 4; addi++) {
-			    list.add(addi);
-			}
+			list.add(1);
+			list.add(2);
+			list.add(3);
+			list.add(4);
 			Collections.shuffle(list);
 			Integer[] random = new Integer[]{0,0,0,0};
 			random[0] = list.remove(0);
@@ -1523,26 +1524,27 @@ public class WolfNSheep extends Activity {
 			random[2] = list.remove(0);
 			random[3] = list.remove(0);
 			int player_swap = 0;
-			for(int checked = 0;checked <= 3;checked++){
-				if(wool[random[checked]] >= (wool[num_player]+2) && random[checked] != num_player){
-					player_swap = random[checked];
+			for(int rchecked : random){
+				if(wool[rchecked] >= (wool[num_player]+2) && rchecked != num_player){
+					player_swap = rchecked;
 				}
 			}
 			int most_wool = -1;
 			int who_most_wool = 0;
 			List<Integer> list2 = new LinkedList<Integer>();
-			for (int addi = 1; addi <= 4; addi++) {
-			    list2.add(addi);
-			}
+			list2.add(1);
+			list2.add(2);
+			list2.add(3);
+			list2.add(4);
 			Collections.shuffle(list2);
 			Integer[] random2 = new Integer[]{0,0,0,0};
 			random2[0] = list2.remove(0);
 			random2[1] = list2.remove(0);
 			random2[2] = list2.remove(0);
 			random2[3] = list2.remove(0);
-			for (int checked = 0; checked <= 3; checked++) {
-				if ((wool[random2[checked]]) > most_wool && random2[checked] != num_player) {
-					who_most_wool = random2[checked];
+			for(int rchecked2 : random2) {
+				if ((wool[rchecked2]) > most_wool && rchecked2 != num_player) {
+					who_most_wool = rchecked2;
 					most_wool = wool[who_most_wool];
 				}
 			}
@@ -1570,18 +1572,19 @@ public class WolfNSheep extends Activity {
 			// for now, just shear
 			int player_wolf = 0;
 			List<Integer> list3 = new LinkedList<Integer>();
-			for (int addi = 1; addi <= 4; addi++) {
-			    list3.add(addi);
-			}
+			list3.add(1);
+			list3.add(2);
+			list3.add(3);
+			list3.add(4);
 			Collections.shuffle(list3);
 			Integer[] random3 = new Integer[]{0,0,0,0};
 			random3[0] = list3.remove(0);
 			random3[1] = list3.remove(0);
 			random3[2] = list3.remove(0);
 			random3[3] = list3.remove(0);
-			for(int checked = 0;checked <= 3;checked++){
-					if(wool[random3[checked]] >= 4 && random3[checked] != num_player){
-						player_wolf = random3[checked];
+			for(int rchecked3 : random3){
+					if(wool[rchecked3] >= 4 && rchecked3 != num_player){
+						player_wolf = rchecked3;
 					}
 				  }
 			// TODONE Eventually: if opponent has 4-5 wool, wolf him; for now, just grow - we could use a loop for this
@@ -1603,18 +1606,19 @@ public class WolfNSheep extends Activity {
 			// TODONE Eventually: if opponent has 2+ more than me, swap; for now, just grow
 			int player_swap_alt = 0;
 			List<Integer> list4 = new LinkedList<Integer>();
-			for (int addi = 1; addi <= 4; addi++) {
-				list4.add(addi);
-			}
+			list4.add(1);
+			list4.add(2);
+			list4.add(3);
+			list4.add(4);
 			Collections.shuffle(list4);
 			Integer[] random4 = new Integer[]{0,0,0,0};
 			random4[0] = list4.remove(0);
 			random4[1] = list4.remove(0);
 			random4[2] = list4.remove(0);
 			random4[3] = list4.remove(0);
-			for(int checked = 1;checked <= 3;checked++){
-				if(wool[random4[checked]] >= (wool[random4[checked]]+2) && random4[checked] != num_player){
-					player_swap_alt = random4[checked];
+			for(int rchecked4 : random4){
+				if(wool[rchecked4] >= (wool[rchecked4]+2) && rchecked4 != num_player){
+					player_swap_alt = rchecked4;
 				}
 			}
 			if(player_swap_alt != 0){
