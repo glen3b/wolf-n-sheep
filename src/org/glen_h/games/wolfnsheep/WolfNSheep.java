@@ -768,14 +768,11 @@ public class WolfNSheep extends Activity {
             mpPassword = data_saved.getString("mpPassword");
             game_id = data_saved.getString("game_id");
             logtext.setText(log_saved);
-            updateTextOnly();
-            checkIfGameOver();
-        }
-        else{
+            updateText();
+        }else{
         	mp_alert.show();
         }
-		updateTextOnly();
-		init_app();
+		updateText();
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
 		final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
@@ -896,8 +893,7 @@ public class WolfNSheep extends Activity {
             			winner = "P"+Integer.toString(winner_player_num)+" currently winning.";
             		}
             		logtext.setText(players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]+"\n"+winner);
-            		updateTextOnly();
-                    checkIfGameOver();
+            		updateText();
                     text.setTextColor(Color.YELLOW);
                 	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
                 		random_number = randomNumber(1, 6);
