@@ -36,6 +36,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -66,6 +68,7 @@ public class WolfNSheep extends Activity {
 	
 	public static final boolean DEBUG = true;
 	
+	private ProgressDialog load;
 	
 	/**
 	 * Returns the game's vital statistics as a string.
@@ -477,7 +480,7 @@ public class WolfNSheep extends Activity {
 	    	 aalert.show();
 		}
 	}
-	
+		
     void joinGame(){
     	if(settings.getString("mpUser", null) == null && settings.getString("mpPassword", null) == null){
     		mpAuth();
@@ -513,30 +516,45 @@ public class WolfNSheep extends Activity {
     	if(settings.getString("mpUser", null) == null && settings.getString("mpPassword", null) == null){
     		mpAuth();
     	}else{
-    	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
-    	alert.setCancelable(false);
-    	final String id = downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "");
-    	alert.setTitle("Make Game");
-    	if(id != "BAD_LOGIN"){
-    	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
-
-    	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-    	public void onClick(DialogInterface dialog, int whichButton) {
-    		mpJoinGameNet(id);
+    	load.show();
+    	(new CreateGame()).execute(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
     	}
-    	});
+    }
+    
+    private class CreateGame extends AsyncTask<URL, Void, String> {
+        @Override
+    	protected String doInBackground(URL... urls) {
+        	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
+        	return downloadFile(urls[0])[0].replace("\n", "");
+        }
 
-    	 alert.show();
-    	}else{
-    		alert.setMessage("An error occurred (try checking your login).");
+        @Override
+        protected void onPostExecute(String result) {
+        	load.cancel();
+        	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
+        	alert.setCancelable(false);
+        	final String id = result;
+        	alert.setTitle("Make Game");
+        	if(id != "BAD_LOGIN"){
+        	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
 
         	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int whichButton) {
+        		mpJoinGameNet(id);
         	}
         	});
-    	}
-    	}
+        	}else{
+        		alert.setMessage("An error occurred (try checking your login).");
+
+            	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            	public void onClick(DialogInterface dialog, int whichButton) {
+            	}
+            	});
+        	}
+        	alert.show();
+        }
     }
+
     
     /**
 	 * Post data to a URL.
@@ -660,6 +678,10 @@ public class WolfNSheep extends Activity {
         TextView p2_label = (TextView)this.findViewById(R.id.p2_label);
         TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
         TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
+        load = new ProgressDialog(this);
+        load.setTitle("Loading");
+        load.setMessage("Loading Wolf 'N Sheep Multiplayer data...");
+        load.setCancelable(false);
         this.logtext = (TextView) findViewById(R.id.computer_action_log);
         this.p3_wool_text = (TextView)this.findViewById(R.id.p3_wool);
         this.p4_wool_text = (TextView)this.findViewById(R.id.p4_wool);
