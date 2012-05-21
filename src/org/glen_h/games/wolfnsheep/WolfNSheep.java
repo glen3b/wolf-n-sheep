@@ -552,8 +552,8 @@ public class WolfNSheep extends Activity {
     			aalert = new AlertDialog.Builder(WolfNSheep.this);
     			aalert.setCancelable(false);
     	    	aalert.setTitle("Game Status");
-    	    	// gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
-    	    	// String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+    	    	// TODO Thread: gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
+    	    	// TODO Thread: String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
     	    	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
     	    	String players_joined_game = "";
     	    	for(String pjoined : players_array_joined_game){
@@ -577,7 +577,7 @@ public class WolfNSheep extends Activity {
     		    }
     		    	
     		    public void onClick(DialogInterface dialog, int whichButton) {
-    		    	// gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+    		    	// TODO Thread: gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
     		    	if(!gamestat.contains("locked-game")){
     		    		dialog.cancel();
     		    		Toast.makeText(WolfNSheep.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
@@ -631,7 +631,7 @@ public class WolfNSheep extends Activity {
         protected void onPostExecute(String gamestat) {
         	WolfNSheep.this.gamestat = gamestat;
         	load.cancel();
-        	// String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+        	// TODO Thread: String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
         	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
 	    	String players_joined_game = "";
 	    	for(String pjoined : players_array_joined_game){
