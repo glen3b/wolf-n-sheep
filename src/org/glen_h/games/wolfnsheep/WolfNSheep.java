@@ -533,6 +533,67 @@ public class WolfNSheep extends Activity {
         }
 
         @Override
+        protected void onPostExecute(String result) {
+        	load.cancel();
+        	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
+        	alert.setCancelable(false);
+        	final String id = result;
+        	alert.setTitle("Make Game");
+        	if(id != "BAD_LOGIN"){
+        	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
+
+        	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int whichButton) {
+        		mpJoinGameNet(id);
+        	}
+        	});
+        	}else{
+        		alert.setMessage("An error occurred (try checking your login).");
+
+            	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            	public void onClick(DialogInterface dialog, int whichButton) {
+            	}
+            	});
+        	}
+        	alert.show();
+        }
+    }
+    
+    private class UpdateGameDialog extends AsyncTask<Void, Void, String> {
+        @Override
+    	protected String doInBackground(Void... vv) {
+        	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
+        	return downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+        }
+
+        @Override
+        protected void onPostExecute(String gamestat) {
+        	WolfNSheep.this.gamestat = gamestat;
+        	load.cancel();
+        	// TODO Thread
+        	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+        	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
+	    	String players_joined_game = "";
+	    	for(String pjoined : players_array_joined_game){
+	    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
+	    	}
+	    	StringBuilder pjg = new StringBuilder(players_joined_game);
+	    	pjg.replace(players_joined_game.lastIndexOf("\n"), players_joined_game.lastIndexOf("\n") + 1, "" );
+	    	players_joined_game = pjg.toString();
+	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
+	    	aalert.setMessage("You have joined game "+WolfNSheep.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
+	    	aalert.show();
+        }
+    }
+    
+    private class JoinGame extends AsyncTask<URL, Void, String> {
+        @Override
+    	protected String doInBackground(URL... urls) {
+        	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
+        	return downloadFile(urls[0])[0].replace("\n", "");
+        }
+
+        @Override
         protected void onPostExecute(String pnum) {
         	load.cancel();
         	try{
@@ -552,8 +613,9 @@ public class WolfNSheep extends Activity {
     			aalert = new AlertDialog.Builder(WolfNSheep.this);
     			aalert.setCancelable(false);
     	    	aalert.setTitle("Game Status");
-    	    	// TODO Thread: gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
-    	    	// TODO Thread: String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+    	    	// TODO Thread
+    	    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
+    	    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
     	    	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
     	    	String players_joined_game = "";
     	    	for(String pjoined : players_array_joined_game){
@@ -617,66 +679,6 @@ public class WolfNSheep extends Activity {
     			    });
     	    	 aalert.show();
     		}
-        }
-    }
-    
-    private class UpdateGameDialog extends AsyncTask<Void, Void, String> {
-        @Override
-    	protected String doInBackground(Void... vv) {
-        	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	return downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
-        }
-
-        @Override
-        protected void onPostExecute(String gamestat) {
-        	WolfNSheep.this.gamestat = gamestat;
-        	load.cancel();
-        	// TODO Thread: String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
-        	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
-	    	String players_joined_game = "";
-	    	for(String pjoined : players_array_joined_game){
-	    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
-	    	}
-	    	StringBuilder pjg = new StringBuilder(players_joined_game);
-	    	pjg.replace(players_joined_game.lastIndexOf("\n"), players_joined_game.lastIndexOf("\n") + 1, "" );
-	    	players_joined_game = pjg.toString();
-	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
-	    	aalert.setMessage("You have joined game "+WolfNSheep.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
-	    	aalert.show();
-        }
-    }
-    
-    private class JoinGame extends AsyncTask<URL, Void, String> {
-        @Override
-    	protected String doInBackground(URL... urls) {
-        	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	return downloadFile(urls[0])[0].replace("\n", "");
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-        	load.cancel();
-        	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
-        	alert.setCancelable(false);
-        	final String id = result;
-        	alert.setTitle("Make Game");
-        	if(id != "BAD_LOGIN"){
-        	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
-
-        	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-        	public void onClick(DialogInterface dialog, int whichButton) {
-        		mpJoinGameNet(id);
-        	}
-        	});
-        	}else{
-        		alert.setMessage("An error occurred (try checking your login).");
-
-            	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            	public void onClick(DialogInterface dialog, int whichButton) {
-            	}
-            	});
-        	}
-        	alert.show();
         }
     }
     
