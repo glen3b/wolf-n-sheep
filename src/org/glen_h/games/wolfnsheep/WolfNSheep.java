@@ -46,6 +46,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -348,31 +349,9 @@ public class WolfNSheep extends Activity {
 	 * TODO Implement this threaded
 	 * @author Glen Husman
 	 */
-	public static String[] downloadFile(URL website) {
-		BufferedReader in = null;
-		try {
-			in = new BufferedReader(
-			              new InputStreamReader(
-			              website.openStream()));
-		} catch (IOException e) {
-			in = null;
-			e.printStackTrace();
-			if(DEBUG) Log.w("WishlistEditActivity", "in is null!");
-		}
-
-	      String input;
-	      ArrayList<String> stringList = new ArrayList<String>();
-	      try {
-			while ((input = in.readLine()) != null) {
-			      stringList.add(input);
-			  }
-		} catch (IOException e) {
-			stringList = new ArrayList<String>();
-			}
-	      
-	    String[] itemArray = new String[stringList.size()];
-		String[] returnedArray = stringList.toArray(itemArray);
-		return returnedArray;
+	private void downloadFile(URL website) {
+		DownloadWebPageTask task = new DownloadWebPageTask();
+		task.execute(new URL[] { website });
 		}
 	
 	String game_id;
@@ -380,11 +359,8 @@ public class WolfNSheep extends Activity {
 	private AlertDialog.Builder aalert;
 	private String gamestat;
 	
-	private void mpJoinGameNet(String game_id){
-		WolfNSheep.this.game_id = game_id;
-		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
-		String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
-		if(DEBUG) Log.i(TAG, "URL:"+url);
+	private void mpJoinerCont(String pnum){
+		if(DEBUG) Log.i(TAG, "URL:"+mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id);
 		try{
 			mpPlayerNum = Integer.parseInt(pnum);
 			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
@@ -475,6 +451,15 @@ public class WolfNSheep extends Activity {
 			    }
 			    });
 	    	 aalert.show();
+		}}
+	
+	private String pnum;
+	
+	private void mpJoinGameNet(String game_id){
+		WolfNSheep.this.game_id = game_id;
+		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
+		String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
+		mpJoinerCont(pnum);
 		}
 	}
 	
@@ -1727,6 +1712,42 @@ public class WolfNSheep extends Activity {
 		// We might be able to make the "wool_text" into arrays eventually
 		updateText();		
 		}
+	
+	class DownloadWebPageTask extends AsyncTask<URL, Void, String[]> {
+		@Override
+		protected String[] doInBackground(URL... urls) {
+			URL website = urls[0];
+			BufferedReader in = null;
+			try {
+				in = new BufferedReader(
+				              new InputStreamReader(
+				              website.openStream()));
+			} catch (IOException e) {
+				in = null;
+				e.printStackTrace();
+				if(DEBUG) Log.w(TAG, "in is null!");
+			}
+
+		      String input;
+		      ArrayList<String> stringList = new ArrayList<String>();
+		      try {
+				while ((input = in.readLine()) != null) {
+				      stringList.add(input);
+				  }
+			} catch (IOException e) {
+				stringList = new ArrayList<String>();
+				}
+		      
+		    String[] itemArray = new String[stringList.size()];
+			String[] returnedArray = stringList.toArray(itemArray);
+			return returnedArray;
+			}
+		@Override
+		protected void onPostExecute(String[] result) {
+			textView.setText(result);
+		}
+		}
+	}
 
     }
 
