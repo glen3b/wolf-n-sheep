@@ -1668,7 +1668,7 @@ public class WolfNSheep extends Activity {
     	updateTextOnly();
 	}
 	
-	void shearWoolGameover(Integer num_player){
+	void shearWoolGameover(int num_player){
 		CharSequence old_text = text.getText();
 		shearWool(num_player);
 		if(num_player == mpPlayerNum){
