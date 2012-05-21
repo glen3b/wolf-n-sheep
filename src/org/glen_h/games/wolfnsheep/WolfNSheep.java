@@ -768,7 +768,6 @@ public class WolfNSheep extends Activity {
             mpPassword = data_saved.getString("mpPassword");
             game_id = data_saved.getString("game_id");
             logtext.setText(log_saved);
-            updateText();
         }else{
         	mp_alert.show();
         }
