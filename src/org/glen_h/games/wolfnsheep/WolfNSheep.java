@@ -1382,7 +1382,6 @@ public class WolfNSheep extends Activity {
           });
         
         updateText();
-		checkIfGameOver();
 	}
 
 	protected void otherplayerrolls() {
@@ -1655,13 +1654,16 @@ public class WolfNSheep extends Activity {
 	}
 
 	/**
-	 * Shears P1's wool. NOT MULTIPLAYER COMPATIBLE.
+	 * Shears mpPlayerNum's wool.
 	 * @deprecated Use {@link #shearWool(int)} instead.
 	 * @author Glen Husman & Matt Husman
 	 */
-	protected void shearWool(){
-        sheared_wool[1] = sheared_wool[1] + wool[1];
-        wool[1] = 0;
+	protected void shearWool(boolean go){
+		if(!go){
+			shearWool(1);
+		}else{
+			shearWoolGameover(1);
+		}
     	updateTextOnly();
 	}
 	
