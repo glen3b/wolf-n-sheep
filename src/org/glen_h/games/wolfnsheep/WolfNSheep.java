@@ -605,7 +605,7 @@ public class WolfNSheep extends Activity {
     			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", "OK").show();
     			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
     			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
-    			if(DEBUG) Log.w(TAG, "ERROR:"+pnum);
+    			if(DEBUG) Log.w(TAG, "ERROR ON:"+pnum);
     			game_id_valid = false;
     		}
         	
