@@ -596,6 +596,48 @@ public class WolfNSheep extends Activity {
 		p1_wool_text.setTypeface(Typeface.DEFAULT);
     }
     
+    private class JoinGameOK extends AsyncTask<Void, Void, String>{
+
+		@Override
+		protected String doInBackground(Void... params) {
+			gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+			return gamestat;
+    }
+		
+		@Override
+        protected void onPostExecute(String gamestat) {
+			load.cancel();
+			final int orientation = getResources().getConfiguration().orientation;
+	        final TextView p2_label = (TextView)WolfNSheep.this.findViewById(R.id.p2_label);
+	        final TextView p3_label = (TextView)WolfNSheep.this.findViewById(R.id.p3_label);
+	        final TextView p4_label = (TextView)WolfNSheep.this.findViewById(R.id.p4_label);
+	    	if(!gamestat.contains("locked-game")){
+	    		Toast.makeText(WolfNSheep.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
+	    		aalert.show();
+	    	}else{
+	    	String extratext = "";
+			if(orientation != Configuration.ORIENTATION_LANDSCAPE){
+	    		extratext = " (You)";
+	    	}
+	    	if(mpPlayerNum == 2){
+	    		deactivatep1();
+	    		p2_label.setText("P2"+extratext);
+	    		p2_label.setTypeface(Typeface.DEFAULT_BOLD);
+	    		p2_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
+	    	}else if(mpPlayerNum == 3){
+	    		deactivatep1();
+	    		p3_label.setText("P3"+extratext);
+	    		p3_label.setTypeface(Typeface.DEFAULT_BOLD);
+	    		p3_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
+	    	}else if(mpPlayerNum == 4){
+	    		deactivatep1();
+	    		p4_label.setText("P4"+extratext);
+	    		p4_label.setTypeface(Typeface.DEFAULT_BOLD);
+	    		p4_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
+	    	}
+		}
+        }
+    }
     private class JoinGame extends AsyncTask<URL, Void, String[]> {
         
     	private String[] pvjs22;
@@ -641,40 +683,17 @@ public class WolfNSheep extends Activity {
     	    	players_joined_game = pjg.toString();
     	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
     	    	aalert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
-    	    	final int orientation = getResources().getConfiguration().orientation;
-    	        final TextView p2_label = (TextView)WolfNSheep.this.findViewById(R.id.p2_label);
-    	        final TextView p3_label = (TextView)WolfNSheep.this.findViewById(R.id.p3_label);
-    	        final TextView p4_label = (TextView)WolfNSheep.this.findViewById(R.id.p4_label);
     		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {	
     		    public void onClick(DialogInterface dialog, int whichButton) {
-    		    	// TODO Thread
-    		    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
-    		    	if(!gamestat.contains("locked-game")){
-    		    		dialog.cancel();
-    		    		Toast.makeText(WolfNSheep.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
-    		    		aalert.show();
-    		    	}else{
-    		    	String extratext = "";
-    				if(orientation != Configuration.ORIENTATION_LANDSCAPE){
-    		    		extratext = " (You)";
-    		    	}
-    		    	if(mpPlayerNum == 2){
-    		    		deactivatep1();
-    		    		p2_label.setText("P2"+extratext);
-    		    		p2_label.setTypeface(Typeface.DEFAULT_BOLD);
-    		    		p2_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
-    		    	}else if(mpPlayerNum == 3){
-    		    		deactivatep1();
-    		    		p3_label.setText("P3"+extratext);
-    		    		p3_label.setTypeface(Typeface.DEFAULT_BOLD);
-    		    		p3_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
-    		    	}else if(mpPlayerNum == 4){
-    		    		deactivatep1();
-    		    		p4_label.setText("P4"+extratext);
-    		    		p4_label.setTypeface(Typeface.DEFAULT_BOLD);
-    		    		p4_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
-    		    	}
-    		    }
+    		    	dialog.cancel();
+    		    	load = new ProgressDialog(WolfNSheep.this);
+    		        load.setTitle(WSMP_PROGRESS_TITLE);
+    		        load.setMessage(WSMP_PROGRESS_MSG);
+    		        load.setCancelable(false);
+    		        load.show();
+    		        (new JoinGameOK()).execute();
+    		    	
+    		    
     		    }
     		    });
     		    aalert.setNeutralButton("Update", new DialogInterface.OnClickListener() {
