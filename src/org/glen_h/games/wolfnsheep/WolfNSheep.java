@@ -387,6 +387,10 @@ public class WolfNSheep extends Activity {
 		WolfNSheep.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
 		// String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
+		load = new ProgressDialog(this);
+        load.setTitle(WSMP_PROGRESS_TITLE);
+        load.setMessage(WSMP_PROGRESS_MSG);
+        load.setCancelable(false);
 		load.show();
 		(new JoinGame()).execute(makeURL(url));
 		if(DEBUG) Log.i(TAG, "URL:"+url);
@@ -593,16 +597,22 @@ public class WolfNSheep extends Activity {
 		p1_wool_text.setTypeface(Typeface.DEFAULT);
     }
     
-    private class JoinGame extends AsyncTask<URL, Void, String> {
-        @Override
-    	protected String doInBackground(URL... urls) {
+    private class JoinGame extends AsyncTask<URL, Void, String[]> {
+        
+    	private String[] pvjs22;
+    	
+    	@Override
+    	protected String[] doInBackground(URL... urls) {
         	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	return downloadFile(urls[0])[0].replace("\n", "");
+        	String[] ret = {downloadFile(urls[0])[0].replace("\n", ""), downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0]};
+        	pvjs22 = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+        	return ret;
         }
 
         @Override
-        protected void onPostExecute(String pnum) {
+        protected void onPostExecute(String[] res) {
         	load.cancel();
+        	String pnum = res[0];
         	try{
     			mpPlayerNum = Integer.parseInt(pnum);
     			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
@@ -620,9 +630,8 @@ public class WolfNSheep extends Activity {
     			aalert = new AlertDialog.Builder(WolfNSheep.this);
     			aalert.setCancelable(false);
     	    	aalert.setTitle("Game Status");
-    	    	// TODO Thread
-    	    	gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0];
-    	    	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+    	    	gamestat = res[1];
+    	    	String[] players_array_joined_game = pvjs22;
     	    	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
     	    	String players_joined_game = "";
     	    	for(String pjoined : players_array_joined_game){
@@ -671,10 +680,13 @@ public class WolfNSheep extends Activity {
     		    });
     		    aalert.setNeutralButton("Update", new DialogInterface.OnClickListener() {
     			    public void onClick(DialogInterface dialog, int whichButton) {
-    			    	dialog.cancel();
-    			    	load.show();
-    			    	
+    			    	load.cancel();
     			    	(new UpdateGameDialog()).execute();
+    			    	load = new ProgressDialog(WolfNSheep.this);
+    			        load.setTitle(WSMP_PROGRESS_TITLE);
+    			        load.setMessage(WSMP_PROGRESS_MSG);
+    			        load.setCancelable(false);
+    			    	load.show();
     			    }
     			    });
     	    	 aalert.show();
@@ -753,6 +765,9 @@ public class WolfNSheep extends Activity {
       		}
       ;
       
+	  
+	static final String WSMP_PROGRESS_TITLE = "Loading";
+	static final String WSMP_PROGRESS_MSG = "Loading Wolf 'N Sheep Multiplayer game data...";
 	private TextView text;
 	private TextView p1_wool_text;
 	private TextView p2_wool_text;
@@ -805,8 +820,8 @@ public class WolfNSheep extends Activity {
         TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
         TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
         load = new ProgressDialog(this);
-        load.setTitle("Loading");
-        load.setMessage("Loading Wolf 'N Sheep Multiplayer game data...");
+        load.setTitle(WSMP_PROGRESS_TITLE);
+        load.setMessage(WSMP_PROGRESS_MSG);
         load.setCancelable(false);
         this.logtext = (TextView) findViewById(R.id.computer_action_log);
         this.p3_wool_text = (TextView)this.findViewById(R.id.p3_wool);
