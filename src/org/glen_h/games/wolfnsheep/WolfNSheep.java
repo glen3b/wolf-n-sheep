@@ -254,7 +254,7 @@ public class WolfNSheep extends Activity {
 			try{
 			version_name = info.versionName;
 			about_dialog_text = "Wolf 'N Sheep "+version_name+" - http://code.google.com/p/wolf-n-sheep -" +
-					" Wolf 'N Sheep version "+version_name+". An android game inspired by wild wool. " +
+					" Wolf 'N Sheep version "+version_name+", "+(DEBUG ? "debug build" : "release build")+". An android game inspired by wild wool. " +
 					"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 					"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 					"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
