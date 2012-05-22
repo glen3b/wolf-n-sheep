@@ -559,19 +559,19 @@ public class WolfNSheep extends Activity {
         }
     }
     
-    private class UpdateGameDialog extends AsyncTask<Void, Void, String> {
+    private class UpdateGameDialog extends AsyncTask<Void, Void, String[][]> {
         @Override
-    	protected String doInBackground(Void... vv) {
+    	protected String[][] doInBackground(Void... vv) {
         	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	return downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+        	String[][] ret = {downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id)), downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))};
+        	return ret;
         }
 
         @Override
-        protected void onPostExecute(String gamestat) {
-        	WolfNSheep.this.gamestat = gamestat;
+        protected void onPostExecute(String[][] gamestats) {
+        	WolfNSheep.this.gamestat = gamestats[0][0];
         	load.cancel();
-        	// TODO Thread
-        	String[] players_array_joined_game = downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+        	String[] players_array_joined_game = gamestats[1];
         	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
 	    	String players_joined_game = "";
 	    	for(String pjoined : players_array_joined_game){
