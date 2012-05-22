@@ -348,7 +348,6 @@ public class WolfNSheep extends Activity {
 	
 	/**
 	 * Downloads a text file and returns its contents as an array.
-	 * TODO Implement this threaded
 	 * @author Glen Husman
 	 */
 	public static String[] downloadFile(URL website) {
@@ -696,7 +695,6 @@ public class WolfNSheep extends Activity {
     
     /**
 	 * Post data to a URL.
-	 * TODO Implement this threaded
 	 * @author Glen Husman
 	 * @param url The URL to post data to.
 	 * @param ids The array of IDs of POST variables.
@@ -848,7 +846,7 @@ public class WolfNSheep extends Activity {
         mp_alert.setNeutralButton("Multiplayer",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						// TODO Re-implement server-side multiplayer!
+						// TODONE Re-implement server-side multiplayer!
 						// For the moment, there must be 4 players
 						mode = PlayerMode.MULTIPLAYER_4P;
 			        	/**
