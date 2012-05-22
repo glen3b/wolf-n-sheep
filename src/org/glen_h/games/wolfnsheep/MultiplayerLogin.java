@@ -67,6 +67,8 @@ public class MultiplayerLogin extends Activity {
 				pd = new ProgressDialog(MultiplayerLogin.this);
 				pd.setTitle("Registering");
 				pd.setMessage("Registering Wolf 'N Sheep Multiplayer account for "+user.getText().toString()+".");
+				pd.setCancelable(false);
+				pd.show();
 				(new Register()).execute(url, new String[]{"username", "password"}, new String[]{user.getText().toString(), password.getText().toString()});
 				}
 		});
