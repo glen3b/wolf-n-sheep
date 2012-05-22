@@ -795,6 +795,83 @@ public class WolfNSheep extends Activity {
 	private boolean criticalalerts_state;
 	protected PlayerMode mode = null;
 	
+	private class MPRoll extends AsyncTask<Void, Void, Void>{
+		
+		private String turn;
+		private boolean opengame;
+		private String[] scores;
+		
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
+			opengame = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0].contains("open-game");
+			scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void na){
+			load.cancel();
+			if(opengame){
+    			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
+    		}else{
+    		if(DEBUG) Log.i(TAG, turn);
+    		if(turn.contains(Integer.toString(mpPlayerNum))){
+    		int len = scores.length;
+
+            for (int i = 0; i < len; ++i) {
+            	String parse = scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", "");
+            	parse = parse.replaceAll("S", "");
+            	// String parse = scores[i].split(" ")[1];
+            	if(DEBUG) Log.i(TAG, "Going to try to parse int: "+parse);
+            	try{
+            		if((i+1) <= 4) wool[(i+1)] = Integer.parseInt(parse);
+            	}catch(NumberFormatException e){
+            		if(DEBUG) Log.w(TAG, "Error parsing score!", e);
+            		wool[(i+1)] = 0;
+            	}
+            	try{
+            		if((i+1) > 4) sheared_wool[i-3] = Integer.parseInt(parse);
+            	}catch(NumberFormatException e){
+            		if(DEBUG) Log.w(TAG, "Error parsing score!", e);
+            		sheared_wool[i-3] = 0;
+            	}
+            }
+            int winning_score = -1;
+    		String winner;
+    		int winner_player_num = 0;
+    		// TODONE Use arrays everywhere, so this will work!!!
+    		for (player_num=1; player_num <= num_players; player_num++) {
+    			if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
+    				winner_player_num = 0;
+    			} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
+    				winner_player_num = player_num;
+    				winning_score = wool[player_num]+sheared_wool[player_num];
+    			}
+    		}
+    		if(winner_player_num == 0){
+    			winner = "Currently tied.";
+    		}else{
+    			winner = "P"+Integer.toString(winner_player_num)+" currently winning.";
+    		}
+    		logtext.setText(players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]+"\n"+winner);
+    		updateText();
+            text.setTextColor(Color.YELLOW);
+        	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
+        		random_number = randomNumber(1, 6);
+            	if(DEBUG) Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
+            	makeInvisible();
+            	text.setText(messages[random_number]);
+            	roll();
+        	}
+    		}else{
+    			Toast.makeText(getBaseContext(), "Not your turn!", Toast.LENGTH_SHORT).show();
+    		}
+    	}
+		}
+		
+	}
+	
 	/** Called when the activity is first created.
 	 * Initializes the TextViews from XML, the roll button, and the player buttons.
 	 * @author Glen Husman & Matt Husmam */
@@ -1049,64 +1126,12 @@ public class WolfNSheep extends Activity {
             	}
             	else if(!checkIfGameOver()) Toast.makeText(getBaseContext(), "No re-rolls!", Toast.LENGTH_LONG).show();
             	}else{
-            		if(downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0].contains("open-game")){
-            			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
-            		}else{
-            		String turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
-            		if(DEBUG) Log.i(TAG, turn);
-            		if(turn.contains(Integer.toString(mpPlayerNum))){
-            		String[] scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
-            		int len = scores.length;
-
-                    for (int i = 0; i < len; ++i) {
-                    	String parse = scores[i].replace("SWOOL1 ", "").replace("SWOOL2 ", "").replace("SWOOL3 ", "").replace("SWOOL4 ", "").replace("WOOL1 ", "").replace("WOOL2 ", "").replace("WOOL3 ", "").replace("WOOL4 ", "").replace("\n", "");
-                    	parse = parse.replaceAll("S", "");
-                    	// String parse = scores[i].split(" ")[1];
-                    	if(DEBUG) Log.i(TAG, "Going to try to parse int: "+parse);
-                    	try{
-                    		if((i+1) <= 4) wool[(i+1)] = Integer.parseInt(parse);
-                    	}catch(NumberFormatException e){
-                    		if(DEBUG) Log.w(TAG, "Error parsing score!", e);
-                    		wool[(i+1)] = 0;
-                    	}
-                    	try{
-                    		if((i+1) > 4) sheared_wool[i-3] = Integer.parseInt(parse);
-                    	}catch(NumberFormatException e){
-                    		if(DEBUG) Log.w(TAG, "Error parsing score!", e);
-                    		sheared_wool[i-3] = 0;
-                    	}
-                    }
-                    int winning_score = -1;
-            		String winner;
-            		int winner_player_num = 0;
-            		// TODONE Use arrays everywhere, so this will work!!!
-            		for (player_num=1; player_num <= num_players; player_num++) {
-            			if ((wool[player_num]+sheared_wool[player_num]) == winning_score) {
-            				winner_player_num = 0;
-            			} else if ((wool[player_num]+sheared_wool[player_num]) > winning_score) {
-            				winner_player_num = player_num;
-            				winning_score = wool[player_num]+sheared_wool[player_num];
-            			}
-            		}
-            		if(winner_player_num == 0){
-            			winner = "Currently tied.";
-            		}else{
-            			winner = "P"+Integer.toString(winner_player_num)+" currently winning.";
-            		}
-            		logtext.setText(players_did[2]+"\n"+players_did[3]+"\n"+players_did[4]+"\n"+winner);
-            		updateText();
-                    text.setTextColor(Color.YELLOW);
-                	if(shear.getVisibility() == View.GONE && wolf.getVisibility() == View.GONE && grow.getVisibility() == View.GONE && swap.getVisibility() == View.GONE){
-                		random_number = randomNumber(1, 6);
-                    	if(DEBUG) Log.i(TAG, "Player (P1) rolled number "+Integer.toString(random_number)+" on the die, also known as a '"+messages[random_number]+"'");
-                    	makeInvisible();
-                    	text.setText(messages[random_number]);
-                    	roll();
-                	}
-            		}else{
-            			Toast.makeText(getBaseContext(), "Not your turn!", Toast.LENGTH_SHORT).show();
-            		}
-            	}
+            		load = new ProgressDialog(WolfNSheep.this);
+                    load.setTitle(WSMP_PROGRESS_TITLE);
+                    load.setMessage(WSMP_PROGRESS_MSG);
+                    load.setCancelable(false);
+                    load.show();
+                    (new MPRoll()).execute();
             	}
               }
             };
