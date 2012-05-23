@@ -792,8 +792,32 @@ public class WolfNSheep extends Activity {
 	private TextView p4_wool_text;
 	private boolean autoshear_state;
 	private boolean shearcosts_state;
+	boolean ss_busy = false;
 	private boolean criticalalerts_state;
 	protected PlayerMode mode = null;
+	
+	private class MPScoreSubmit extends AsyncTask<String[], Void, Integer>{
+
+		@Override
+		protected Integer doInBackground(String[]... params) {
+			ss_busy = true;
+			String url = params[0][0];
+			int status = postData(url, params[1], params[2]);
+			return status;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer status){
+			load.cancel();
+			ss_busy = false;
+			if(DEBUG) Log.i(TAG, "Just POSTed data");
+			if(status >= 400){
+				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer.", "OK").show();
+			}
+		}
+		
+	}
+	
 	
 	private class MPRoll extends AsyncTask<Void, Void, Void>{
 		
@@ -816,7 +840,7 @@ public class WolfNSheep extends Activity {
     			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
     		}else{
     		if(DEBUG) Log.i(TAG, turn);
-    		if(turn.contains(Integer.toString(mpPlayerNum))){
+    		if(turn.contains(Integer.toString(mpPlayerNum)) && !ss_busy){
     		int len = scores.length;
 
             for (int i = 0; i < len; ++i) {
@@ -1611,12 +1635,13 @@ public class WolfNSheep extends Activity {
 			// TODONE Do something special for multiplayer
 			String[] ids = new String[]{"player", "username", "password", "id", "p1wool", "p1shearedwool", "p2wool", "p2shearedwool", "p3wool", "p3shearedwool", "p4wool", "p4shearedwool"};
 			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(sheared_wool[1]), Integer.toString(wool[2]), Integer.toString(sheared_wool[2]), Integer.toString(wool[3]), Integer.toString(sheared_wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[4])};
-			int status = postData(mpUrl+"game.php", ids, values);
-			if(DEBUG) Log.i(TAG, "Just POSTed data");
-			if(status >= 400){
-				LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer.", "OK").show();
-			}
-		}else{
+			load = new ProgressDialog(this);
+	        load.setTitle(WSMP_PROGRESS_TITLE);
+	        load.setMessage(WSMP_PROGRESS_MSG);
+	        load.setCancelable(false);
+	        load.show();
+			(new MPScoreSubmit()).execute(new String[]{mpUrl+"game.php"}, ids, values);
+			}else{
 			// This is singleplayer
 		int random_number_p2 = randomNumber(1, 6);
 		String p2logtext = "Computer 2 (P2) rolled number "+Integer.toString(random_number_p2)+" on the die, also known as a '"+messages[random_number_p2]+"'";
