@@ -236,17 +236,17 @@ public class WolfNSheep extends Activity {
     	   startActivity(browserIntent);
            return true;
     	case R.id.prefs_item:
-      	   Intent prefs = new Intent(this, Extras.class);
+      	   Intent prefs = new Intent(WolfNSheep.this, Extras.class);
       	   startActivity(prefs);
       	   return true;
         case R.id.exit:
         	finish();
         	return true;
         case R.id.about:
-        	PackageManager manager = this.getPackageManager();
+        	PackageManager manager = WolfNSheep.this.getPackageManager();
         	   PackageInfo info;
 			try {
-				info = manager.getPackageInfo(this.getPackageName(), 0);
+				info = manager.getPackageInfo(WolfNSheep.this.getPackageName(), 0);
 			} catch (NameNotFoundException e) {
 				info = null;
 				if(DEBUG) Log.e(TAG, "Why was the package name not found?", e);
@@ -264,7 +264,7 @@ public class WolfNSheep extends Activity {
 				version_name = "Unknown";
 				about_dialog_text = "We're sorry, an unexpected error occured.";
 			}
-        	AlertDialog about = LinkAlertDialog.create(this,"About",about_dialog_text,"OK");
+        	AlertDialog about = LinkAlertDialog.create(WolfNSheep.this,"About",about_dialog_text,"OK");
         	about.show();
         	return true;
         }
@@ -394,7 +394,7 @@ public class WolfNSheep extends Activity {
 		WolfNSheep.this.game_id = game_id;
 		String url = mpUrl+"join-game.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)+"&id="+game_id;
 		// String pnum = downloadFile(makeURL(url))[0].replace("\n", "");
-		load = new ProgressDialog(this);
+		load = new ProgressDialog(WolfNSheep.this);
         load.setTitle(WSMP_PROGRESS_TITLE);
         load.setMessage(WSMP_PROGRESS_MSG);
         load.setCancelable(false);
@@ -431,10 +431,10 @@ public class WolfNSheep extends Activity {
 	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
 	    	aalert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
 	    	final int orientation = getResources().getConfiguration().orientation;
-	    	final TextView p1_label = (TextView)this.findViewById(R.id.p1_label);
-	        final TextView p2_label = (TextView)this.findViewById(R.id.p2_label);
-	        final TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
-	        final TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
+	    	final TextView p1_label = (TextView)WolfNSheep.this.findViewById(R.id.p1_label);
+	        final TextView p2_label = (TextView)WolfNSheep.this.findViewById(R.id.p2_label);
+	        final TextView p3_label = (TextView)WolfNSheep.this.findViewById(R.id.p3_label);
+	        final TextView p4_label = (TextView)WolfNSheep.this.findViewById(R.id.p4_label);
 		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 		    protected void deactivatep1(){
 		    	p1_label.setText("P1");
@@ -1004,29 +1004,29 @@ public class WolfNSheep extends Activity {
 	    if(DEBUG) Log.d(TAG, "Auto-shear preference is "+Boolean.toString(autoshear_state));
 	    if(DEBUG) Log.d(TAG, "Shear costs preference is "+Boolean.toString(shearcosts_state));
 	    if(DEBUG) Log.d(TAG, "Critical alerts preference is "+Boolean.toString(criticalalerts_state));
-        this.setContentView(R.layout.main);
-        this.p1_wool_text = (TextView)this.findViewById(R.id.p1_wool);
-        this.p2_wool_text = (TextView)this.findViewById(R.id.p2_wool);
-        TextView p1_label = (TextView)this.findViewById(R.id.p1_label);
-        TextView p2_label = (TextView)this.findViewById(R.id.p2_label);
-        TextView p3_label = (TextView)this.findViewById(R.id.p3_label);
-        TextView p4_label = (TextView)this.findViewById(R.id.p4_label);
-        load = new ProgressDialog(this);
+        WolfNSheep.this.setContentView(R.layout.main);
+        WolfNSheep.this.p1_wool_text = (TextView)WolfNSheep.this.findViewById(R.id.p1_wool);
+        WolfNSheep.this.p2_wool_text = (TextView)WolfNSheep.this.findViewById(R.id.p2_wool);
+        TextView p1_label = (TextView)WolfNSheep.this.findViewById(R.id.p1_label);
+        TextView p2_label = (TextView)WolfNSheep.this.findViewById(R.id.p2_label);
+        TextView p3_label = (TextView)WolfNSheep.this.findViewById(R.id.p3_label);
+        TextView p4_label = (TextView)WolfNSheep.this.findViewById(R.id.p4_label);
+        load = new ProgressDialog(WolfNSheep.this);
         load.setTitle(WSMP_PROGRESS_TITLE);
         load.setMessage(WSMP_PROGRESS_MSG);
         load.setCancelable(false);
-        this.logtext = (TextView) findViewById(R.id.computer_action_log);
-        this.p3_wool_text = (TextView)this.findViewById(R.id.p3_wool);
-        this.p4_wool_text = (TextView)this.findViewById(R.id.p4_wool);
-        this.shear = (Button)this.findViewById(R.id.shear);
-        this.wolf = (Button)this.findViewById(R.id.wolf);
-        this.grow = (Button)this.findViewById(R.id.grow);
-        this.swap = (Button)this.findViewById(R.id.swap);
-        this.roll = (Button)this.findViewById(R.id.roll);
-        this.text = (TextView)this.findViewById(R.id.text);
+        WolfNSheep.this.logtext = (TextView) findViewById(R.id.computer_action_log);
+        WolfNSheep.this.p3_wool_text = (TextView)WolfNSheep.this.findViewById(R.id.p3_wool);
+        WolfNSheep.this.p4_wool_text = (TextView)WolfNSheep.this.findViewById(R.id.p4_wool);
+        WolfNSheep.this.shear = (Button)WolfNSheep.this.findViewById(R.id.shear);
+        WolfNSheep.this.wolf = (Button)WolfNSheep.this.findViewById(R.id.wolf);
+        WolfNSheep.this.grow = (Button)WolfNSheep.this.findViewById(R.id.grow);
+        WolfNSheep.this.swap = (Button)WolfNSheep.this.findViewById(R.id.swap);
+        WolfNSheep.this.roll = (Button)WolfNSheep.this.findViewById(R.id.roll);
+        WolfNSheep.this.text = (TextView)WolfNSheep.this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
-        AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder mp_alert = new AlertDialog.Builder(WolfNSheep.this);
         mp_alert.setMessage("Multiplayer or single-player?");
         mp_alert.setCancelable(false);
         mp_alert.setPositiveButton("Single player",
@@ -1046,7 +1046,7 @@ public class WolfNSheep extends Activity {
 			        	/**
 						if(mode == PlayerMode.MULTIPLAYER){
 			            	// TODONE # of players selection dialog display
-			        		AlertDialog.Builder mp_alert = new AlertDialog.Builder(this);
+			        		AlertDialog.Builder mp_alert = new AlertDialog.Builder(WolfNSheep.this);
 			                mp_alert.setMessage("Multiplayer or single-player?");
 			                mp_alert.setPositiveButton("Single player",
 			        				new DialogInterface.OnClickListener() {
@@ -1149,10 +1149,10 @@ public class WolfNSheep extends Activity {
         	mp_alert.show();
         }
 		updateText();
-		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		final AlertDialog.Builder alert2 = new AlertDialog.Builder(this);
-		final AlertDialog.Builder alert3 = new AlertDialog.Builder(this);
-		final AlertDialog.Builder alert4 = new AlertDialog.Builder(this);
+		final AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
+		final AlertDialog.Builder alert2 = new AlertDialog.Builder(WolfNSheep.this);
+		final AlertDialog.Builder alert3 = new AlertDialog.Builder(WolfNSheep.this);
+		final AlertDialog.Builder alert4 = new AlertDialog.Builder(WolfNSheep.this);
 		OnClickListener p1_pinfo = new OnClickListener() {
             public void onClick(View v) {
             	alert.setTitle("Player info");
@@ -1233,10 +1233,10 @@ public class WolfNSheep extends Activity {
             	}
               }
             };
-        this.roll.setOnClickListener(roll_action);
+        WolfNSheep.this.roll.setOnClickListener(roll_action);
         }
     void init_app() {
-    	final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+    	final AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
 		alert.setTitle("Player selection");
 		alert.setMessage("You have "+Integer.toString(wool[mpPlayerNum])+" wool.\nWho would you like to swap sheep with?");
 		alert.setCancelable(false);
@@ -1342,14 +1342,14 @@ public class WolfNSheep extends Activity {
 			});
 		}
 				
-		this.swap.setOnClickListener(new OnClickListener() {	
+		WolfNSheep.this.swap.setOnClickListener(new OnClickListener() {	
 			public void onClick(View v) {
 				makeInvisible();
         		alert.show();
             }
         }
           );
-        this.grow.setOnClickListener(new OnClickListener() {
+        WolfNSheep.this.grow.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	wool[mpPlayerNum] = wool[mpPlayerNum] + 1;
             	if(wool[mpPlayerNum] > max_wool){
@@ -1363,7 +1363,7 @@ public class WolfNSheep extends Activity {
 
             }
           });
-        this.shear.setOnClickListener(new OnClickListener() {
+        WolfNSheep.this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	shearWool(mpPlayerNum);
             	updateTextOnly();
@@ -1372,7 +1372,7 @@ public class WolfNSheep extends Activity {
 
             }
           });
-        final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(this);
+        final AlertDialog.Builder wolf_alert = new AlertDialog.Builder(WolfNSheep.this);
         wolf_alert.setTitle("Player selection");
         wolf_alert.setMessage("You have "+getStringData(Data.WOOL, mpPlayerNum)+" wool.\nWho would you like to send the wolf to?");
         wolf_alert.setCancelable(false);
@@ -1519,7 +1519,7 @@ public class WolfNSheep extends Activity {
 			// FIXMED Tie-checking bug where if there is a 4+ way tie involving P1, P1 is not listed in tied players, or here!
 			ways_tie = tie_between[1] + tie_between[2] + tie_between[3] + tie_between[4] /* + 1 */;
 			roll.setText("Restart");
-            final AlertDialog.Builder restarting_conf = new AlertDialog.Builder(this);
+            final AlertDialog.Builder restarting_conf = new AlertDialog.Builder(WolfNSheep.this);
             restarting_conf.setTitle("New game?");
             restarting_conf.setMessage("Start a new game?");
             restarting_conf.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
@@ -1538,7 +1538,7 @@ public class WolfNSheep extends Activity {
 			Button share = (Button) findViewById(R.id.share);
 			int winning_score = -1;
 			String winner = "Nobody";
-			TextView winner_text = (TextView)this.findViewById(R.id.winner);
+			TextView winner_text = (TextView)WolfNSheep.this.findViewById(R.id.winner);
 			int winner_player_num = 0;
 			// TODONE Use arrays everywhere, so this will work!!!
 			for (player_num=1; player_num <= num_players; player_num++) {
@@ -1615,7 +1615,7 @@ public class WolfNSheep extends Activity {
 			}
 			gameover =  true;
 			if(mode != PlayerMode.SINGLEPLAYER){
-				load = new ProgressDialog(this);
+				load = new ProgressDialog(WolfNSheep.this);
 		        load.setTitle(WSMP_PROGRESS_TITLE);
 		        load.setMessage(WSMP_PROGRESS_MSG);
 		        load.setCancelable(false);
@@ -1693,7 +1693,7 @@ public class WolfNSheep extends Activity {
     		shear.setVisibility(View.VISIBLE);
     		grow.setVisibility(View.VISIBLE);
     	}
-        this.shear.setOnClickListener(new OnClickListener() {
+        WolfNSheep.this.shear.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	shearWool(mpPlayerNum);
             	makeInvisible();
@@ -1709,7 +1709,7 @@ public class WolfNSheep extends Activity {
 			// TODONE Do something special for multiplayer
 			String[] ids = new String[]{"player", "username", "password", "id", "p1wool", "p1shearedwool", "p2wool", "p2shearedwool", "p3wool", "p3shearedwool", "p4wool", "p4shearedwool"};
 			String[] values = new String[]{Integer.toString(mpPlayerNum), settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id, Integer.toString(wool[1]), Integer.toString(sheared_wool[1]), Integer.toString(wool[2]), Integer.toString(sheared_wool[2]), Integer.toString(wool[3]), Integer.toString(sheared_wool[3]), Integer.toString(wool[4]), Integer.toString(sheared_wool[4])};
-			load = new ProgressDialog(this);
+			load = new ProgressDialog(WolfNSheep.this);
 	        load.setTitle(WSMP_PROGRESS_TITLE);
 	        load.setMessage(WSMP_PROGRESS_MSG);
 	        load.setCancelable(false);
@@ -1875,13 +1875,13 @@ public class WolfNSheep extends Activity {
 				wool[num_player] = player_swap_old_wool;
 				returnvalue = "P"+num_player.toString()+" swapped with P"+Integer.toString(player_swap)+".";
 				if(criticalalerts_state && player_swap == mpPlayerNum){
-					LinkAlertDialog.create(this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
 				}
 			}else{
 				wool[who_most_wool] = 0;
 				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(who_most_wool)+".";
 				if(criticalalerts_state && who_most_wool == mpPlayerNum){
-					LinkAlertDialog.create(this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
 				}
 			}
 			break;
@@ -1912,7 +1912,7 @@ public class WolfNSheep extends Activity {
 				wool[player_wolf] = 0;
 				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf)+".";
 				if(criticalalerts_state && player_wolf == mpPlayerNum){
-					LinkAlertDialog.create(this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
 				}
 				}
 			else{
@@ -1948,7 +1948,7 @@ public class WolfNSheep extends Activity {
 				wool[num_player] = player_swap_old_wool;
 				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap_alt)+".";
 				if(criticalalerts_state && player_swap_alt == mpPlayerNum){
-					LinkAlertDialog.create(this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
 				}
 			}else{
 				wool[num_player]++;
