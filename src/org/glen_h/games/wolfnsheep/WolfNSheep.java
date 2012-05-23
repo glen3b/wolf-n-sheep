@@ -784,7 +784,7 @@ public class WolfNSheep extends Activity {
       
 	  
 	static final String WSMP_PROGRESS_TITLE = "Loading";
-	static final String WSMP_PROGRESS_MSG = "Loading Wolf 'N Sheep Multiplayer game data...";
+	static final String WSMP_PROGRESS_MSG = "Wolf 'N Sheep Multiplayer is loading...";
 	private TextView text;
 	private TextView p1_wool_text;
 	private TextView p2_wool_text;
