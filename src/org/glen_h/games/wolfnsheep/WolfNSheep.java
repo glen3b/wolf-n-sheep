@@ -349,8 +349,9 @@ public class WolfNSheep extends Activity {
 	/**
 	 * Downloads a text file and returns its contents as an array.
 	 * @author Glen Husman
+	 * @throws IOException 
 	 */
-	public static String[] downloadFile(URL website) {
+	public static String[] downloadFile(URL website) throws IOException {
 		BufferedReader in = null;
 		try {
 			in = new BufferedReader(
@@ -359,18 +360,24 @@ public class WolfNSheep extends Activity {
 		} catch (IOException e) {
 			in = null;
 			e.printStackTrace();
-			if(DEBUG) Log.w("WishlistEditActivity", "in is null!");
+			if(DEBUG) Log.w(TAG, "in is null!");
 		}
 
-	      String input;
-	      ArrayList<String> stringList = new ArrayList<String>();
+		String input;
+	    ArrayList<String> stringList = new ArrayList<String>();
+	    
+		try{
 	      try {
 			while ((input = in.readLine()) != null) {
 			      stringList.add(input);
 			  }
 		} catch (IOException e) {
 			stringList = new ArrayList<String>();
-			}
+		}
+		}catch (NullPointerException err){
+			if(DEBUG) Log.e(TAG, "There has been an IO error, see previous log, throwing IOException.");
+			throw new IOException();
+		}
 	      
 	    String[] itemArray = new String[stringList.size()];
 		String[] returnedArray = stringList.toArray(itemArray);
@@ -532,7 +539,14 @@ public class WolfNSheep extends Activity {
         @Override
     	protected String doInBackground(URL... urls) {
         	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	return downloadFile(urls[0])[0].replace("\n", "");
+        	String res;
+        	try{
+        		res = downloadFile(urls[0])[0].replace("\n", "");
+        	}catch(IOException e){
+        		res = "BAD_LOGIN";
+        		if(DEBUG) Log.w(TAG, "Error getting game ID, set ID to BAD_LOGIN", e);
+        	}
+        	return res;
         }
 
         @Override
@@ -551,7 +565,7 @@ public class WolfNSheep extends Activity {
         	}
         	});
         	}else{
-        		alert.setMessage("An error occurred (try checking your login).");
+        		alert.setMessage("An error occurred (try checking your login and connection to server).");
 
             	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             	public void onClick(DialogInterface dialog, int whichButton) {
@@ -566,14 +580,21 @@ public class WolfNSheep extends Activity {
         @Override
     	protected String[][] doInBackground(Void... vv) {
         	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	String[][] ret = {downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id)), downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))};
+        	String[][] ret;
+        	try{
+        	ret = new String[][]{downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id)), downloadFile(makeURL(mpUrl+"joined.php?id="+WolfNSheep.this.game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))};
+        	}catch(IOException e){
+        		ret = null;
+        		if(DEBUG) Log.w(TAG, "IO error in game dialog update.", e);
+        	}
         	return ret;
         }
 
         @Override
         protected void onPostExecute(String[][] gamestats) {
-        	WolfNSheep.this.gamestat = gamestats[0][0];
         	load.cancel();
+        	if(gamestats != null){
+        	WolfNSheep.this.gamestat = gamestats[0][0];
         	String[] players_array_joined_game = gamestats[1];
         	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
 	    	String players_joined_game = "";
@@ -586,6 +607,10 @@ public class WolfNSheep extends Activity {
 	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
 	    	aalert.setMessage("You have joined game "+WolfNSheep.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
 	    	aalert.show();
+        	}else{
+        		aalert.setMessage("An IO error communication with the server occurred. Please try again later.");
+        		aalert.show();
+        	}
         }
     }
     
@@ -600,7 +625,12 @@ public class WolfNSheep extends Activity {
 
 		@Override
 		protected String doInBackground(Void... params) {
-			gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+			try {
+				gamestat = downloadFile(makeURL(mpUrl+"game-state.php?id="+WolfNSheep.this.game_id))[0];
+			} catch (IOException e) {
+				gamestat = null;
+				if(DEBUG) Log.w(TAG, "Error getting gamestat", e);
+			}
 			return gamestat;
     }
 		
@@ -611,7 +641,8 @@ public class WolfNSheep extends Activity {
 	        final TextView p2_label = (TextView)WolfNSheep.this.findViewById(R.id.p2_label);
 	        final TextView p3_label = (TextView)WolfNSheep.this.findViewById(R.id.p3_label);
 	        final TextView p4_label = (TextView)WolfNSheep.this.findViewById(R.id.p4_label);
-	    	if(!gamestat.contains("locked-game")){
+	    	if(gamestat != null){
+	        if(!gamestat.contains("locked-game")){
 	    		Toast.makeText(WolfNSheep.this.getBaseContext(), "Game not ready!", Toast.LENGTH_SHORT).show();
 	    		aalert.show();
 	    	}else{
@@ -635,6 +666,8 @@ public class WolfNSheep extends Activity {
 	    		p4_label.setTypeface(Typeface.DEFAULT_BOLD);
 	    		p4_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
 	    	}
+		}}else{
+			LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
 		}
         }
     }
@@ -645,14 +678,20 @@ public class WolfNSheep extends Activity {
     	@Override
     	protected String[] doInBackground(URL... urls) {
         	// downloadFile(makeURL(mpUrl+"game-start.php?username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)))[0].replace("\n", "")
-        	String[] ret = {downloadFile(urls[0])[0].replace("\n", ""), downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0]};
+    		String[] ret = null;
+    		try{
+    		ret = new String[]{downloadFile(urls[0])[0].replace("\n", ""), downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0]};
         	pvjs22 = downloadFile(makeURL(mpUrl+"joined.php?id="+game_id+"&username="+settings.getString("mpUser", null)+"&password="+settings.getString("mpPassword", null)));
+    		}catch (IOException e){
+    			if(DEBUG) Log.w(TAG, "We have an IO error.", e);
+    		}
         	return ret;
         }
 
         @Override
         protected void onPostExecute(String[] res) {
         	load.cancel();
+        	if(res != null){
         	String pnum = res[0];
         	try{
     			mpPlayerNum = Integer.parseInt(pnum);
@@ -709,6 +748,9 @@ public class WolfNSheep extends Activity {
     			    });
     	    	 aalert.show();
     		}
+        }else{
+        	LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during joining a multiplayer game.", "OK").show();
+        }
         }
     }
     
@@ -811,7 +853,7 @@ public class WolfNSheep extends Activity {
 			load.cancel();
 			ss_busy = false;
 			if(DEBUG) Log.i(TAG, "Just POSTed data");
-			if(status >= 400){
+			if(status >= 400 || status == -1){
 				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer.", "OK").show();
 			}
 		}
@@ -833,7 +875,7 @@ public class WolfNSheep extends Activity {
 		protected void onPostExecute(Integer status){
 			load.cancel();
 			ss_busy = false;
-			if(status >= 400){
+			if(status >= 400 || status == -1){
 				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer gameover.", "OK").show();
 			}
 		}
@@ -846,12 +888,18 @@ public class WolfNSheep extends Activity {
 		private String turn;
 		private boolean opengame;
 		private String[] scores;
+		private boolean error = false;
 		
 		@Override
 		protected Void doInBackground(Void... arg0) {
-			turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
-			opengame = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0].contains("open-game");
-			scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
+			try {
+				turn = downloadFile(makeURL(mpUrl+"get-scores.php?turn=OK&id="+game_id))[0];
+				opengame = downloadFile(makeURL(mpUrl+"game-state.php?id="+game_id))[0].contains("open-game");
+				scores = downloadFile(makeURL(mpUrl+"get-scores.php?id="+game_id));
+			} catch (IOException e) {
+				if (DEBUG) Log.e(TAG, "IO error in MPRoll", e);
+				error = true;
+			}
 			return null;
 		}
 		
@@ -860,6 +908,8 @@ public class WolfNSheep extends Activity {
 			load.cancel();
 			if(opengame){
     			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
+    		}else if(error){
+    			LinkAlertDialog.create(WolfNSheep.this, "ERROR", "A multiplayer error occurred.", "OK").show();
     		}else{
     		if(DEBUG) Log.i(TAG, turn);
     		if(turn.contains(Integer.toString(mpPlayerNum)) && !ss_busy){
