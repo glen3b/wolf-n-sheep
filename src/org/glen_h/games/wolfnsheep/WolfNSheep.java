@@ -386,6 +386,7 @@ public class WolfNSheep extends Activity {
 	
 	String game_id;
 	boolean game_id_valid;
+	String language;
 	private AlertDialog.Builder aalert;
 	private String gamestat;
 	
@@ -994,6 +995,7 @@ public class WolfNSheep extends Activity {
         	total_wool = total_wool + wool[player_num] + sheared_wool[player_num];
         }
         Log.w(TAG, "We are up and running. DEBUG is "+DEBUG+", if false, you shall not see any more log messages.");
+        language = WolfNSheep.this.getResources().getConfiguration().locale.getDisplayName();
         // TODONE Implement auto-shear prefs checking here
         settings = getSharedPreferences("extras", 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
