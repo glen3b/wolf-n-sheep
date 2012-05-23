@@ -818,6 +818,28 @@ public class WolfNSheep extends Activity {
 		
 	}
 	
+	private class MPGameover extends AsyncTask<Void, Void, Integer>{
+
+		@Override
+		protected Integer doInBackground(Void... params) {
+			ss_busy = true;
+			String[] ids = new String[]{"username", "password", "id"};
+			String[] values = new String[]{settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id};
+			int status = postData(mpUrl+"gameover.php", ids, values);
+			return status;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer status){
+			load.cancel();
+			ss_busy = false;
+			if(status >= 400){
+				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer gameover.", "OK").show();
+			}
+		}
+		
+	}
+	
 	
 	private class MPRoll extends AsyncTask<Void, Void, Void>{
 		
@@ -1541,12 +1563,12 @@ public class WolfNSheep extends Activity {
 			}
 			gameover =  true;
 			if(mode != PlayerMode.SINGLEPLAYER){
-				String[] ids = new String[]{"username", "password", "id"};
-				String[] values = new String[]{settings.getString("mpUser", null), settings.getString("mpPassword", null), game_id};
-				int status = postData(mpUrl+"gameover.php", ids, values);
-				if(status >= 400){
-					LinkAlertDialog.create(this, "ERROR", "An error occurred during multiplayer gameover.", "OK").show();
-				}
+				load = new ProgressDialog(this);
+		        load.setTitle(WSMP_PROGRESS_TITLE);
+		        load.setMessage(WSMP_PROGRESS_MSG);
+		        load.setCancelable(false);
+		        load.show();
+				new MPGameover().execute();
 			}
 		}		
 		else{
