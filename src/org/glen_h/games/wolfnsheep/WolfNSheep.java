@@ -408,7 +408,7 @@ public class WolfNSheep extends Activity {
 		load.show();
 		(new JoinGame()).execute(makeURL(url));
 		if(DEBUG) Log.i(TAG, "URL:"+url);
-		/**
+		/*
 		 * try{
 			mpPlayerNum = Integer.parseInt(pnum);
 			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
@@ -1050,7 +1050,7 @@ public class WolfNSheep extends Activity {
 						// TODONE Re-implement server-side multiplayer!
 						// For the moment, there must be 4 players
 						mode = PlayerMode.MULTIPLAYER_4P;
-			        	/**
+			        	/*
 						if(mode == PlayerMode.MULTIPLAYER){
 			            	// TODONE # of players selection dialog display
 			        		AlertDialog.Builder mp_alert = new AlertDialog.Builder(WolfNSheep.this);
@@ -1513,7 +1513,7 @@ public class WolfNSheep extends Activity {
 			shearWoolGameover(3);
 			shearWoolGameover(4);
 			// FIXMED Developer cheat
-			/**
+			/*
 			sheared_wool[1] = 0;
 			sheared_wool[2] = 0;
 			sheared_wool[3] = 0;
@@ -1656,7 +1656,7 @@ public class WolfNSheep extends Activity {
 	 */
 	protected void roll() {
 		if(getData(Data.WOOL, mpPlayerNum) >= max_wool && autoshear_state){
-        	/** TODONE Have an option to enable "special" features not in standard ruleset, like this
+        	/* TODONE Have an option to enable "special" features not in standard ruleset, like this
         	 * Commented because it is not standard rules, can easily make a preference for enabling this (and other modifications).
         	 * Uncommented because CPU does it
         	 */
@@ -1772,7 +1772,7 @@ public class WolfNSheep extends Activity {
 	}
 	
 	void updateTextOnly() {
-		/** Now uses table format */
+		// Now uses table format
 		p1_wool_text.setText(getStringData(Data.WOOL, 1)+"/"+getStringData(Data.SHEARED_WOOL, 1));
 	    p2_wool_text.setText(getStringData(Data.WOOL, 2)+"/"+getStringData(Data.SHEARED_WOOL, 2));
 	    p3_wool_text.setText(getStringData(Data.WOOL, 3)+"/"+getStringData(Data.SHEARED_WOOL, 3));
@@ -1816,7 +1816,7 @@ public class WolfNSheep extends Activity {
 			break;
 		case 5:
 			// Grow wool
-			/**
+			/*
 			int player_wolf = 0;
 			for(int players_checked = 1;players_checked <= 4;players_checked++){
 					if(wool[players_checked] >= 4 && players_checked != num_player){
