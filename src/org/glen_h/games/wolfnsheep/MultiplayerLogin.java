@@ -30,7 +30,7 @@ public class MultiplayerLogin extends Activity {
 		@Override
         protected void onPostExecute(Integer stat) {
 			pd.cancel();
-			if(stat >= 400){
+			if(stat >= 400 || stat == -1){
 				Toast.makeText(MultiplayerLogin.this.getBaseContext(), "Error!", Toast.LENGTH_SHORT);
 				}else{
 				Toast.makeText(MultiplayerLogin.this.getBaseContext(), "Registered "+user.getText().toString()+"!", Toast.LENGTH_SHORT);

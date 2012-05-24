@@ -1043,10 +1043,18 @@ public class WolfNSheep extends Activity {
         WolfNSheep.this.text = (TextView)WolfNSheep.this.findViewById(R.id.text);
         text.setTextSize(16);
         text.setTextColor(Color.GREEN);
+        String mp_or_sp = "Multiplayer or single-player?";
+        String sp = "Single player";
+        String mp = "Multiplayer";
+        if(language.contains("es")){
+        	mp_or_sp = "Múltiple o de un solo jugador?";
+        	mp = "Multijugador";
+        	sp = "de un solo jugador";
+        }
         AlertDialog.Builder mp_alert = new AlertDialog.Builder(WolfNSheep.this);
-        mp_alert.setMessage("Multiplayer or single-player?");
+        mp_alert.setMessage(mp_or_sp);
         mp_alert.setCancelable(false);
-        mp_alert.setPositiveButton("Single player",
+        mp_alert.setPositiveButton(sp,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// This just continues single-player
@@ -1054,7 +1062,7 @@ public class WolfNSheep extends Activity {
 						init_app();
 					}
 				});
-        mp_alert.setNeutralButton("Multiplayer",
+        mp_alert.setNeutralButton(mp,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// TODONE Re-implement server-side multiplayer!
@@ -1087,22 +1095,32 @@ public class WolfNSheep extends Activity {
 			        				});
 			            }
 			            */
+						String jom = "Join game or make game?";
+						String m = "Make game";
+						String j = "Join game";
+						String login = "Login to server";
+						if(language.contains("es")){
+				        	jom = "Unirse al juego o hacer juego?";
+				        	m = "Hacer juego";
+				        	j = "Unirse al juego";
+				        	login = "Inicie sesión con el servidor";
+				        }
 						AlertDialog.Builder join_or_make = new AlertDialog.Builder(WolfNSheep.this);
 						join_or_make.setCancelable(false);
-						join_or_make.setTitle("Join game or make game?");
-						join_or_make.setPositiveButton("Make game",
+						join_or_make.setTitle(jom);
+						join_or_make.setPositiveButton(m,
 		        				new DialogInterface.OnClickListener() {
 		        					public void onClick(DialogInterface dialog, int whichButton) {
 		        						createGame();
 		        					}
 		        				});
-						join_or_make.setNeutralButton("Join game",
+						join_or_make.setNeutralButton(j,
 		        				new DialogInterface.OnClickListener() {
 		        					public void onClick(DialogInterface dialog, int whichButton) {
 		        						joinGame();
 		        					}
 		        				});
-						join_or_make.setNegativeButton("Login to server",
+						join_or_make.setNegativeButton(login,
 		        				new DialogInterface.OnClickListener() {
 		        					public void onClick(DialogInterface dialog, int whichButton) {
 		        						mpAuth();
