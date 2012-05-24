@@ -255,7 +255,7 @@ public class WolfNSheep extends Activity {
 			}
 			try{
 			version_name = info.versionName;
-			if(language.contains("es")){
+			if(spanish){
 				about_dialog_text = "Lobo 'N Ovejas "+version_name+" - http://code.google.com/p/wolf-n-sheep -" +
 						" La versión del Lobo 'N Ovejas "+version_name+", "+(DEBUG ? "depurar a construir" : "versión de lanzamiento")+". Un juego para Android inspirado en lana natural. " +
 						"Icono se basa fuera de http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, y bajo el dominio público " +
@@ -277,7 +277,7 @@ public class WolfNSheep extends Activity {
 			}
 			String about_title = "About";
 			String ok = "OK";
-			if(language.contains("es")){
+			if(spanish){
 				about_title = "sobre";
 				ok = "Aceptar";
 			}
@@ -404,6 +404,7 @@ public class WolfNSheep extends Activity {
 	String game_id;
 	boolean game_id_valid;
 	String language;
+	boolean spanish = false;
 	private AlertDialog.Builder aalert;
 	private String gamestat;
 	
@@ -1013,6 +1014,7 @@ public class WolfNSheep extends Activity {
         }
         Log.w(TAG, "We are up and running. DEBUG is "+DEBUG+", if false, you shall not see any more log messages.");
         language = WolfNSheep.this.getResources().getConfiguration().locale.getLanguage();
+        spanish = language.contains("es");
         // TODONE Implement auto-shear prefs checking here
         settings = getSharedPreferences("extras", 0);
 	    autoshear_state = settings.getBoolean("autoshear", true);
@@ -1046,7 +1048,7 @@ public class WolfNSheep extends Activity {
         String mp_or_sp = "Multiplayer or single-player?";
         String sp = "Single player";
         String mp = "Multiplayer";
-        if(language.contains("es")){
+        if(spanish){
         	messages = new String[]{ "Lanza el dado!",
               		"Esquilar ovejas o hacer crecer la lana.",
               		"Cambie las ovejas de lana o crecer.",
@@ -1107,7 +1109,7 @@ public class WolfNSheep extends Activity {
 						String m = "Make game";
 						String j = "Join game";
 						String login = "Login to server";
-						if(language.contains("es")){
+						if(spanish){
 				        	jom = "Unirse al juego o hacer juego?";
 				        	m = "Hacer juego";
 				        	j = "Unirse al juego";
@@ -1170,6 +1172,7 @@ public class WolfNSheep extends Activity {
             	String extratext = "";
 				if(getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE){
 		    		extratext = " (You)";
+		    		if(spanish) extratext = " (Usted)";
 		    	}
 		    	if(mpPlayerNum == 2){
 		    		deactivatep1();
