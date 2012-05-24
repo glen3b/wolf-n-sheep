@@ -536,11 +536,6 @@ public class WolfNSheep extends Activity {
     	}
     	});
 
-    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-    	 public void onClick(DialogInterface dialog, int whichButton) {
-    	}
-    	});
-
     	 alert.show();
     	}
     }
