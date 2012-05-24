@@ -70,6 +70,13 @@ public class WolfNSheep extends Activity {
 	
 	private ProgressDialog load;
 	
+	@Override
+	public int hashCode() {
+	     throw new UnsupportedOperationException();
+	   }
+
+	
+	
 	/**
 	 * Returns the game's vital statistics as a string.
 	 */
