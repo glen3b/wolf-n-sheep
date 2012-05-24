@@ -275,7 +275,13 @@ public class WolfNSheep extends Activity {
 				version_name = "Unknown";
 				about_dialog_text = "We're sorry, an unexpected error occured.";
 			}
-        	AlertDialog about = LinkAlertDialog.create(WolfNSheep.this,"About",about_dialog_text,"OK");
+			String about_title = "About";
+			String ok = "OK";
+			if(language.contains("es")){
+				about_title = "sobre";
+				ok = "Aceptar";
+			}
+        	AlertDialog about = LinkAlertDialog.create(WolfNSheep.this,about_title,about_dialog_text,ok);
         	about.show();
         	return true;
         }
