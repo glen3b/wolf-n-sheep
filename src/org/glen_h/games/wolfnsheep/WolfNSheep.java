@@ -69,11 +69,6 @@ public class WolfNSheep extends Activity {
 	public static final boolean DEBUG = true;
 	
 	private ProgressDialog load;
-	
-	@Override
-	public int hashCode() {
-	     throw new UnsupportedOperationException();
-	   }
 
 	
 	
