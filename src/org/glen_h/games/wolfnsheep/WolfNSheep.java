@@ -831,7 +831,7 @@ public class WolfNSheep extends Activity {
       private Button grow;
       private Button swap;
       // TODONE Fix dice (Also fix onClick functions for the dice)
-	  public static final String[] messages = 
+	  public static String[] messages = 
 	        { "Roll the die!",
       		"Shear sheep or grow wool.",
       		"Swap sheep or grow wool.",
@@ -1047,6 +1047,14 @@ public class WolfNSheep extends Activity {
         String sp = "Single player";
         String mp = "Multiplayer";
         if(language.contains("es")){
+        	messages = new String[]{ "Lanza el dado!",
+              		"Esquilar ovejas o hacer crecer la lana.",
+              		"Cambie las ovejas de lana o crecer.",
+              		"Enviar lobo o esquilar ovejas.",
+              		"Enviar lobo o una oveja de intercambio.", 
+              		"Crecer lana.",
+              		"Crecer 2 de lana."
+              		};
         	mp_or_sp = "Múltiple o de un solo jugador?";
         	mp = "Multijugador";
         	sp = "de un solo jugador";
