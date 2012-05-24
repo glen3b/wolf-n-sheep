@@ -425,10 +425,10 @@ public class WolfNSheep extends Activity {
 			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
 			game_id_valid = true;
 		}catch(NumberFormatException err){
-			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", "OK").show();
-			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", "OK").show();
-			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
-			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
+			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", (spanish ? "Aceptar" : "OK")).show();
+			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", (spanish ? "Aceptar" : "OK")).show();
+			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", (spanish ? "Aceptar" : "OK")).show();
+			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", (spanish ? "Aceptar" : "OK")).show();
 			if(DEBUG) Log.w(TAG, "ERROR:"+pnum);
 			game_id_valid = false;
 		}
@@ -453,7 +453,7 @@ public class WolfNSheep extends Activity {
 	        final TextView p2_label = (TextView)WolfNSheep.this.findViewById(R.id.p2_label);
 	        final TextView p3_label = (TextView)WolfNSheep.this.findViewById(R.id.p3_label);
 	        final TextView p4_label = (TextView)WolfNSheep.this.findViewById(R.id.p4_label);
-		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		    aalert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {
 		    protected void deactivatep1(){
 		    	p1_label.setText("P1");
 	    		p1_label.setTypeface(Typeface.DEFAULT);
@@ -529,7 +529,7 @@ public class WolfNSheep extends Activity {
     	input.setInputType(InputType.TYPE_CLASS_NUMBER);
     	alert.setView(input);
 
-    	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    	alert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {
     	public void onClick(DialogInterface dialog, int whichButton) {
     		String game_id = input.getText().toString();
     		mpJoinGameNet(game_id);
@@ -578,7 +578,7 @@ public class WolfNSheep extends Activity {
         	if(id != "BAD_LOGIN"){
         	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
 
-        	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	alert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int whichButton) {
         		mpJoinGameNet(id);
         	}
@@ -586,7 +586,7 @@ public class WolfNSheep extends Activity {
         	}else{
         		alert.setMessage("An error occurred (try checking your login and connection to server).");
 
-            	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            	alert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {
             	public void onClick(DialogInterface dialog, int whichButton) {
             	}
             	});
@@ -686,7 +686,7 @@ public class WolfNSheep extends Activity {
 	    		p4_wool_text.setTypeface(Typeface.DEFAULT_BOLD);
 	    	}
 		}}else{
-			LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
+			LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", (spanish ? "Aceptar" : "OK")).show();
 		}
         }
     }
@@ -717,10 +717,10 @@ public class WolfNSheep extends Activity {
     			if(DEBUG) Log.i(TAG, "mpPlayerNum is "+mpPlayerNum);
     			game_id_valid = true;
     		}catch(NumberFormatException err){
-    			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", "OK").show();
-    			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", "OK").show();
-    			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", "OK").show();
-    			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", "OK").show();
+    			if(pnum.contains("BAD_LOGIN")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "Your password was incorrect.", (spanish ? "Aceptar" : "OK")).show();
+    			else if(pnum.contains("BAD_ID")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game ID was not valid.", (spanish ? "Aceptar" : "OK")).show();
+    			else if(pnum.contains("BAD_GAME")) LinkAlertDialog.create(WolfNSheep.this, "ERROR", "The game is in use or doesn't exist.", (spanish ? "Aceptar" : "OK")).show();
+    			else LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred.", (spanish ? "Aceptar" : "OK")).show();
     			if(DEBUG) Log.w(TAG, "ERROR ON:"+pnum);
     			game_id_valid = false;
     		}
@@ -741,7 +741,7 @@ public class WolfNSheep extends Activity {
     	    	players_joined_game = pjg.toString();
     	    	String gamestat_user = gamestat.replace("STATUS ", "").replace("locked-game", "locked (players cannot join)").replace("open-game", "open (players can still join)");
     	    	aalert.setMessage("You have joined game "+game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
-    		    aalert.setPositiveButton("OK", new DialogInterface.OnClickListener() {	
+    		    aalert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {	
     		    public void onClick(DialogInterface dialog, int whichButton) {
     		    	dialog.cancel();
     		    	load = new ProgressDialog(WolfNSheep.this);
@@ -768,7 +768,7 @@ public class WolfNSheep extends Activity {
     	    	 aalert.show();
     		}
         }else{
-        	LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during joining a multiplayer game.", "OK").show();
+        	LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during joining a multiplayer game.", (spanish ? "Aceptar" : "OK")).show();
         }
         }
     }
@@ -873,7 +873,7 @@ public class WolfNSheep extends Activity {
 			ss_busy = false;
 			if(DEBUG) Log.i(TAG, "Just POSTed data");
 			if(status >= 400 || status == -1){
-				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer.", "OK").show();
+				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer.", (spanish ? "Aceptar" : "OK")).show();
 			}
 		}
 		
@@ -895,7 +895,7 @@ public class WolfNSheep extends Activity {
 			load.cancel();
 			ss_busy = false;
 			if(status >= 400 || status == -1){
-				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer gameover.", "OK").show();
+				LinkAlertDialog.create(WolfNSheep.this, "ERROR", "An error occurred during multiplayer gameover.", (spanish ? "Aceptar" : "OK")).show();
 			}
 		}
 		
@@ -928,7 +928,7 @@ public class WolfNSheep extends Activity {
 			if(opengame){
     			Toast.makeText(getBaseContext(), "Game not ready, players still joining!", Toast.LENGTH_SHORT).show();
     		}else if(error){
-    			LinkAlertDialog.create(WolfNSheep.this, "ERROR", "A multiplayer error occurred.", "OK").show();
+    			LinkAlertDialog.create(WolfNSheep.this, "ERROR", "A multiplayer error occurred.", (spanish ? "Aceptar" : "OK")).show();
     		}else{
     		if(DEBUG) Log.i(TAG, turn);
     		if(turn.contains(Integer.toString(mpPlayerNum)) && !ss_busy){
@@ -1201,9 +1201,14 @@ public class WolfNSheep extends Activity {
 		final AlertDialog.Builder alert4 = new AlertDialog.Builder(WolfNSheep.this);
 		OnClickListener p1_pinfo = new OnClickListener() {
             public void onClick(View v) {
-            	alert.setTitle("Player info");
-        		alert.setMessage("P1's wool: "+getStringData(Data.WOOL, 1)+"\n"+"P1's sheared wool: "+getStringData(Data.SHEARED_WOOL, 1));
-        		alert.setNeutralButton("OK",
+            	String pinfot = (spanish ? "información de jugadores" : "Player info");
+            	String pinfo = "P1's wool: "+getStringData(Data.WOOL, 1)+"\n"+"P1's sheared wool: "+getStringData(Data.SHEARED_WOOL, 1);
+            	if(spanish){
+            		pinfo = "Lana de P1: "+getStringData(Data.WOOL, 1)+"\n"+"Lana esquilada de P1: "+getStringData(Data.SHEARED_WOOL, 1);
+            	}
+            	alert.setTitle(pinfot);
+        		alert.setMessage(pinfo);
+        		alert.setNeutralButton((spanish ? "Aceptar" : "OK"),
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
         					}
@@ -1216,7 +1221,7 @@ public class WolfNSheep extends Activity {
             	alert2.setTitle("Player info");
             	alert2.setMessage("P2's wool: "+getStringData(Data.WOOL, 2)+"\n"+"P2's sheared wool: "+getStringData(Data.SHEARED_WOOL, 2)+
             			"\n"+"P2's last move: "+getStringData(Data.LASTMOVE, 2));
-            	alert2.setNeutralButton("OK",
+            	alert2.setNeutralButton((spanish ? "Aceptar" : "OK"),
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
         					}
@@ -1229,7 +1234,7 @@ public class WolfNSheep extends Activity {
             	alert3.setTitle("Player info");
             	alert3.setMessage("P3's wool: "+getStringData(Data.WOOL, 3)+"\n"+"P3's sheared wool: "+getStringData(Data.SHEARED_WOOL, 3)+
             			"\n"+"P3's last move: "+getStringData(Data.LASTMOVE, 3));
-            	alert3.setNeutralButton("OK",
+            	alert3.setNeutralButton((spanish ? "Aceptar" : "OK"),
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
         					}
@@ -1242,7 +1247,7 @@ public class WolfNSheep extends Activity {
             	alert4.setTitle("Player info");
             	alert4.setMessage("P4's wool: "+getStringData(Data.WOOL, 4)+"\n"+"P4's sheared wool: "+getStringData(Data.SHEARED_WOOL, 4)+
             			"\n"+"P4's last move: "+getStringData(Data.LASTMOVE, 4));
-            	alert4.setNeutralButton("OK",
+            	alert4.setNeutralButton((spanish ? "Aceptar" : "OK"),
         				new DialogInterface.OnClickListener() {
         					public void onClick(DialogInterface dialog, int whichButton) {
         					}
@@ -1921,13 +1926,13 @@ public class WolfNSheep extends Activity {
 				wool[num_player] = player_swap_old_wool;
 				returnvalue = "P"+num_player.toString()+" swapped with P"+Integer.toString(player_swap)+".";
 				if(criticalalerts_state && player_swap == mpPlayerNum){
-					LinkAlertDialog.create(WolfNSheep.this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", (spanish ? "Aceptar" : "OK")).show();
 				}
 			}else{
 				wool[who_most_wool] = 0;
 				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(who_most_wool)+".";
 				if(criticalalerts_state && who_most_wool == mpPlayerNum){
-					LinkAlertDialog.create(WolfNSheep.this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", (spanish ? "Aceptar" : "OK")).show();
 				}
 			}
 			break;
@@ -1958,7 +1963,7 @@ public class WolfNSheep extends Activity {
 				wool[player_wolf] = 0;
 				returnvalue = "P"+Integer.toString(num_player)+" wolfed P"+Integer.toString(player_wolf)+".";
 				if(criticalalerts_state && player_wolf == mpPlayerNum){
-					LinkAlertDialog.create(WolfNSheep.this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got wolfed!", "P"+num_player.toString()+" wolfed you!", (spanish ? "Aceptar" : "OK")).show();
 				}
 				}
 			else{
@@ -1994,7 +1999,7 @@ public class WolfNSheep extends Activity {
 				wool[num_player] = player_swap_old_wool;
 				returnvalue = "P"+Integer.toString(num_player)+" swapped with P"+Integer.toString(player_swap_alt)+".";
 				if(criticalalerts_state && player_swap_alt == mpPlayerNum){
-					LinkAlertDialog.create(WolfNSheep.this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", "OK").show();
+					LinkAlertDialog.create(WolfNSheep.this, "You got swapped!", "P"+num_player.toString()+" swapped with you!", (spanish ? "Aceptar" : "OK")).show();
 				}
 			}else{
 				wool[num_player]++;
