@@ -260,12 +260,21 @@ public class WolfNSheep extends Activity {
 			}
 			try{
 			version_name = info.versionName;
+			if(language.contains("es")){
+				about_dialog_text = "Lobo 'N Ovejas "+version_name+" - http://code.google.com/p/wolf-n-sheep -" +
+						" La versión del Lobo 'N Ovejas "+version_name+", "+(DEBUG ? "depurar a construir" : "versión de lanzamiento")+". Un juego para Android inspirado en lana natural. " +
+						"Icono se basa fuera de http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, y bajo el dominio público " +
+						"(puede copiar, modificar, distribuir y comunicar públicamente la obra, incluso para fines comerciales, todo ello sin pedir permiso). " +
+						"Tenga en cuenta que esto sólo se aplica a la icono de la aplicación, no el código. El código está licenciado bajo la licencia Apache 2.0, disponible en " +
+						"http://www.apache.org/licenses/LICENSE-2.0";
+			}else{
 			about_dialog_text = "Wolf 'N Sheep "+version_name+" - http://code.google.com/p/wolf-n-sheep -" +
 					" Wolf 'N Sheep version "+version_name+", "+(DEBUG ? "debug build" : "release build")+". An android game inspired by wild wool. " +
 					"Icon is based off of http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg, and under the public domain " +
 					"(you can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission). " +
 					"Please note that this applies ONLY to the application icon, not the code. The code is licensed under the apache license 2.0, available at " +
 					"http://www.apache.org/licenses/LICENSE-2.0";
+			}
 			}catch (NullPointerException nullerror){
 				if(DEBUG) Log.w(TAG, "Something was null here, probably info, while setting version_name, version_code, and about_dialog_text.", nullerror);
 				version_name = "Unknown";
