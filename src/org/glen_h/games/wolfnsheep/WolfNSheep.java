@@ -521,8 +521,8 @@ public class WolfNSheep extends Activity {
     	
     	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
     	alert.setCancelable(false);
-    	alert.setTitle("Join Game");
-    	alert.setMessage("Please enter the game ID");
+    	alert.setTitle((spanish ? "Unirse a partida" : "Join Game"));
+    	alert.setMessage((spanish ? "Por favor, introduzca el ID de juego" : "Please enter the game ID"));
 
     	// Set an EditText view to get user input 
     	final EditText input = new EditText(WolfNSheep.this);
