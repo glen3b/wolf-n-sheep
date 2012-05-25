@@ -622,7 +622,7 @@ public class WolfNSheep extends Activity {
 	    	aalert.setMessage("You have joined game "+WolfNSheep.this.game_id+" as player "+mpPlayerNum+". This game is "+gamestat_user+".\nThe following players have joined the game:\n"+players_joined_game);
 	    	aalert.show();
         	}else{
-        		aalert.setMessage("An IO error communication with the server occurred. Please try again later.");
+        		aalert.setMessage("An IO error in communication with the server occurred. Please try again later.");
         		aalert.show();
         	}
         }
