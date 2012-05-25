@@ -569,9 +569,9 @@ public class WolfNSheep extends Activity {
         	AlertDialog.Builder alert = new AlertDialog.Builder(WolfNSheep.this);
         	alert.setCancelable(false);
         	final String id = result;
-        	alert.setTitle("Make Game");
-        	if(id != "BAD_LOGIN"){
-        	alert.setMessage("Your game ID is "+id+". Tell your friends to join this game.");
+        	alert.setTitle((spanish ? "Hacer juego" : "Make Game"));
+        	if(!id.contains("BAD_LOGIN")){
+        	alert.setMessage((spanish ? "Su número de identificación del juego es "+id+". Dile a tus amigos a unirse a este juego." : "Your game ID is "+id+". Tell your friends to join this game."));
 
         	alert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int whichButton) {
@@ -579,7 +579,7 @@ public class WolfNSheep extends Activity {
         	}
         	});
         	}else{
-        		alert.setMessage("An error occurred (try checking your login and connection to server).");
+        		alert.setMessage((spanish ? "Se produjo un error (intentar comprobar su nombre de usuario y la conexión con el servidor)." : "An error occurred (try checking your login and connection to server)."));
 
             	alert.setPositiveButton((spanish ? "Aceptar" : "OK"), new DialogInterface.OnClickListener() {
             	public void onClick(DialogInterface dialog, int whichButton) {
