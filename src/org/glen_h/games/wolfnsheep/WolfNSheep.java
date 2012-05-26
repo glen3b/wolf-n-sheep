@@ -613,7 +613,7 @@ public class WolfNSheep extends Activity {
         	if(DEBUG) Log.d(TAG, "Game status:"+gamestat);
 	    	String players_joined_game = "";
 	    	for(String pjoined : players_array_joined_game){
-	    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", "Player 1: ").replace("JOINED 2 ", "Player 2: ").replace("JOINED 3 ", "Player 3: ").replace("JOINED 4 ", "Player 4: ")+"\n";
+	    		players_joined_game = players_joined_game + pjoined.replace("JOINED 1 ", (spanish ? "Jugador 1: " : "Player 1: ")).replace("JOINED 2 ", (spanish ? "Jugador 2: " : "Player 2: ")).replace("JOINED 3 ", (spanish ? "Jugador 3: " : "Player 3: ")).replace("JOINED 4 ", (spanish ? "Jugador 4: " : "Player 4: "))+"\n";
 	    	}
 	    	StringBuilder pjg = new StringBuilder(players_joined_game);
 	    	pjg.replace(players_joined_game.lastIndexOf("\n"), players_joined_game.lastIndexOf("\n") + 1, "" );
