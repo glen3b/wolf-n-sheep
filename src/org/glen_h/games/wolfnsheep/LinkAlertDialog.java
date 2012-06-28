@@ -22,9 +22,25 @@ public class LinkAlertDialog{
 		  return new AlertDialog.Builder(context)
 		   .setTitle(title)
 		   .setCancelable(true)
-		   .setIcon(android.R.drawable.ic_dialog_info)
+		   // .setIcon(android.R.drawable.ic_dialog_info)
 		   .setPositiveButton(dismiss_text, null)
 		   .setView(message)
 		   .create();
+		   /*
+			final TextView message = new TextView(context);
+	         
+	        final Spanned s =
+	                       Html.fromHtml(message_txt.replaceAll("(.http://[^<>[:space:]]+[[:alnum:]/])", "<a href=\"$1\">$1</a>"));
+	        message.setText(s);
+	        message.setMovementMethod(LinkMovementMethod.getInstance());
+	 
+	        return new AlertDialog.Builder(context)
+	           .setTitle(title)
+	           .setCancelable(true)
+	           // .setIcon(android.R.drawable.ic_dialog_info)
+	           .setPositiveButton(dismiss_text, null)
+	           .setView(message)
+	           .create();
+	           */
 		 }
 }
