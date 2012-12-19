@@ -821,7 +821,7 @@ public class WolfNSheep extends Activity {
 	  private String[] players_did = {"","P1 is unknown, should refer to main text","None","None","None"};
 	  private int total_wool;
 	  protected static final int max_wool = 5;
-	  protected static final int max_total_wool = 25;
+	  protected static final int max_total_wool = 40;
       private Button shear;
       private Button wolf;
       private Button grow;
