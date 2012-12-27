@@ -998,7 +998,8 @@ public class WolfNSheep extends Activity {
          * add multiplayer (2.0 - 3.5 is goal version range) WORKON
          */
         // Note to self: Icon in based on icon public domain (we'll keep it in public domain), see http://en.wikipedia.org/wiki/File:Sheep_icon_05.svg (image based off of)
-        final Bundle data_saved = (Bundle) getLastNonConfigurationInstance();
+        @SuppressWarnings("deprecation")
+		final Bundle data_saved = (Bundle) getLastNonConfigurationInstance();
         for (player_num=1; player_num <= num_players; player_num++) {
         	wool[player_num] = 0;
         	sheared_wool[player_num] = 0;

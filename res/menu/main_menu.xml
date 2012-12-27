@@ -11,11 +11,12 @@
         />
     <item android:id="@+id/help"
           android:icon="@android:drawable/ic_menu_help"
-          android:title="@string/help_item" />
-    <!-- android:showAsAction="ifRoom"  -->
+          android:title="@string/help_item"
+    	  android:showAsAction="ifRoom" />
     <item android:id="@+id/prefs_item"
           android:icon="@android:drawable/ic_menu_preferences"
-          android:title="@string/settings_item" />
+          android:title="@string/settings_item"
+		  android:showAsAction="ifRoom" />
     <item android:id="@+id/exit"
           android:icon="@android:drawable/ic_menu_close_clear_cancel"
           android:title="@string/exit" />
