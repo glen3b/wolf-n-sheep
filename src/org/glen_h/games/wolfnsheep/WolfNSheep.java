@@ -74,7 +74,7 @@ public class WolfNSheep extends Activity {
 	 */
 	@Override
 	public String toString(){
-		return getClass().getName()+":MODE,"+mode+";P1,"+wool[1]+","+sheared_wool[1]+";P2,"+wool[2]+","+sheared_wool[2]+";P3,"+wool[3]+","+sheared_wool[3]+";P4,"+wool[4]+","+sheared_wool[4];
+		return super.toString()+"::"+getClass().getName()+":MODE,"+mode+";P1,"+wool[1]+","+sheared_wool[1]+";P2,"+wool[2]+","+sheared_wool[2]+";P3,"+wool[3]+","+sheared_wool[3]+";P4,"+wool[4]+","+sheared_wool[4];
 	}
 	
 	/**
