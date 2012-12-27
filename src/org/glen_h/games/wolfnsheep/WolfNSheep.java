@@ -986,6 +986,9 @@ public class WolfNSheep extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DEBUG = BuildConfig.DEBUG;
+        
+        DEBUG = true;
+        
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
