@@ -64,7 +64,7 @@ import android.widget.Toast;
  */
 public class WolfNSheep extends Activity {
 	
-	public static final boolean DEBUG = true;
+	public static boolean DEBUG = true;
 	
 	private ProgressDialog load;
 
@@ -985,6 +985,7 @@ public class WolfNSheep extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DEBUG = BuildConfig.DEBUG;
         // FIXED Computer Rolls
         // FIXED Die entries incorrect (see messages variable declaration)
         /*
