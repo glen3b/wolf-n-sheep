@@ -64,19 +64,16 @@
             -pre-clean
     -->
     
-    <!--
     <import file="custom_rules.xml" optional="true"/>
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
 
       <target name="findbugs">
        <mkdir dir="reports" />
          <findbugs home="${findbugs.home}" output="xml" outputFile="reports/findbugs.xml" excludeFilter="findbugs-exclude.xml">
-         <auxClasspath path="${android.jar}" />
+           <auxClasspath path="${sdk.dir}/platforms/${target}/android.jar" />
           <class location="${out.dir}" />
         </findbugs>
       </target>
-      
-      -->
 
     <!-- Import the actual build file.
 
